@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <title>Letter To A Friend</title>
-    <link rel="stylesheet" href="../normform/css/proceduralstyles.css">
+    <link rel="stylesheet" href="../imar/normform/css/proceduralstyles.css">
 </head>
 
 <body>

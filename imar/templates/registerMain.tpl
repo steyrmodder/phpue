@@ -7,8 +7,8 @@
             {include file="{$smarty.const.TNTEMPLATE_DIR}error.tpl"}
             <form action="{$smarty.server.SCRIPT_NAME}" method="post" enctype="multipart/form-data">
                 <div class="InputCombo Grid-full">
-                    <label for="{$lastnameKey}" class="InputCombo-label">Username:</label>
-                    <input type="text" id="{$lastnameKey}" name="{$lastnameKey}" value="{if isset($lastnameValue)}{$lastnameValue}{/if}" class="InputCombo-field">
+                    <label for="{$usernameKey}" class="InputCombo-label">Username:</label>
+                    <input type="text" id="{$usernameKey}" name="{$usernameKey}" value="{if isset($usernameValue)}{$usernameValue}{/if}" class="InputCombo-field">
                 </div>
                 <div class="InputCombo Grid-full">
                     <label for="{$emailKey}" class="InputCombo-label">Email:</label>

@@ -1,5 +1,5 @@
 <?php /* Smarty version 3.1.27, created on 2017-01-13 10:31:08
-         compiled from "C:\xampp\htdocs\hm2ue\imar\normform\basetemplates\error.tpl" */ ?>
+         compiled from "C:\xampp\htdocs\phpue\imar\normform\basetemplates\error.tpl" */ ?>
 <?php
 /*%%SmartyHeaderCode:204858789e5c699f47_86662111%%*/
 if(!defined('SMARTY_DIR')) exit('no direct access allowed');
@@ -8,7 +8,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
   array (
     'fcccc0b3540e592cb8ca70634b3ac2aa291ec6c8' => 
     array (
-      0 => 'C:\\xampp\\htdocs\\hm2ue\\imar\\normform\\basetemplates\\error.tpl',
+      0 => 'C:\\xampp\\htdocs\\phpue\\imar\\normform\\basetemplates\\error.tpl',
       1 => 1473670348,
       2 => 'file',
     ),

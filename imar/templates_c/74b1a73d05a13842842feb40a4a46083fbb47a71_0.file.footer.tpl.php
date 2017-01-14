@@ -1,5 +1,5 @@
 <?php /* Smarty version 3.1.27, created on 2017-01-13 16:53:25
-         compiled from "c:\Users\p20137\Documents\GitHub\hm2ue\imar\normform\basetemplates\footer.tpl" */ ?>
+         compiled from "c:\Users\p20137\Documents\GitHub\phpue\imar\normform\basetemplates\footer.tpl" */ ?>
 <?php
 /*%%SmartyHeaderCode:253675878f7f53f0475_58336680%%*/
 if(!defined('SMARTY_DIR')) exit('no direct access allowed');
@@ -8,7 +8,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
   array (
     '74b1a73d05a13842842feb40a4a46083fbb47a71' => 
     array (
-      0 => 'c:\\Users\\p20137\\Documents\\GitHub\\hm2ue\\imar\\normform\\basetemplates\\footer.tpl',
+      0 => 'c:\\Users\\p20137\\Documents\\GitHub\\phpue\\imar\\normform\\basetemplates\\footer.tpl',
       1 => 1484320040,
       2 => 'file',
     ),

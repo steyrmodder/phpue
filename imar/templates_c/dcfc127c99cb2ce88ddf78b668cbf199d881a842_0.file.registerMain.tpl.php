@@ -1,7 +1,7 @@
-<?php /* Smarty version 3.1.27, created on 2017-01-10 12:56:31
+<?php /* Smarty version 3.1.27, created on 2017-01-14 14:25:58
          compiled from "templates\registerMain.tpl" */ ?>
 <?php
-/*%%SmartyHeaderCode:48945874cbef0c6915_74990600%%*/
+/*%%SmartyHeaderCode:24676587a26e6e247f1_93574020%%*/
 if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
   'file_dependency' => 
@@ -9,15 +9,15 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     'dcfc127c99cb2ce88ddf78b668cbf199d881a842' => 
     array (
       0 => 'templates\\registerMain.tpl',
-      1 => 1482310861,
+      1 => 1484394507,
       2 => 'file',
     ),
   ),
-  'nocache_hash' => '48945874cbef0c6915_74990600',
+  'nocache_hash' => '24676587a26e6e247f1_93574020',
   'variables' => 
   array (
-    'lastnameKey' => 0,
-    'lastnameValue' => 0,
+    'usernameKey' => 0,
+    'usernameValue' => 0,
     'emailKey' => 0,
     'emailValue' => 0,
     'passwordKey1' => 0,
@@ -25,13 +25,13 @@ $_valid = $_smarty_tpl->decodeProperties(array (
   ),
   'has_nocache_code' => false,
   'version' => '3.1.27',
-  'unifunc' => 'content_5874cbef143927_98991701',
+  'unifunc' => 'content_587a26e6e9d996_65976692',
 ),false);
 /*/%%SmartyHeaderCode%%*/
-if ($_valid && !is_callable('content_5874cbef143927_98991701')) {
-function content_5874cbef143927_98991701 ($_smarty_tpl) {
+if ($_valid && !is_callable('content_587a26e6e9d996_65976692')) {
+function content_587a26e6e9d996_65976692 ($_smarty_tpl) {
 
-$_smarty_tpl->properties['nocache_hash'] = '48945874cbef0c6915_74990600';
+$_smarty_tpl->properties['nocache_hash'] = '24676587a26e6e247f1_93574020';
 echo $_smarty_tpl->getSubTemplate (((string)@constant('TNTEMPLATE_DIR'))."header.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), 0);
 ?>
 
@@ -48,12 +48,12 @@ echo $_smarty_tpl->getSubTemplate (((string)@constant('TNTEMPLATE_DIR'))."header
             <form action="<?php echo $_SERVER['SCRIPT_NAME'];?>
 " method="post" enctype="multipart/form-data">
                 <div class="InputCombo Grid-full">
-                    <label for="<?php echo $_smarty_tpl->tpl_vars['lastnameKey']->value;?>
+                    <label for="<?php echo $_smarty_tpl->tpl_vars['usernameKey']->value;?>
 " class="InputCombo-label">Username:</label>
-                    <input type="text" id="<?php echo $_smarty_tpl->tpl_vars['lastnameKey']->value;?>
-" name="<?php echo $_smarty_tpl->tpl_vars['lastnameKey']->value;?>
-" value="<?php if (isset($_smarty_tpl->tpl_vars['lastnameValue']->value)) {
-echo $_smarty_tpl->tpl_vars['lastnameValue']->value;
+                    <input type="text" id="<?php echo $_smarty_tpl->tpl_vars['usernameKey']->value;?>
+" name="<?php echo $_smarty_tpl->tpl_vars['usernameKey']->value;?>
+" value="<?php if (isset($_smarty_tpl->tpl_vars['usernameValue']->value)) {
+echo $_smarty_tpl->tpl_vars['usernameValue']->value;
 }?>" class="InputCombo-field">
                 </div>
                 <div class="InputCombo Grid-full">

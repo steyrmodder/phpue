@@ -1,5 +1,5 @@
 <?php /* Smarty version 3.1.27, created on 2017-01-14 09:32:54
-         compiled from "c:\Users\p20137\Documents\GitHub\hm2ue\imar\normform\basetemplates\header.tpl" */ ?>
+         compiled from "c:\Users\p20137\Documents\GitHub\phpue\imar\normform\basetemplates\header.tpl" */ ?>
 <?php
 /*%%SmartyHeaderCode:4795879e236d09401_76718043%%*/
 if(!defined('SMARTY_DIR')) exit('no direct access allowed');
@@ -8,7 +8,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
   array (
     'ce69025f06e160cb24a8af47e749184253e79525' => 
     array (
-      0 => 'c:\\Users\\p20137\\Documents\\GitHub\\hm2ue\\imar\\normform\\basetemplates\\header.tpl',
+      0 => 'c:\\Users\\p20137\\Documents\\GitHub\\phpue\\imar\\normform\\basetemplates\\header.tpl',
       1 => 1484382760,
       2 => 'file',
     ),
@@ -36,10 +36,10 @@ $_smarty_tpl->properties['nocache_hash'] = '4795879e236d09401_76718043';
     <link rel="stylesheet" href="<?php echo @constant('CSS_DIR');?>
 /main.css">
     <?php echo '<script'; ?>
- src="/hm2ue/imar/normform/js/jquery-3.1.1.min.js"><?php echo '</script'; ?>
+ src="/phpue/imar/normform/js/jquery-3.1.1.min.js"><?php echo '</script'; ?>
 >
     <?php echo '<script'; ?>
- src="/hm2ue/imar/js/addressbook.js"><?php echo '</script'; ?>
+ src="/phpue/imar/js/addressbook.js"><?php echo '</script'; ?>
 >
 </head>
 <body class="Site">

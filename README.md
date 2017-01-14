@@ -1,4 +1,4 @@
-# HM2UE
+# phpue
 Vorlagen und Beispiele für die HM2-Übungen 01, 02 und 03. Die Übungen 04 bis 09 werden durch das Projekt IMAR abgedeckt.
 
 Templates und CSS werden vollständig zur Verfügung gestellt, weil dies in anderen Vorlesungs- und Übungsblöcken

@@ -37,7 +37,7 @@
         </div>
     </section>
     <section class="Section">
-        <script src="/hm2ue/imar/js/addressbook.js"></script>
+        <script src="/phpue/imar/js/addressbook.js"></script>
         <div class="Container">
             <div class="Grid Grid--gutters">
                 {foreach $addresses as $entry}

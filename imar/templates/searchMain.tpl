@@ -17,7 +17,7 @@
     </section>
     <section class="Section">
         <div class="Container">
-            <script src="/hm2ue/imar/js/searchsuggest.js"></script>
+            <script src="/phpue/imar/js/searchsuggest.js"></script>
             <div class="Grid Grid--gutters">
                 {foreach $addresses as $entry}
                     <div class="Grid-cell AddressEntry">

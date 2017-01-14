@@ -1,7 +1,7 @@
-<?php /* Smarty version 3.1.27, created on 2017-01-13 17:00:54
+<?php /* Smarty version 3.1.27, created on 2017-01-14 14:26:00
          compiled from "templates\searchMain.tpl" */ ?>
 <?php
-/*%%SmartyHeaderCode:71405878f9b6c299a5_22816842%%*/
+/*%%SmartyHeaderCode:18306587a26e8d4e164_40431909%%*/
 if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
   'file_dependency' => 
@@ -9,11 +9,11 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     'fb7dddc5bf276de299b00ec15fd4ad3a952bafd6' => 
     array (
       0 => 'templates\\searchMain.tpl',
-      1 => 1484323248,
+      1 => 1484400018,
       2 => 'file',
     ),
   ),
-  'nocache_hash' => '71405878f9b6c299a5_22816842',
+  'nocache_hash' => '18306587a26e8d4e164_40431909',
   'variables' => 
   array (
     'searchKey' => 0,
@@ -22,13 +22,13 @@ $_valid = $_smarty_tpl->decodeProperties(array (
   ),
   'has_nocache_code' => false,
   'version' => '3.1.27',
-  'unifunc' => 'content_5878f9b6cbe0d3_60377891',
+  'unifunc' => 'content_587a26e8ddea04_48768464',
 ),false);
 /*/%%SmartyHeaderCode%%*/
-if ($_valid && !is_callable('content_5878f9b6cbe0d3_60377891')) {
-function content_5878f9b6cbe0d3_60377891 ($_smarty_tpl) {
+if ($_valid && !is_callable('content_587a26e8ddea04_48768464')) {
+function content_587a26e8ddea04_48768464 ($_smarty_tpl) {
 
-$_smarty_tpl->properties['nocache_hash'] = '71405878f9b6c299a5_22816842';
+$_smarty_tpl->properties['nocache_hash'] = '18306587a26e8d4e164_40431909';
 echo $_smarty_tpl->getSubTemplate (((string)@constant('TNTEMPLATE_DIR'))."header.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), 0);
 ?>
 
@@ -58,7 +58,7 @@ echo $_smarty_tpl->getSubTemplate (((string)@constant('TNTEMPLATE_DIR'))."header
     <section class="Section">
         <div class="Container">
             <?php echo '<script'; ?>
- src="/hm2ue/imar/js/searchsuggest.js"><?php echo '</script'; ?>
+ src="/phpue/imar/js/searchsuggest.js"><?php echo '</script'; ?>
 >
             <div class="Grid Grid--gutters">
                 <?php
