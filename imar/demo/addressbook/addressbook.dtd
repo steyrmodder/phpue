@@ -1,0 +1,18 @@
+<!ELEMENT contacts (person)*>
+<!-- "contacts" is the root element containing 0 to n "person" elements -->
+
+<!ELEMENT person (name, email) >
+<!-- "person" has two child elements: "name" and "email". Exactly one of each -->
+<!ATTLIST person gender (male|female) #REQUIRED >
+<!-- "person" has an attribute "gender". The value has to be either "male" or "female" and is required -->
+
+<!ELEMENT name (last, first)>
+<!-- The element "name" must contain two elements called "last" and "first" -->
+
+<!ELEMENT last (#PCDATA)>
+<!-- "last" contains only text -->
+<!ELEMENT first (#PCDATA)>
+<!-- "first" contains only text -->
+
+<!ELEMENT email (#PCDATA)>
+<!-- "email" contains only text -->
