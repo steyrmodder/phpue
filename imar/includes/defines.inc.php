@@ -33,7 +33,7 @@ define("XMLADDRESSPATH","data/addresses.xml");
  * @var array REDIRECT_PAGES Array mit Seiten, die durch ein Login geschützt sind bei IMAR bzw. OnlineShop
 */
 define("ISLOGGEDIN", "isloggedin");
-define("REDIRECT_PAGES",array("index.php")); // HM2UE
+define("REDIRECT_PAGES",array("index.php")); // phpue
 
 /*
  * header forwards

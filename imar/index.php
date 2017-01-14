@@ -34,14 +34,12 @@ require_once IMAGECLASS;
  *
  * @author Martin Harrer <martin.harrer@fh-hagenberg.at>
  * @author Wolfgang Hochleitner <wolfgang.hochleitner@fh-hagenberg.at>
- * @package imar
+ * @package hm2
  * @version 2017
  */
 final class IMAR extends TNormForm {
-
     /**
-     * Konstanten für ein HTML Attribute in <input name='pname' id='pname' ... >, <label for='pname' ... >
-     * --> $_POST[PNAME] und GET-Parameter für Shop::addToCart() bzw. das Blättern
+     * Konstanten für ein HTML Attribute z.B:: <input name='pname' id='pname' ... >, <label for='pname' ... >, Keys für $_POST[self::PNAME]..
      *
      * @var string IMAGE Key für $_GET- und $_SESSION-Eintrag den Starteintrag für den angezeigten Ausschnitt der Produktliste festlegt @see includes/basetemplates/pagination.tpl
      * @var string MAX_FILE_SIZE Key für den hidden $_POST-Eintrag für die Maximale Uploadgröße
@@ -223,7 +221,7 @@ final class IMAR extends TNormForm {
      * Erzeugt einen eindeutigen Pfad- und Dateinamen für eine Datei.
      *
      * Für UE5 gibt sie mit Utilities::replaceUmlauts() einfach den um Umlaute bereinigten Namen zurück.
-     * Wenn sie nicht implementiert wird ein vorgeneriertes File, das nicht von GD-Lib unterstützt wird.
+     * Wenn sie nicht implementiert wird ein vorgeneriertes File.
      *
      * @return string Der neue, zufällig generierte Pfad.
      */

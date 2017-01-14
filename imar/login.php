@@ -1,35 +1,66 @@
 <?php
+/**
+ * Einbinden der define-Angaben für IMAR
+ */
+require_once 'includes/defines.inc.php';
+/**
+ * Einbinden des Session-Handlings und der Umleitung auf HTTPS (Port 443)
+ */
+require_once NORM_DIR . 'session.inc.php';
+/**
+ * Einbinden der Klasse TNormform, die die Formularabläufe festlegt. Bindet auch Utilities.class.php ein.
+ */
+require_once TNORMFORM;
+/**
+ * Einbinden der Datei-Zugriffs-Klasse  FileAccess, die die Dateizugriffe implementiert
+ */
+require_once FILEACCESS;
+
 /*
  * Das objektorientierte und templatebasierte Login-formular setzt das Einloggen in IMAR um.
  * *
  * @author Martin Harrer <martin.harrer@fh-hagenberg.at>
  * @author Wolfgang Hochleitner <wolfgang.hochleitner@fh-hagenberg.at>
  * @package hm2
- * @version 2016
+ * @version 2017
  */
-require_once 'includes/defines.inc.php';
-require_once NORM_DIR . 'session.inc.php';
-require_once UTILITIES;
-require_once TNORMFORM;
-require_once FILEACCESS;
-
 final class Login extends TNormForm {
     /**
-     *  Konstante für ein HTML Attribut <input name=EMAIL>
+     * Konstanten für ein HTML Attribute z.B:: <input name='pname' id='pname' ... >, <label for='pname' ... >, Keys für $_POST[self::PNAME]..
+     *
+     * @var string EMAIL Key für $_POST-Array
+     * @var string PASSWORD Key für $_POST-Array
      */
     const EMAIL = "email";
-    /**
-     *  Konstante für ein HTML Attribut <input name=PASSWORD>
-     */
     const PASSWORD = "password1";
+
+    /**
+     * Konstanten für das $_SESSION-Array, um Werte, die aus @see /phpue/imar/data/userdata.txt gelesen werden, zu speichern
+     *
+     * @var string IDUSER
+     * @var string USERNAME
+     * @var string LASTNAME
+     */
+    const IDUSER = "iduser";
     const FIRSTNAME = "first_name";
     const LASTNAME = "last_name";
-    const IDUSER = "iduser";
 
+    /**
+     * @var string Pfad, aus dem die Benutzerdaten bei der Authentifizierung gelesen werden
+     */
     const USERDATAPATH = DATA_DIR . "userdata.txt";
 
+    /**
+     * @var string $fileAccess Filehandler für den Filezugriff
+     */
     private $fileAccess;
 
+    /**
+     * IMAR Constructor.
+     *
+     * Ruft den Constructor der Klasse TNormform auf.
+     * Erzeugt den Filehandler für den Filesystemzugriff
+     */
     public function __construct() {
         parent::__construct();
         /*--
@@ -37,6 +68,14 @@ final class Login extends TNormForm {
         //*/
     }
 
+    /**
+     * Weist die Inhalte der Smarty-Variablen zu. @see templates/loginMain.tpl
+     *
+     * Die Keys für das $_POST-Array werden gesetzt.
+     * Nur die eingegebene emailValue wird dem Benutzer im Fehlerfall wieder angezeigt.
+     *
+     * Abstracte Methode in der Klasse TNormform und muss daher hier implementiert werden
+     */
     protected function prepareFormFields() {
         $this->smarty->assign("emailKey", self::EMAIL);
         $this->smarty->assign("passwordKey", self::PASSWORD);
@@ -45,10 +84,24 @@ final class Login extends TNormForm {
         //*/
 		}
 
+    /**
+     * Zeigt die Seite mittels Smarty Templates an
+     *
+     * Abstracte Methode in der Klasse TNormform und muss daher hier implementiert werden
+     */
     protected function display() {
         $this->smarty->display('loginMain.tpl');
     }
 
+    /**
+     * Validiert den Benutzerinput nach dem Abschicken des Formulars.
+     *
+     * Fehlermeldungen werden im Array $errMsg[] gesammelt.
+     *
+     * Abstracte Methode in der Klasse TNormform und muss daher hier implementiert werden
+     *
+     * @return bool true, wenn $errMsg leer ist. Ansonsten false
+     */
     protected function isValid() {
         /*--
         require 'solution/login/isValid.inc.php';
@@ -59,6 +112,15 @@ final class Login extends TNormForm {
         return (count($this->errMsg) === 0);
     }
 
+    /**
+     * Verarbeitet die Benutzereingaben, die mit POST geschickt wurden
+     * Wenn alles gut geganden ist, wird eine Statusmeldung geschrieben, ansonsten eine Fehlermeldung.
+     *
+     * Abstracte Methode in der Klasse TNormform und muss daher hier implementiert werden
+     *
+     * @throws FileAccessException wird von allen $this->fileAccess Methoden geworfen und hier nicht behandelt.
+     *         Die Exception wird daher nochmals weitergereicht (throw) und erst am Ende des Scripts behandelt.
+     */
     protected function process() {
         Utilities::redirectTo();
     }
@@ -81,8 +143,19 @@ final class Login extends TNormForm {
     }
 }
 /**
+ * Instantiieren der Klasse Login und Aufruf der Methode TNormform::normForm()
+ *
+ * FileAccess-Exceptions werden erst hier abgefangen und eine formatierte DEBUG-Seite mit den Fehlermeldungen mit echo ausgegeben @see FileAcess::debugFileError()
+ * Bei PHP-Exception wird vorerst nur auf eine allgemeine Errorpage weitergeleitet
+ *
  * Umlenken auf index.php falls man bereits eingeloggt ist
  */
-Utilities::redirectTo();
-$login = new Login();
-$login->normForm();
+try {
+    Utilities::redirectTo();
+    $login = new Login();
+    $login->normForm();
+} catch (FileAccessException $e) {
+    echo $e->getMessage();
+} catch (Exception $e) {
+    header("Location: https://localhost/imar/errorpage.html");
+}
