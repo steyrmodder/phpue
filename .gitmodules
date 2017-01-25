@@ -1,3 +1,4 @@
 [submodule "imar/normform"]
 	path = imar/normform
 	url = git@github.com:Digital-Media/normform.git
+	branch = master
