@@ -102,7 +102,7 @@ final class Login extends TNormForm {
      *
      * @return bool true, wenn $errMsg leer ist. Ansonsten false
      */
-    protected function isValid() {
+    protected function isValid(): bool {
         /*--
         require 'solution/login/isValid.inc.php';
         //*/

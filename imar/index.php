@@ -133,7 +133,7 @@ final class IMAR extends TNormForm {
      *
      * @return bool true, wenn $errMsg leer ist. Ansonsten false
      */
-    protected function isValid() {
+    protected function isValid(): bool {
         /*--
         require 'solution/index/isValid.inc.php';
         //*/

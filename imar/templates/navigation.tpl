@@ -12,6 +12,8 @@
         <span class="u-spaceRS" > {if !($smarty.server.SCRIPT_NAME === "/phpue/imar/register.php")} <a href="/phpue/imar/register.php">Register</a> {/if} </span>
         <span class="u-spaceRS" > {if !($smarty.server.SCRIPT_NAME === "/phpue/imar/addressbook.php")} <a href="/phpue/imar/addressbook.php">Address Book</a> {/if} </span>
         <span class="u-spaceRS" > {if !($smarty.server.SCRIPT_NAME === "/phpue/imar/searchsuggest.php")} <a href="/phpue/imar/searchsuggest.php">Searchsuggest</a> {/if} </span>
+        <span class="u-spaceRS" > {if !($smarty.server.SCRIPT_NAME === "/phpue/imar/searchsuggest.php")} <a href="/phpue/imar/contact.php">Contact (nur SIB)</a> {/if} </span>
+        <span class="u-spaceRS" > {if !($smarty.server.SCRIPT_NAME === "/phpue/imar/searchsuggest.php")} <a href="/phpue/imar/impressum.php">Impressum (nur SIB)</a> {/if} </span>
         <label for"pulldown">DEMOS</label>
         <select id="pulldown" size="1" onchange="javascript:handleSelect(this)">
             <option >Select a DEMO</option>

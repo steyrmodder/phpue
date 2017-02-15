@@ -71,7 +71,7 @@ final class Search extends TNormForm {
      *
      * @return bool true, wenn $errMsg leer ist. Ansonsten false
      */
-    protected function isValid() {
+    protected function isValid(): bool {
         return (count($this->errMsg) === 0);
     }
 
