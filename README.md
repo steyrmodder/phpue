@@ -13,7 +13,7 @@ installieren.
 
 * [HTML5](https://www.w3.org/TR/html5/)
 * [CSS3](https://www.w3.org/Style/CSS/specs)
-* [gescriptetes PHP](http://php.net/)
+* [gescriptetes und objektorientiertes PHP](http://php.net/)
 
 
 # basics
