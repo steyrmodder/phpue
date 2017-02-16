@@ -33,7 +33,8 @@ demonstriert die Verwendung von Regulären Ausdrücken, Stringverarbeitung und H
 # ue01_letter
 demonstriert die Verwendung von Regulären Ausdrücken, Stringverarbeitung, HTML-Formularen und eines Backlinks.
 
-# ue02-03normform
-enthält eine gescriptete Variante des Normformablaufes. Dieser gibt ein einfaches Grundgerüst vor, wie die Verarbeitung von Daten durch ein HTML-Formular abläuft.
-Erstaufruf, Kontrolle, Feedback über Fehler, Verarbeitung, Feedback, ob Verarbeitung gut gegangen ist.
-Später wird darauf basierend eine ojektorientierte Variante entwickelt, um ansatzweise die Unterschiede in der Denkweise, bei Namenskonventionen usw. zwischen Scriptsprachen und objektorientierten Sprachen zu zeigen.
+# ue02,ue03
+enthalten eine gescriptete Variante des Normformablaufes. Dieser gibt ein einfaches Grundgerüst vor, wie die Verarbeitung von Daten durch ein HTML-Formular abläuft.
+# imar
+enthält Übungen für das Online Image Archive. 
+Hier ist auch das Repository normform zu finden und darunter ein Ordner demo, in dem fertige Beispiele liegen, um die Formularabläufe im Web zu verstehen
