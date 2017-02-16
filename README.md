@@ -14,6 +14,7 @@ installieren.
 * [HTML5](https://www.w3.org/TR/html5/)
 * [CSS3](https://www.w3.org/Style/CSS/specs)
 * [gescriptetes und objektorientiertes PHP](http://php.net/)
+* [PHP-FIG Namenskonventionen](http://www.php-fig.org/bylaws/psr-naming-conventions/)
 
 
 # basics
