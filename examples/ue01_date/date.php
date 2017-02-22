@@ -35,6 +35,7 @@
                 echo "<p>Error: No input specified.</p>";
             }
             ?>
+            <a href="index.html">Start Over</a>
         </div>
     </section>
 </main>
