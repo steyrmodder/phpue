@@ -1,55 +1,130 @@
 <?php
-/**
- * In define.inc.php werden Konstanten festgelegt, die in der gesamten Webapplikation gültig sind (Superglobal, $GLOBALS)
- */
-
-/*
- * Name der Website festlegen
- */
-define("TITLE","IMAR");
-define("SUBTITLE","The HM2 Image Archive");
 
 /**
- * Pfade, Directories und Dateien
- * 
+ * This file holds all global constants that are used throughout the IMAR application.
+ *
+ * All global constants that are needed on the various pages are stored here.
+ *
+ * @author Wolfgang Hochleitner <wolfgang.hochleitner@fh-hagenberg.at>
+ * @author Martin Harrer <martin.harrer@fh-hagenberg.at>
+ * @version 2017
  */
-define("NORM_DIR","normform/");
-define("UTILITIES",NORM_DIR . "Utilities.class.php");
-define("TNORMFORM",NORM_DIR . "TNormform.class.php");
-define("CSS_DIR",NORM_DIR . "css");
-define("TNTEMPLATE_DIR",NORM_DIR . "basetemplates/");
-define("FILEACCESS","includes/FileAccess.class.php");
-define("IMAGECLASS","includes/Image.class.php");
-define("ICON","<i class=\"fa fa-picture-o\"></i>");
-define("IMAGE_DIR","images/");
-define("THUMB_DIR",IMAGE_DIR ."thumbs/");
-define("DATA_DIR","data/");
-define("XMLADDRESSPATH","data/addresses.xml");
 
-/*
- * session fields
- *
- * @var string ISLOGGEDIN Key für den Wert, der in der Session gespeichert wird um festzuhalten, dass sich ein User bereits eingeloggt hat.
- * @var array REDIRECT_PAGES Array mit Seiten, die durch ein Login geschützt sind bei IMAR bzw. OnlineShop
-*/
-define("ISLOGGEDIN", "isloggedin");
-define("REDIRECT_PAGES",array("index.php")); // phpue
+// Site data
 
-/*
- * header forwards
- * Für die Seitenweiterleitung werden die Aufrufe hier festgelegt, falls sich die Filestruktur der Webseite später ändert.
- *
- * @var string INDEX gibt die Umleitung auf die Index-Seite an
- * @var string LOGIN gibt die Umleitung auf die Login-Seite an
- * @var string REGISTER gibt die Umleitung auf die Register-Seite an
+/**
+ * @var string TITLE The title of the site. Used in the templates.
+ */
+define("TITLE", "IMAR");
+
+/**
+ * @var string SUBTITLE The subtitle of the site. Used in the templates.
+ */
+define("SUBTITLE", "The HM2 Image Archive");
+
+/**
+ * @var string ICON The site's FontAwesome icon.
+ */
+define("ICON", "<i class=\"fa fa-picture-o\"></i>");
+
+
+// Path and file definitions
+
+/**
+ * @var string NORM_DIR The Path to the NormForm library.
+ */
+define("NORM_DIR", "../vendor/normform/");
+
+/**
+ * @var string UTILITIES Path to the Utilities class.
+ */
+define("UTILITIES", NORM_DIR . "Utilities.class.php");
+
+/**
+ * @var string NORMFORM Path to the NormForm class.
+ */
+define("NORMFORM", NORM_DIR . "AbstractNormForm.class.php");
+
+/**
+ * @var string CSS_DIR Path to the CSS files provided by NormForm.
+ */
+define("CSS_DIR", NORM_DIR . "css");
+
+/**
+ * @var string TNTEMPLATE_DIR Path to the base template directory of NormForm.
+ */
+define("TNTEMPLATE_DIR", NORM_DIR . "basetemplates/");
+
+/**
+ * @var string FILEACCESS Path to the FileAccess class.
+ */
+define("FILEACCESS", "includes/FileAccess.class.php");
+
+/**
+ * @var string IMAGE_CLASS Path to the Image class.
+ */
+define("IMAGE_CLASS", "includes/Image.class.php");
+
+/**
+ * @var string IMAGE_DIR Path where uploaded images are stored.
+ */
+define("IMAGE_DIR", "images/");
+
+/**
+ * @var string THUMB_DIR Path where generated thumbnails are stored.
+ */
+define("THUMB_DIR", IMAGE_DIR . "thumbs/");
+
+/**
+ * @var string DATA_DIR Path where the image data is stored.
+ */
+define("DATA_DIR", "data/");
+
+/**
+ * @var string XML_ADDRESS_PATH Path where the addressbook XML-file is stored.
+ */
+define("XML_ADDRESS_PATH", "data/addresses.xml");
+
+
+// Session fields
+
+/**
+ * @var string IS_LOGGED_IN Key for the session field which remembers that a user is currently logged in.
+ */
+define("IS_LOGGED_IN", "is_logged_in");
+
+/**
+ * @var array REDIRECT_PAGES Array with pages for IMAR and OnlineShop that are protected through the login mechanism.
+ */
+define("REDIRECT_PAGES", ["index.php"]); // phpue
+
+
+// Header forwards
+
+/**
+ * @var string INDEX Forward to the index page.
  */
 define("INDEX", "index.php");
-define("LOGIN", "login.php");
-define("REGISTER","register.php");
+
 /**
- * Konstanten, um die Passwortlänge zu bestimmen
- * @var int PWDMIN Minimale Passwortlänge bei Eingabe, kann für Testdurchläufe verkürzt werden, weil man das Passwort immer eingeben muss
- * @var int PWDMAX Maximale Passwortlänge bei Eingabe, kann verlängert werden bei Bedarf
+ * @var string LOGIN Forward to the login page.
  */
-define("PWDMIN",5);
-define("PWDMAX",20);
+define("LOGIN", "login.php");
+
+/**
+ * @var string REGISTER Forward to the registration page.
+ */
+define("REGISTER", "register.php");
+
+
+// Password length requirements
+
+/**
+ * @var int PWD_MIN Minimum length for passwords.
+ */
+define("PWD_MIN", 5);
+
+/**
+ * @var int PWD_MAY Maximum length for passwords.
+ */
+define("PWD_MAX", 20);

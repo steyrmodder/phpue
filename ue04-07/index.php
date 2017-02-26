@@ -10,7 +10,7 @@ require_once NORM_DIR . 'session.inc.php';
 /**
  * Einbinden der Klasse TNormform, die die Formularabläufe festlegt. Bindet auch Utilities.class.php ein.
  */
-require_once TNORMFORM;
+require_once NORMFORM;
 /**
  * Einbinden der Datei-Zugriffs-Klasse  FileAccess, die die Dateizugriffe implementiert
  */
@@ -18,7 +18,7 @@ require_once FILEACCESS;
 /**
  * Einbinden der Imageverarbeitungs-Klasse Image
  */
-require_once IMAGECLASS;
+require_once IMAGE_CLASS;
 
 /**
  * Class IMAR implementiert die Startseite (index.php) des IMageARchives
