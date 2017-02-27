@@ -2,9 +2,9 @@
 <main class="Site-content">
     <section class="Section">
         <div class="Container">
+            <h2 class="Section-heading">Login to {$smarty.const.TITLE}</h2>
             {include file="errorMessages.tpl"}
             {include file="statusMessage.tpl"}
-            <h2 class="Section-heading">Login to {$smarty.const.TITLE}</h2>
             <form action="{$smarty.server.SCRIPT_NAME}" method="post" enctype="multipart/form-data">
                 <div class="Grid Grid--gutters">
                     <div class="InputCombo Grid-full">
