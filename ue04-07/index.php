@@ -7,6 +7,9 @@ require_once("includes/defines.inc.php");
  * Einbinden des Session-Handlings und der Umleitung auf HTTPS (Port 443)
  */
 require_once("includes/session.inc.php");
+
+require_once UTILITIES;
+
 /**
  * Einbinden der Klasse TNormform, die die Formularabläufe festlegt. Bindet auch Utilities.class.php ein.
  */
@@ -79,11 +82,12 @@ final class IMAR extends AbstractNormForm
     {
         parent::__construct($defaultView, $templateDir, $compileDir);
 
+        //--
+        require '../../phpuesolution/index/construct.inc.php';
+        //*/
+
         // Add the images to our view since we can't do this from outside the object
         $this->currentView->setParameter(new GenericParameter("images", $this->getImages()));
-        /*--
-        require 'solution/index/construct.inc.php';
-        //*/
     }
 
     /**
@@ -109,8 +113,8 @@ final class IMAR extends AbstractNormForm
         $this->smarty->assign("imageauthorKey", self::IMAGE_AUTHOR);
         $this->smarty->assign("imagetitleKey", self::IMAGE_TITLE);
         $this->smarty->assign("watermarkKey", self::WATERMARK);
-        /*--
-        require 'solution/index/prepareFormFields.inc.php';
+        //--
+        require '../../phpuesolution/index/prepareFormFields.inc.php';
         //*/
     //$this->smarty->assign("images", $this->getImages());
     //}*/
@@ -141,9 +145,12 @@ final class IMAR extends AbstractNormForm
      */
     protected function isValid(): bool
     {
-        /*--
-        require 'solution/index/isValid.inc.php';
+        //--
+        require '../../phpuesolution/index/isValid.inc.php';
         //*/
+
+        $this->currentView->setParameter(new GenericParameter("errorMessages", $this->errorMessages));
+
         return (count($this->errorMessages) === 0);
     }
 
@@ -169,6 +176,8 @@ final class IMAR extends AbstractNormForm
     {
         if ($this->addImage()) {
             $this->statusMessage = "Your file has been uploaded successfully";
+            $this->currentView->setParameter(new GenericParameter("statusMessage", $this->statusMessage));
+            $this->currentView->setParameter(new GenericParameter("images", $this->getImages()));
         } else {
             $this->errorMessages ["addImage"] = "Error adding image. Please try again";
         }
@@ -201,8 +210,8 @@ final class IMAR extends AbstractNormForm
     private function getImages()
     {
         $imageArray = [];
-        /*--
-        require 'solution/index/getImages.inc.php';
+        //--
+        require '../../phpuesolution/index/getImages.inc.php';
         //*/
         return $imageArray;
     }
@@ -230,8 +239,8 @@ final class IMAR extends AbstractNormForm
         $thumbPath = THUMB_DIR . "nothumb.bmp"; // Sollte überschrieben werden, wenn man eine Thumbnail anlegt
 
         $imagePath = $this->generateUniqueImagePath();
-        /*--
-        require 'solution/index/addImage.inc.php';
+        //--
+        require '../../phpuesolution/index/addImage.inc.php';
         //*/
         return (count($this->errorMessages) === 0);
     }
@@ -247,8 +256,8 @@ final class IMAR extends AbstractNormForm
     private function generateUniqueImagePath()
     {
         $imagePath = IMAGE_DIR . "tdot.jpg"; // Dieser Wert wird zurückgegeben, wenn man die Methode nicht implementiert.
-        /*--
-        require 'solution/index/generateUniqueImagePath.inc.php';
+        //--
+        require '../../phpuesolution/index/generateUniqueImagePath.inc.php';
         //*/
         return $imagePath;
     }
@@ -265,8 +274,7 @@ try {
         new GenericParameter("imageUpload", IMAR::IMAGE_UPLOAD),
         new GenericParameter("maxFileSizeValue", IMAR::MAX_FILE_SIZE_VALUE),
         new PostParameter(IMAR::IMAGE_TITLE),
-        new PostParameter(IMAR::IMAGE_AUTHOR),
-        new PostParameter(IMAR::WATERMARK)
+        new PostParameter(IMAR::IMAGE_AUTHOR)
     ]);
 
     $imar = new IMAR($view);

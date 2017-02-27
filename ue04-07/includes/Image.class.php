@@ -37,8 +37,8 @@ class Image {
      * @return string Der Pfad zum Thumbnail.
      */
     public function addThumbnail($imagePath, $thumbPath, $fontdir, $fontfilename, $thumbsize) {
-        /*--
-        require 'C:\Users\p20137\Documents\GitHub\imar\solution\index\addThumbnail.inc.php';
+        //--
+        require '../../phpuesolution/index/addThumbnail.inc.php';
         //*/
     }
 
@@ -50,8 +50,8 @@ class Image {
      * @param string $title Titel des Bildes, der im Watermark eingetragen werden soll.
      */
     public function addWatermark ($author, $title, $imagePath, $fontdir, $fontfilename) {
-        /*--
-        require 'C:\Users\p20137\Documents\GitHub\imar\solution\index\addWatermark.inc.php';
+        //--
+        require '../../phpuesolution/index/addWatermark.inc.php';
         //*/
     }
 
@@ -63,8 +63,8 @@ class Image {
      * @param string $destinationPath Der Zielpfad an dem das Bild gespeichert werden soll.
      */
     public function saveImage($image, $exifType, $destinationPath) {
-        /*--
-        require 'C:\Users\p20137\Documents\GitHub\imar\solution\index\saveImage.inc.php';
+        //--
+        require '../../phpuesolution/index/saveImage.inc.php';
         //*/
     }
 }

@@ -74,8 +74,8 @@ final class Register extends AbstractNormForm
     public function __construct(View $defaultView, $templateDir = "templates", $compileDir = "templates_c")
     {
         parent::__construct($defaultView, $templateDir, $compileDir);
-        /*--
-        require 'solution/register/construct.inc.php';
+        //--
+        require '../../phpuesolution/register/construct.inc.php';
         //*/
     }
 
@@ -94,8 +94,8 @@ final class Register extends AbstractNormForm
         $this->smarty->assign("emailKey", self::EMAIL);
         $this->smarty->assign("passwordKey1", self::PASSWORD1);
         $this->smarty->assign("passwordKey2", self::PASSWORD2);
-        /*--
-        require 'solution/register/prepareFormFields.inc.php';
+        //--
+        require '../../phpuesolution/register/prepareFormFields.inc.php';
         //*/
     //}
 
@@ -125,8 +125,8 @@ final class Register extends AbstractNormForm
      */
     protected function isValid(): bool
     {
-        /*--
-        require 'solution/register/isValid.inc.php';
+        //--
+        require '../../phpuesolution/register/isValid.inc.php';
         //*/
         return (count($this->errorMessages) === 0);
     }
@@ -168,8 +168,8 @@ final class Register extends AbstractNormForm
      */
     private function isUniqueEmail()
     {
-        /*--
-        require 'solution/register/isUniqueEmail.inc.php';
+        //--
+        require '../../phpuesolution/register/isUniqueEmail.inc.php';
         //*/
         return (count($this->errorMessages) === 0);
     }
@@ -185,8 +185,8 @@ final class Register extends AbstractNormForm
         if (!$password = Utilities::encryptPWD($_POST[self::PASSWORD1])) {
             $this->errorMessages["password"] = "No Password could be generated";
         }
-        /*--
-        require 'solution/register/addUser.inc.php';
+        //--
+        require '../../phpuesolution/register/addUser.inc.php';
         //*/
         return (count($this->errorMessages) === 0);
     }

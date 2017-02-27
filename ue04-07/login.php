@@ -69,8 +69,8 @@ final class Login extends AbstractNormForm
     public function __construct(View $defaultView, $templateDir = "templates", $compileDir = "templates_c")
     {
         parent::__construct($defaultView, $templateDir, $compileDir);
-        /*--
-        require 'solution/login/construct.inc.php';
+        //--
+        require '../../phpuesolution/login/construct.inc.php';
         //*/
     }
 
@@ -86,8 +86,8 @@ final class Login extends AbstractNormForm
     {
         $this->smarty->assign("emailKey", self::EMAIL);
         $this->smarty->assign("passwordKey", self::PASSWORD);
-        /*--
-        require 'solution/login/prepareFormFields.inc.php';
+        //--
+        require '../../phpuesolution/login/prepareFormFields.inc.php';
         //*/
     //}
 
@@ -112,10 +112,10 @@ final class Login extends AbstractNormForm
      */
     protected function isValid(): bool
     {
-        /*--
-        require 'solution/login/isValid.inc.php';
+        //--
+        require '../../phpuesolution/login/isValid.inc.php';
         //*/
-        //##
+        /*##
         $this->authenticateUser();
         //*/
         return (count($this->errorMessages) === 0);
@@ -142,14 +142,14 @@ final class Login extends AbstractNormForm
 
     private function authenticateUser()
     {
-        //##
+        /*##
         $_SESSION['iduser'] = 1;
         $_SESSION[IS_LOGGED_IN] = sha1($_SERVER["REMOTE_ADDR"] . $_SERVER["HTTP_USER_AGENT"] . $_SESSION['iduser']);
         $_SESSION['first_name'] = 'John';
         $_SESSION['last_name'] = 'Doe';
         //*/
-        /*--
-        require 'solution/login/authenticateUser.inc.php';
+        //--
+        require '../../phpuesolution/login/authenticateUser.inc.php';
         //*/
         if (isset($_SESSION[IS_LOGGED_IN])) {
             return true;
