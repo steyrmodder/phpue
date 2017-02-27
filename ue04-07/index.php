@@ -2,11 +2,11 @@
 /**
  * Einbinden der define-Angaben für IMAR
  */
-require_once 'includes/defines.inc.php';
+require_once("includes/defines.inc.php");
 /**
  * Einbinden des Session-Handlings und der Umleitung auf HTTPS (Port 443)
  */
-require_once NORM_DIR . 'session.inc.php';
+require_once("includes/session.inc.php");
 /**
  * Einbinden der Klasse TNormform, die die Formularabläufe festlegt. Bindet auch Utilities.class.php ein.
  */
