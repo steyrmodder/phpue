@@ -111,6 +111,11 @@ define("LOGIN", "login.php");
  */
 define("REGISTER", "register.php");
 
+/**
+ * @var string LOGOUT Forward to the logout page.
+ */
+define("LOGOUT", "logout.php");
+
 
 // Password length requirements
 

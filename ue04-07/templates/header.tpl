@@ -15,8 +15,10 @@
             <h1 class="Header-title">{$smarty.const.ICON}{$smarty.const.TITLE}</h1>
             <p class="Header-subtitle">{$smarty.const.SUBTITLE}</p>
         </div>
+        {if isset($smarty.session.ISLOGGEDIN)}
         <div class="Header-logout">
-            {if isset($smarty.session.ISLOGGEDIN)}You are logged in as {if isset($smarty.session.first_name)}{$smarty.session.first_name}{/if} {if isset($smarty.session.last_name)}{$smarty.session.last_name}{/if} <a href="logout.php" class="Button u-spaceLM">Logout</a></span> {else}<a href="login.php" class="Button u-spaceLM">Login</a>{/if}
+            You are logged in as  {$smarty.session.username} <a href="{$smarty.const.LOGOUT}" class="Button u-spaceLM">Logout</a>
         </div>
+        {/if}
     </div>
 </header>
