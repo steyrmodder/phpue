@@ -37,7 +37,8 @@ require_once IMAGE_CLASS;
  * @package hm2
  * @version 2017
  */
-final class IMAR extends TNormForm {
+final class IMAR extends AbstractNormForm
+{
     /**
      * Konstanten für ein HTML Attribute z.B:: <input name='pname' id='pname' ... >, <label for='pname' ... >, Keys für $_POST[self::PNAME]..
      *
@@ -52,13 +53,12 @@ final class IMAR extends TNormForm {
      * @var string FONT_DIR Das Verzeichnis, in dem die verwendeten Schriften liegen.
      * @var string FONT_FILENAME Die verwendete Schriftdatei.
      */
-    const IMAGE = 'image';
-    const MAX_FILE_SIZE = 'max_file_size';
-    const MAX_FILE_SIZE_VALUE = '2097152';
-    const IMAGEAUTHOR = 'imageauthor';
-    const IMAGETITLE = 'imagetitle';
-    const WATERMARK = 'watermark';
-    const IMAGEDATAPATH = DATA_DIR . "imagedata.txt";
+    const IMAGE_UPLOAD = "imageUpload";
+    const MAX_FILE_SIZE_VALUE = "2097152";
+    const IMAGE_AUTHOR = "imageAuthor";
+    const IMAGE_TITLE = "imageTitle";
+    const WATERMARK = "watermark";
+    const IMAGE_DATA_PATH = DATA_DIR . "imagedata.txt";
     const THUMB_SIZE = 100;
     const FONT_DIR = "fonts";
     const FONT_FILENAME = "Open Sans 600.ttf";
@@ -75,8 +75,12 @@ final class IMAR extends TNormForm {
      * Erzeugt den Filehandler für den Filesystemzugriff
      * Erzeugt den Imagehandler für die Imageverarbeitung
      */
-    public function __construct() {
-        parent::__construct();
+    public function __construct(View $defaultView, $templateDir = "templates", $compileDir = "templates_c")
+    {
+        parent::__construct($defaultView, $templateDir, $compileDir);
+
+        // Add the images to our view since we can't do this from outside the object
+        $this->currentView->setParameter(new GenericParameter("images", $this->getImages()));
         /*--
         require 'solution/index/construct.inc.php';
         //*/
@@ -97,27 +101,29 @@ final class IMAR extends TNormForm {
      *
      * Abstracte Methode in der Klasse TNormform und muss daher hier implementiert werden
      */
-    protected function prepareFormFields() {
-        $this->smarty->assign("imagenameKey", self::IMAGE);
+    /*protected function prepareFormFields()
+    {
+        $this->smarty->assign("imagenameKey", self::IMAGE_UPLOAD);
         $this->smarty->assign("maxfilesizeKey", self::MAX_FILE_SIZE);
-        $this->smarty->assign("maxfilesizeValue", self::MAX_FILE_SIZE_VALUE);
-        $this->smarty->assign("imageauthorKey", self::IMAGEAUTHOR);
-        $this->smarty->assign("imagetitleKey", self::IMAGETITLE);
+        $this->smarty->assign("maxFileSizeValue", self::MAX_FILE_SIZE_VALUE);
+        $this->smarty->assign("imageauthorKey", self::IMAGE_AUTHOR);
+        $this->smarty->assign("imagetitleKey", self::IMAGE_TITLE);
         $this->smarty->assign("watermarkKey", self::WATERMARK);
         /*--
         require 'solution/index/prepareFormFields.inc.php';
         //*/
-        $this->smarty->assign("images", $this->getImages());
-    }
+    //$this->smarty->assign("images", $this->getImages());
+    //}*/
 
     /**
      * Zeigt die Seite mittels Smarty Templates an
      *
      * Abstracte Methode in der Klasse TNormform und muss daher hier implementiert werden
      */
-    protected function display() {
+    /*protected function display()
+    {
         $this->smarty->display('indexMain.tpl');
-    }
+    }*/
 
     /**
      * Validiert den Benutzerinput nach dem Hochladen eines neunen Bildes.
@@ -133,11 +139,12 @@ final class IMAR extends TNormForm {
      *
      * @return bool true, wenn $errMsg leer ist. Ansonsten false
      */
-    protected function isValid(): bool {
+    protected function isValid(): bool
+    {
         /*--
         require 'solution/index/isValid.inc.php';
         //*/
-        return (count($this->errMsg) === 0);
+        return (count($this->errorMessages) === 0);
     }
 
     /**
@@ -149,12 +156,21 @@ final class IMAR extends TNormForm {
      * @throws FileAccessException wird von allen $this->fileAccess Methoden geworfen und hier nicht behandelt.
      *         Die Exception wird daher nochmals weitergereicht (throw) und erst am Ende des Scripts behandelt.
      */
-    protected function process() {
+    /*protected function process()
+    {
         if ($this->addImage()) {
             $this->statusMessage = "Your file has been uploaded successfully";
-        }
-        else {
+        } else {
             $this->errMsg ['addImage'] = "Error adding image. Please try again";
+        }
+    }*/
+
+    protected function business()
+    {
+        if ($this->addImage()) {
+            $this->statusMessage = "Your file has been uploaded successfully";
+        } else {
+            $this->errorMessages ["addImage"] = "Error adding image. Please try again";
         }
     }
 
@@ -164,7 +180,8 @@ final class IMAR extends TNormForm {
      * @param string $name Der Name der zu überprüfenden Checkbox.
      * @return bool Gibt <pre>true</pre> zurück, wenn die Checkbox angewählt war, sonst <pre>false</pre>.
      */
-    private function isChecked($name) {
+    private function isChecked($name)
+    {
         return isset($_POST[$name]) && strcmp($_POST[$name], "on") === 0 ? true : false;
     }
 
@@ -181,8 +198,9 @@ final class IMAR extends TNormForm {
      *
      * Können wir auch mit dem Objekt weiterarbeiten in Smarty???!!!!!!! und das true bei json_decode weglassen?????
      */
-    private function getImages() {
-        $imageArray=[];
+    private function getImages()
+    {
+        $imageArray = [];
         /*--
         require 'solution/index/getImages.inc.php';
         //*/
@@ -205,16 +223,17 @@ final class IMAR extends TNormForm {
      *
      * @return bool Gibt im Fehlerfall false zurück, im Gutfall true.
      */
-    private function addImage() {
-        $jsonArray=[];
-        $content='';
-        $thumbPath= THUMB_DIR . "nothumb.bmp"; // Sollte überschrieben werden, wenn man eine Thumbnail anlegt
+    private function addImage()
+    {
+        $jsonArray = [];
+        $content = '';
+        $thumbPath = THUMB_DIR . "nothumb.bmp"; // Sollte überschrieben werden, wenn man eine Thumbnail anlegt
 
         $imagePath = $this->generateUniqueImagePath();
         /*--
         require 'solution/index/addImage.inc.php';
         //*/
-        return (count($this->errMsg) === 0);
+        return (count($this->errorMessages) === 0);
     }
 
     /**
@@ -225,14 +244,16 @@ final class IMAR extends TNormForm {
      *
      * @return string Der neue, zufällig generierte Pfad.
      */
-    private function generateUniqueImagePath() {
-        $imagePath= IMAGE_DIR . "tdot.jpg"; // Dieser Wert wird zurückgegeben, wenn man die Methode nicht implementiert.
+    private function generateUniqueImagePath()
+    {
+        $imagePath = IMAGE_DIR . "tdot.jpg"; // Dieser Wert wird zurückgegeben, wenn man die Methode nicht implementiert.
         /*--
         require 'solution/index/generateUniqueImagePath.inc.php';
         //*/
         return $imagePath;
     }
 }
+
 /**
  * Instantiieren der Klasse IMAR und Aufruf der Methode TNormform::normForm()
  *
@@ -240,7 +261,15 @@ final class IMAR extends TNormForm {
  * Bei PHP-Exception wird vorerst nur auf eine allgemeine Errorpage weitergeleitet
  */
 try {
-    $imar = new IMAR();
+    $view = new View(View::FORM, "indexMain.tpl", [
+        new GenericParameter("imageUpload", IMAR::IMAGE_UPLOAD),
+        new GenericParameter("maxFileSizeValue", IMAR::MAX_FILE_SIZE_VALUE),
+        new PostParameter(IMAR::IMAGE_TITLE),
+        new PostParameter(IMAR::IMAGE_AUTHOR),
+        new PostParameter(IMAR::WATERMARK)
+    ]);
+
+    $imar = new IMAR($view);
     $imar->normForm();
 } catch (FileAccessException $e) {
     echo $e->getMessage();

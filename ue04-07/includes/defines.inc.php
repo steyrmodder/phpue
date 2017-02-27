@@ -43,7 +43,7 @@ define("UTILITIES", NORM_DIR . "Utilities.class.php");
 /**
  * @var string NORMFORM Path to the NormForm class.
  */
-define("NORMFORM", NORM_DIR . "AbstractNormForm.class.php");
+define("NORMFORM", NORM_DIR . "AbstractNormForm.php");
 
 /**
  * @var string CSS_DIR Path to the CSS files provided by NormForm.
