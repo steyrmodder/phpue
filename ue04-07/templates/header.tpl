@@ -2,18 +2,17 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>{$smarty.const.TITLE}</title>
+    <title>{$smarty.const.TITLE}&mdash;{$smarty.const.SUBTITLE}</title>
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300,700">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="{$smarty.const.CSS_DIR}/main.css">
-    <script src="/phpue/imar/normform/js/jquery-3.1.1.min.js"></script>
 </head>
 <body class="Site">
 <header class="Site-header">
     <div class="Header Header--small">
         <div class="Header-titles">
-            <h1 class="Header-title"><a href="index.php">{$smarty.const.ICON}{$smarty.const.TITLE}</a></h1>
+            <h1 class="Header-title">{$smarty.const.ICON}{$smarty.const.TITLE}</h1>
             <p class="Header-subtitle">{$smarty.const.SUBTITLE}</p>
         </div>
         <div class="Header-logout">

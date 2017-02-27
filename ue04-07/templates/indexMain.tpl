@@ -4,21 +4,21 @@
         <div class="Container">
             {include file="errorMessages.tpl"}
             {include file="statusMessage.tpl"}
-            <h2 class="Section-heading">Add Image</h2>
+            <h2 class="Section-heading">Upload a New Image</h2>
             <div class="InputCombo Grid-full">
                 <form action="{$smarty.server.SCRIPT_NAME}" method="post"  enctype="multipart/form-data">
                     <div class="Grid Grid--gutters">
                         <div class="InputCombo Grid-full">
-                            <label for="{$imageUpload}" class="InputCombo-label">Image File</label>
+                            <label for="{$imageUpload}" class="InputCombo-label">Image File*</label>
                             <input type="hidden" name="MAX_FILE_SIZE" value="{$maxFileSizeValue}">
                             <input type="file" id="{$imageUpload}" name="{$imageUpload}" class="InputCombo-unstyled">
                         </div>
                         <div class="InputCombo Grid-cell">
-                            <label for="{$imageTitle->getName()}" class="InputCombo-label">Image Title</label>
+                            <label for="{$imageTitle->getName()}" class="InputCombo-label">Image Title*</label>
                             <input type="text" id="{$imageTitle->getName()}" name="{$imageTitle->getName()}" value="{$imageTitle->getValue()}" class="InputCombo-field">
                         </div>
                         <div class="InputCombo Grid-cell">
-                            <label for="{$imageAuthor->getName()}" class="InputCombo-label">Image Author</label>
+                            <label for="{$imageAuthor->getName()}" class="InputCombo-label">Image Author*</label>
                             <input type="text" id="{$imageAuthor->getName()}" name="{$imageAuthor->getName()}" value="{$imageAuthor->getValue()}" class="InputCombo-field">
                         </div>
                         <div class="InputCombo Grid-full">
