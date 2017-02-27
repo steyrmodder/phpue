@@ -168,8 +168,6 @@ final class Login extends AbstractNormForm
  * Umlenken auf index.php falls man bereits eingeloggt ist
  */
 try {
-    Utilities::redirectTo();
-
     $view = new View(View::FORM, "loginMain.tpl", [
         new PostParameter(Login::EMAIL),
         new GenericParameter("passwordKey", Login::PASSWORD)

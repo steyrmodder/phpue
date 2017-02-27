@@ -4,16 +4,16 @@
         <div class="Container">
             {include file="errorMessages.tpl"}
             {include file="statusMessage.tpl"}
-            <h2 class="Section-heading">Login</h2>
+            <h2 class="Section-heading">Login to {$smarty.const.TITLE}</h2>
             <form action="{$smarty.server.SCRIPT_NAME}" method="post" enctype="multipart/form-data">
                 <div class="Grid Grid--gutters">
                     <div class="InputCombo Grid-full">
-                        <label for="{$email->getName()}" class="InputCombo-label">Email:</label>
+                        <label for="{$email->getName()}" class="InputCombo-label">E-mail Address*</label>
                         <input type="text" id="{$email->getName()}" name="{$email->getName()}"
                                value="{$email->getValue()}" class="InputCombo-field">
                     </div>
                     <div class="InputCombo Grid-full">
-                        <label for="{$passwordKey}" class="InputCombo-label">Password:</label>
+                        <label for="{$passwordKey}" class="InputCombo-label">Password*</label>
                         <input type="password" id="{$passwordKey}" name="{$passwordKey}" class="InputCombo-field">
                     </div>
                     <div class="Grid-full">
@@ -25,8 +25,8 @@
     </section>
     <section class="Section">
         <div class="Container">
-            <h2 class="Section-heading">No account?</h2>
-            <p>Register your account <a href="register.php">here.</a></p>
+            <h2 class="Section-heading">No Account?</h2>
+            <p>Register your {$smarty.const.TITLE} account <a href="{$smarty.const.REGISTER}">here.</a></p>
         </div>
     </section>
 </main>
