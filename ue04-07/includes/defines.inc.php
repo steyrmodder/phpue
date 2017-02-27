@@ -38,7 +38,7 @@ define("NORM_DIR", "../vendor/normform/");
 /**
  * @var string UTILITIES Path to the Utilities class.
  */
-define("UTILITIES", NORM_DIR . "Utilities.class.php");
+define("UTILITIES", "includes/Utilities.class.php");
 
 /**
  * @var string NORMFORM Path to the NormForm class.
@@ -49,11 +49,6 @@ define("NORMFORM", NORM_DIR . "AbstractNormForm.php");
  * @var string CSS_DIR Path to the CSS files provided by NormForm.
  */
 define("CSS_DIR", NORM_DIR . "css");
-
-/**
- * @var string TNTEMPLATE_DIR Path to the base template directory of NormForm.
- */
-define("TNTEMPLATE_DIR", NORM_DIR . "basetemplates/");
 
 /**
  * @var string FILEACCESS Path to the FileAccess class.

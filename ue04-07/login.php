@@ -2,15 +2,15 @@
 /**
  * Einbinden der define-Angaben für IMAR
  */
-require_once 'includes/defines.inc.php';
+require_once("includes/defines.inc.php");
 /**
  * Einbinden des Session-Handlings und der Umleitung auf HTTPS (Port 443)
  */
-require_once NORM_DIR . 'session.inc.php';
+require_once("includes/session.inc.php");
 /**
  * Einbinden der Klasse TNormform, die die Formularabläufe festlegt. Bindet auch Utilities.class.php ein.
  */
-require_once TNORMFORM;
+require_once NORMFORM;
 /**
  * Einbinden der Datei-Zugriffs-Klasse  FileAccess, die die Dateizugriffe implementiert
  */
@@ -24,7 +24,9 @@ require_once FILEACCESS;
  * @package hm2
  * @version 2017
  */
-final class Login extends TNormForm {
+
+final class Login extends AbstractNormForm
+{
     /**
      * Konstanten für ein HTML Attribute z.B:: <input name='pname' id='pname' ... >, <label for='pname' ... >, Keys für $_POST[self::PNAME]..
      *
@@ -61,8 +63,9 @@ final class Login extends TNormForm {
      * Ruft den Constructor der Klasse TNormform auf.
      * Erzeugt den Filehandler für den Filesystemzugriff
      */
-    public function __construct() {
-        parent::__construct();
+    public function __construct(View $defaultView, $templateDir = "templates", $compileDir = "templates_c")
+    {
+        parent::__construct($defaultView, $templateDir, $compileDir);
         /*--
         require 'solution/login/construct.inc.php';
         //*/
@@ -76,22 +79,24 @@ final class Login extends TNormForm {
      *
      * Abstracte Methode in der Klasse TNormform und muss daher hier implementiert werden
      */
-    protected function prepareFormFields() {
+    /*protected function prepareFormFields()
+    {
         $this->smarty->assign("emailKey", self::EMAIL);
         $this->smarty->assign("passwordKey", self::PASSWORD);
         /*--
         require 'solution/login/prepareFormFields.inc.php';
         //*/
-		}
+    //}
 
     /**
      * Zeigt die Seite mittels Smarty Templates an
      *
      * Abstracte Methode in der Klasse TNormform und muss daher hier implementiert werden
      */
-    protected function display() {
+    /*protected function display()
+    {
         $this->smarty->display('loginMain.tpl');
-    }
+    }*/
 
     /**
      * Validiert den Benutzerinput nach dem Abschicken des Formulars.
@@ -102,14 +107,15 @@ final class Login extends TNormForm {
      *
      * @return bool true, wenn $errMsg leer ist. Ansonsten false
      */
-    protected function isValid(): bool {
+    protected function isValid(): bool
+    {
         /*--
         require 'solution/login/isValid.inc.php';
         //*/
         //##
         $this->authenticateUser();
         //*/
-        return (count($this->errMsg) === 0);
+        return (count($this->errorMessages) === 0);
     }
 
     /**
@@ -121,27 +127,35 @@ final class Login extends TNormForm {
      * @throws FileAccessException wird von allen $this->fileAccess Methoden geworfen und hier nicht behandelt.
      *         Die Exception wird daher nochmals weitergereicht (throw) und erst am Ende des Scripts behandelt.
      */
-    protected function process() {
+    /*protected function process()
+    {
+        Utilities::redirectTo();
+    }*/
+
+    protected function business()
+    {
         Utilities::redirectTo();
     }
 
-    private function authenticateUser() {
-         //##
-        $_SESSION['iduser']=1;
-        $_SESSION[ISLOGGEDIN] = sha1($_SERVER["REMOTE_ADDR"] . $_SERVER["HTTP_USER_AGENT"] . $_SESSION['iduser']);
-        $_SESSION['first_name']='John';
-        $_SESSION['last_name']='Doe';
+    private function authenticateUser()
+    {
+        //##
+        $_SESSION['iduser'] = 1;
+        $_SESSION[IS_LOGGED_IN] = sha1($_SERVER["REMOTE_ADDR"] . $_SERVER["HTTP_USER_AGENT"] . $_SESSION['iduser']);
+        $_SESSION['first_name'] = 'John';
+        $_SESSION['last_name'] = 'Doe';
         //*/
         /*--
         require 'solution/login/authenticateUser.inc.php';
         //*/
-        if (isset($_SESSION[ISLOGGEDIN])) {
+        if (isset($_SESSION[IS_LOGGED_IN])) {
             return true;
         } else {
             return false;
         }
     }
 }
+
 /**
  * Instantiieren der Klasse Login und Aufruf der Methode TNormform::normForm()
  *
@@ -150,12 +164,26 @@ final class Login extends TNormForm {
  *
  * Umlenken auf index.php falls man bereits eingeloggt ist
  */
-try {
+/*try {
     Utilities::redirectTo();
-    $login = new Login();
+
+    $view = new View(View::FORM, "loginMain.tpl", [
+        new PostParameter(Login::EMAIL),
+        new GenericParameter("passwordKey", Login::PASSWORD)
+    ]);
+
+    $login = new Login($view);
     $login->normForm();
 } catch (FileAccessException $e) {
     echo $e->getMessage();
 } catch (Exception $e) {
     header("Location: https://localhost/imar/errorpage.html");
-}
+}*/
+
+$view = new View(View::FORM, "loginMain.tpl", [
+    new PostParameter(Login::EMAIL),
+    new GenericParameter("passwordKey", Login::PASSWORD)
+]);
+
+$login = new Login($view);
+$login->normForm();
