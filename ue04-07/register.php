@@ -2,15 +2,18 @@
 /**
  * Einbinden der define-Angaben für IMAR
  */
-require_once 'includes/defines.inc.php';
+require_once("includes/defines.inc.php");
 /**
  * Einbinden des Session-Handlings und der Umleitung auf HTTPS (Port 443)
  */
-require_once NORM_DIR . 'session.inc.php';
+require_once("includes/session.inc.php");
+
+require_once UTILITIES;
+
 /**
  * Einbinden der Klasse TNormform, die die Formularabläufe festlegt. Bindet auch Utilities.class.php ein.
  */
-require_once TNORMFORM;
+require_once NORMFORM;
 /**
  * Einbinden der Datei-Zugriffs-Klasse  FileAccess, die die Dateizugriffe implementiert
  */
@@ -24,7 +27,9 @@ require_once FILEACCESS;
  * @package hm2
  * @version 2017
  */
-final class Register extends TNormForm {
+
+final class Register extends AbstractNormForm
+{
     /**
      * Konstanten für ein HTML Attribute z.B:: <input name='pname' id='pname' ... >, <label for='pname' ... >, Keys für $_POST[self::PNAME]..
      *
@@ -66,8 +71,9 @@ final class Register extends TNormForm {
      * Erzeugt den Filehandler für den Filesystemzugriff
      * initialisiert $this->autoincrementID mit dem Startwert 1
      */
-    public function __construct() {
-        parent::__construct();
+    public function __construct(View $defaultView, $templateDir = "templates", $compileDir = "templates_c")
+    {
+        parent::__construct($defaultView, $templateDir, $compileDir);
         /*--
         require 'solution/register/construct.inc.php';
         //*/
@@ -82,7 +88,8 @@ final class Register extends TNormForm {
      *
      * Abstracte Methode in der Klasse TNormform und muss daher hier implementiert werden
      */
-    protected function prepareFormFields() {
+    /*protected function prepareFormFields()
+    {
         $this->smarty->assign("usernameKey", self::USERNAME);
         $this->smarty->assign("emailKey", self::EMAIL);
         $this->smarty->assign("passwordKey1", self::PASSWORD1);
@@ -90,16 +97,17 @@ final class Register extends TNormForm {
         /*--
         require 'solution/register/prepareFormFields.inc.php';
         //*/
-    }
+    //}
 
     /**
      * Zeigt die Seite mittels Smarty Templates an
      *
      * Abstracte Methode in der Klasse TNormform und muss daher hier implementiert werden
      */
-    protected function display() {
+    /*protected function display()
+    {
         $this->smarty->display('registerMain.tpl');
-    }
+    }*/
 
     /**
      * Validiert den Benutzerinput nach dem Abschicken des Formulars.
@@ -115,11 +123,12 @@ final class Register extends TNormForm {
      *
      * @return bool true, wenn $errMsg leer ist. Ansonsten false
      */
-    protected function isValid(): bool {
+    protected function isValid(): bool
+    {
         /*--
         require 'solution/register/isValid.inc.php';
         //*/
-        return (count($this->errMsg) === 0);
+        return (count($this->errorMessages) === 0);
     }
 
     /**
@@ -131,11 +140,21 @@ final class Register extends TNormForm {
      * @throws FileAccessException wird von allen $this->fileAccess Methoden geworfen und hier nicht behandelt.
      *         Die Exception wird daher nochmals weitergereicht (throw) und erst am Ende des Scripts behandelt.
      */
-    protected function process() {
+    /*protected function process()
+    {
         if ($this->addUser()) {
             Utilities::redirectTo(LOGIN);
         } else {
-            $this->errMsg['database'] = 'User could not be added. Please contact Support Team!';
+            $this->errorMessages['database'] = 'User could not be added. Please contact Support Team!';
+        }
+    }*/
+
+    protected function business()
+    {
+        if ($this->addUser()) {
+            Utilities::redirectTo(LOGIN);
+        } else {
+            $this->errorMessages['database'] = 'User could not be added. Please contact Support Team!';
         }
     }
 
@@ -147,11 +166,12 @@ final class Register extends TNormForm {
      *
      * @return bool true, wenn die Email nicht im File vorkommt, ansonsten false.
      */
-    private function isUniqueEmail() {
+    private function isUniqueEmail()
+    {
         /*--
         require 'solution/register/isUniqueEmail.inc.php';
         //*/
-        return (count($this->errMsg) === 0);
+        return (count($this->errorMessages) === 0);
     }
 
     /**
@@ -160,16 +180,18 @@ final class Register extends TNormForm {
      *
      * @return bool true, wenn beim Schreiben keine Fehler auftreten, ansonsten false
      */
-    private function addUser() {
+    private function addUser()
+    {
         if (!$password = Utilities::encryptPWD($_POST[self::PASSWORD1])) {
-            $this->errMsg = "No Password could be generated";
+            $this->errorMessages["password"] = "No Password could be generated";
         }
         /*--
         require 'solution/register/addUser.inc.php';
         //*/
-        return (count($this->errMsg) === 0);
+        return (count($this->errorMessages) === 0);
     }
 }
+
 /**
  * Instantiieren der Klasse Register und Aufruf der Methode TNormform::normForm()
  *
@@ -177,7 +199,14 @@ final class Register extends TNormForm {
  * Bei PHP-Exception wird vorerst nur auf eine allgemeine Errorpage weitergeleitet
  */
 try {
-    $register = new Register();
+    $view = new View(View::FORM, "registerMain.tpl", [
+        new PostParameter(Register::USERNAME),
+        new PostParameter(Register::EMAIL),
+        new GenericParameter("passwordKey1", Register::PASSWORD1),
+        new GenericParameter("passwordKey2", Register::PASSWORD2)
+    ]);
+
+    $register = new Register($view);
     $register->normForm();
 } catch (FileAccessException $e) {
     echo $e->getMessage();
