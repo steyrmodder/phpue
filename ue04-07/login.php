@@ -7,6 +7,9 @@ require_once("includes/defines.inc.php");
  * Einbinden des Session-Handlings und der Umleitung auf HTTPS (Port 443)
  */
 require_once("includes/session.inc.php");
+
+require_once UTILITIES;
+
 /**
  * Einbinden der Klasse TNormform, die die Formularabläufe festlegt. Bindet auch Utilities.class.php ein.
  */
@@ -164,7 +167,7 @@ final class Login extends AbstractNormForm
  *
  * Umlenken auf index.php falls man bereits eingeloggt ist
  */
-/*try {
+try {
     Utilities::redirectTo();
 
     $view = new View(View::FORM, "loginMain.tpl", [
@@ -178,12 +181,4 @@ final class Login extends AbstractNormForm
     echo $e->getMessage();
 } catch (Exception $e) {
     header("Location: https://localhost/imar/errorpage.html");
-}*/
-
-$view = new View(View::FORM, "loginMain.tpl", [
-    new PostParameter(Login::EMAIL),
-    new GenericParameter("passwordKey", Login::PASSWORD)
-]);
-
-$login = new Login($view);
-$login->normForm();
+}
