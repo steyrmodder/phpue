@@ -3,6 +3,7 @@
  * Einbinden der Klasse für die Filezugriff-Exception
  */
 require_once 'FileAccessException.class.php';
+
 /**
  * Die objektorientierte FileAccess-Klasse implentiert Basisfunktionen für das Lesen und Schreiben von Files.
  *
@@ -14,12 +15,29 @@ require_once 'FileAccessException.class.php';
  * @package imar
  * @version 2016
  */
-class FileAccess {
+class FileAccess
+{
+    const DATA_DIRECTORY = "data/";
+
+    const IMAGE_DATA_PATH = self::DATA_DIRECTORY . "imagedata.json";
+
+    const USER_DATA_PATH = self::DATA_DIRECTORY . "userdata.json";
+
+    /**
+     * @var string IMAGE_DIR Path where uploaded images are stored.
+     */
+    const IMAGE_DIRECTORY = "images/";
+
+    /**
+     * @var string THUMB_DIR Path where generated thumbnails are stored.
+     */
+    const THUMBNAIL_DIRECTORY = self::IMAGE_DIRECTORY . "thumbs/";
 
     /**
      * Erzeugt ein neues FileAcess-Objekt.
      */
-    public function __construct() {
+    public function __construct()
+    {
     }
 
     /**
@@ -28,9 +46,10 @@ class FileAccess {
      * @param $filename Das auszulesende File
      * @return array|bool Gibt im Gutfall das Array mit dem Fileinhalt zurück, im Fehlerfall FALSE.
      */
-    public function loadContents($filename) {
+    public function loadContents($filename)
+    {
         if (file_exists($filename)) {
-            return file($filename);
+            return json_decode(file_get_contents($filename), true);
         } else {
             return false;
         }
@@ -47,18 +66,14 @@ class FileAccess {
      * @param $line Zeile, die ans Ende des Files geschrieben wird
      * @return bool TRUE, wenn das Schreiben erfolgreich ist. Sonst FALSE
      */
-    public function storeContents($filename,$line) {
-        $fp = fopen($filename, "a");
-        if (!flock($fp, LOCK_EX)) {
-            fclose($fp);
-            return false;
+    public function storeContents($filename, $data)
+    {
+        $bytes = file_put_contents($filename, json_encode($data, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT));
+
+        if ($bytes > 0) {
+            return true;
         }
-        if (!(fwrite($fp, $line . PHP_EOL) > 0)) {
-            flock($fp, LOCK_UN); // Lock freigeben
-            fclose($fp);
-            return false;
-        }
-        return true;
+        return false;
     }
 
     /**
@@ -70,16 +85,17 @@ class FileAccess {
      * @param $idname ID-Name, im Beispielsatz: iduser.
      * @return int die AutoincrementID, die ermittelt wurde.
      */
-    public function autoincrementID($filename,$idname) {
-        $itemArray=[];
+    public function autoincrementID($filename, $idname)
+    {
+        $itemArray = [];
         if (file_exists($filename)) {
             foreach ($this->loadContentsWithException($filename) as $row) {
                 $item = json_decode($row, true);
-                $itemArray[]=$item;
+                $itemArray[] = $item;
             }
             sort($itemArray);
-            $maxID=end($itemArray);
-            return $maxID=$maxID[$idname]+1;
+            $maxID = end($itemArray);
+            return $maxID = $maxID[$idname] + 1;
         } else {
             return 0;
         }
@@ -91,7 +107,8 @@ class FileAccess {
      * @param string $name Der Name des Feldes im $_FILES-Array.
      * @return bool Gibt <pre>true</pre> zurück, wenn der Upload okay war, ansonsten <pre>false</pre>.
      */
-    public function uploadOkay($name) {
+    public function uploadOkay($name)
+    {
         return ($_FILES[$name]["error"] === 0);
     }
 
@@ -99,12 +116,13 @@ class FileAccess {
      * Verschiebt ein hochgeladenes Files vom temporären Upload-Ornder in einen angegebenen Ordner.
      *
      * @param $file Name des Upload-Feldes
-     * @param $filepath Pfad an den das hochgeladene File verschoben werden soll
+     * @param $filePath Pfad an den das hochgeladene File verschoben werden soll
      * @return bool Gibt im Gutfall TRUE zurück, ansonsten FALSE.
      */
-    public function storeUploadedFile($file, $filepath) {
+    public function storeUploadedFile($file, $filePath)
+    {
         if (is_uploaded_file($_FILES[$file]["tmp_name"])) {
-            return move_uploaded_file($_FILES[$file]["tmp_name"], "$filepath");
+            return move_uploaded_file($_FILES[$file]["tmp_name"], "$filePath");
         } else {
             return false;
         }
@@ -157,7 +175,8 @@ class FileAccess {
      *
      * @throws FileAccessException Wenn das File nicht existiert wird eine Exception geworfen
      */
-    public function loadContentsWithException($filename) {
+    public function loadContentsWithException($filename)
+    {
         if (file_exists($filename)) {
             return file($filename);
         } else {
@@ -180,7 +199,8 @@ class FileAccess {
      *
      * @throws FileAccessException, wenn beim Schreiben ein Fehler auftritt
      */
-    public function storeContentsWithExceptions($filename,$line) {
+    public function storeContentsWithExceptions($filename, $line)
+    {
         $fp = fopen($filename, "a");
         if (!flock($fp, LOCK_EX)) {
             fclose($fp);
@@ -205,7 +225,8 @@ class FileAccess {
      *
      * @return string $formatedError Gibt bei DEBUG = TRUE eine formatierte Errorpage mit dem fehlerhaften SQL-Statement, der SQL-Fehlermeldung und dem PHP Call Stack zurück.
      */
-    public function debugFileError($message){
+    public function debugFileError($message)
+    {
         // PHP Call Stack vom Ausgabepuffer in eine Zwischenvariable schreiben und leeren, sodass nichts mehr direkt in den Browser ausgegeben wird
         ob_start();
         debug_print_backtrace();
@@ -244,10 +265,10 @@ ERRORPAGE;
             // In error_log schreiben, um Fehler nicht im Browser anzuzeigen
             // Wenn keine Zieldatei und in php.ini bei error_log nichts angegeben wird,
             // schreibt error_log() bei XAMPP unter Windows nach <xamppdir>/apache/logs/error.log
-            error_log($formatedError,0);
+            error_log($formatedError, 0);
             // Umlenken auf eine neutrale Errorseite, die den Benutzer über das Problem informiert
             // Diesen Zweig kann man testen, indem man die Datenbank nicht startet und DEBUG=false setzt @see includes/defines.inc.php
-            header ("Location: https://localhost/onlineshop/errorpage.html");
+            header("Location: https://localhost/onlineshop/errorpage.html");
             exit;
         }
     }

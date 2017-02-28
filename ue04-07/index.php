@@ -63,11 +63,6 @@ final class IMAR extends AbstractNormForm
     const MAX_FILE_SIZE_VALUE = "2097152";
     const IMAGE_AUTHOR = "imageAuthor";
     const IMAGE_TITLE = "imageTitle";
-    const WATERMARK = "watermark";
-    const IMAGE_DATA_PATH = DATA_DIR . "imagedata.txt";
-    const THUMB_SIZE = 100;
-    const FONT_DIR = "fonts";
-    const FONT_FILENAME = "Open Sans 600.ttf";
 
     /**
      * @var string $fileAccess Filehandler für den Filezugriff
@@ -241,7 +236,7 @@ final class IMAR extends AbstractNormForm
     {
         $jsonArray = [];
         $content = '';
-        $thumbPath = THUMB_DIR . "nothumb.bmp"; // Sollte überschrieben werden, wenn man eine Thumbnail anlegt
+        $thumbPath = FileAccess::THUMBNAIL_DIRECTORY . "nothumb.bmp"; // Sollte überschrieben werden, wenn man eine Thumbnail anlegt
 
         $imagePath = $this->generateUniqueImagePath();
         //--
@@ -260,7 +255,7 @@ final class IMAR extends AbstractNormForm
      */
     private function generateUniqueImagePath()
     {
-        $imagePath = IMAGE_DIR . "tdot.jpg"; // Dieser Wert wird zurückgegeben, wenn man die Methode nicht implementiert.
+        $imagePath = FileAccess::IMAGE_DIRECTORY . "tdot.jpg"; // Dieser Wert wird zurückgegeben, wenn man die Methode nicht implementiert.
         //--
         require '../../phpuesolution/index/generateUniqueImagePath.inc.php';
         //*/

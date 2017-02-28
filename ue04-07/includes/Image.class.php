@@ -10,6 +10,10 @@
  */
 class Image {
 
+    const THUMB_SIZE = 100;
+    const FONT_DIR = "fonts";
+    const FONT_FILENAME = "Open Sans 600.ttf";
+
     /**
      * Erzeugt ein neues Image-Objekt.
      */

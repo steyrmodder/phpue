@@ -61,27 +61,17 @@ define("FILEACCESS", "includes/FileAccess.class.php");
 define("IMAGE_CLASS", "includes/Image.class.php");
 
 /**
- * @var string IMAGE_DIR Path where uploaded images are stored.
- */
-define("IMAGE_DIR", "images/");
-
-/**
- * @var string THUMB_DIR Path where generated thumbnails are stored.
- */
-define("THUMB_DIR", IMAGE_DIR . "thumbs/");
-
-/**
- * @var string DATA_DIR Path where the image data is stored.
- */
-define("DATA_DIR", "data/");
-
-/**
  * @var string XML_ADDRESS_PATH Path where the addressbook XML-file is stored.
  */
 define("XML_ADDRESS_PATH", "data/addresses.xml");
 
 
 // Session fields
+
+/**
+ * @var string USERNAME Key for the session field that holds the currently logged in username.
+ */
+define("USERNAME", "username");
 
 /**
  * @var string IS_LOGGED_IN Key for the session field which remembers that a user is currently logged in.
