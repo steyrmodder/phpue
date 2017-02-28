@@ -1,5 +1,5 @@
 <?php
-include 'error_handling.php';
+include '../../includes/error_handling.php';
 ?>
 <!DOCTYPE html>
 <html lang="de">

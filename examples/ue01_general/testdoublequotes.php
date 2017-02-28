@@ -10,5 +10,5 @@ SOURCE;
 echo $source;
 echo '<h1>Output</h1>';
 echo 'Ein $var für doppelte Hochkomma <br>';
-echo 'Ein ' . $var .' für doppetle Hochkomma <br>';
+echo 'Ein ' . $var .' für doppelte Hochkomma <br>';
 echo " Ein $var für doppelte Hochkomma <br>";

@@ -57,7 +57,7 @@ ERROR;
         exit;
     } else {
         error_log($debugpage . $out1);
-        header("Location: errorpage.html");
+        header("Location: /phpue/includes/errorpage.html");
         exit;
     }
 }
