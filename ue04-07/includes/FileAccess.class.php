@@ -49,10 +49,9 @@ class FileAccess
     public function loadContents($filename)
     {
         if (file_exists($filename)) {
-            return json_decode(file_get_contents($filename), true);
-        } else {
-            return false;
+            return json_decode(file_get_contents($filename), true) ?? [];
         }
+        return [];
     }
 
     /**
