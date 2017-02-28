@@ -178,6 +178,8 @@ final class IMAR extends AbstractNormForm
             $this->statusMessage = "Your file has been uploaded successfully";
             $this->currentView->setParameter(new GenericParameter("statusMessage", $this->statusMessage));
             $this->currentView->setParameter(new GenericParameter("images", $this->getImages()));
+            $this->currentView->setParameter(new PostParameter(IMAR::IMAGE_TITLE, true));
+            $this->currentView->setParameter(new PostParameter(IMAR::IMAGE_AUTHOR, true));
         } else {
             $this->errorMessages ["addImage"] = "Error adding image. Please try again";
         }
