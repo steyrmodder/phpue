@@ -1,2 +1,0 @@
-{"imagepath":"images/tdot.jpg","thumbpath":"images/thumbs/nothumb.bmp","title":"Tdot","uploadedby":"John Doe","author":"FH Hagenberg","date":"03.11.2016","time":"12:49:17"}
-{"imagepath":"images/typewriter.jpg","thumbpath":"images/thumbs/nothumb.bmp","title":"TypeWriter","author":"Campus Hagenberg","uploadedby":"John Doe","date":"03.11.2016","time":"12:54:01"}
