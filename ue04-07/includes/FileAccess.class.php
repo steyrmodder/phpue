@@ -177,12 +177,11 @@ class FileAccess
     public function loadContentsWithException($filename)
     {
         if (file_exists($filename)) {
-            return file($filename);
-        } else {
-            $message = "File $filename is missing";
-            $formatedError = $this->debugFileError($message);
-            throw new FileAccessException($formatedError);
+            return json_decode(file_get_contents($filename), true) ?? [];
         }
+        $message = "File $filename is missing";
+        $formatedError = $this->debugFileError($message);
+        throw new FileAccessException($formatedError);
     }
 
     /**
@@ -200,20 +199,14 @@ class FileAccess
      */
     public function storeContentsWithExceptions($filename, $line)
     {
-        $fp = fopen($filename, "a");
-        if (!flock($fp, LOCK_EX)) {
-            fclose($fp);
-            $message = "File $filename is missing";
-            $formatedError = $this->debugFileError($message);
-            throw new FileAccessException($formatedError);
+        $bytes = file_put_contents($filename, json_encode($data, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT));
+
+        if ($bytes > 0) {
+            return;
         }
-        if (!(fwrite($fp, $line . PHP_EOL) > 0)) {
-            flock($fp, LOCK_UN); // Lock freigeben
-            fclose($fp);
-            $message = "File $filename is missing";
-            $formatedError = $this->debugFileError($message);
-            throw new FileAccessException($formatedError);
-        }
+        $message = "File $filename is missing";
+        $formatedError = $this->debugFileError($message);
+        throw new FileAccessException($formatedError);
     }
 
     /**

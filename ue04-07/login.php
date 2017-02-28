@@ -53,10 +53,7 @@ final class Login extends AbstractNormForm
     const FIRSTNAME = "first_name";
     const LASTNAME = "last_name";
 
-    /**
-     * @var string Pfad, aus dem die Benutzerdaten bei der Authentifizierung gelesen werden
-     */
-    const USERDATAPATH = DATA_DIR . "userdata.txt";
+
 
     /**
      * @var string $fileAccess Filehandler für den Filezugriff

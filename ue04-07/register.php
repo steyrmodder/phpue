@@ -53,11 +53,6 @@ final class Register extends AbstractNormForm
     const IDUSER = "iduser";
 
     /**
-     * @var string Pfad, in dem die Benutzerdaten bei der Registrierung gespeichert werden
-     */
-    const USERDATAPATH = DATA_DIR . "userdata.txt";
-
-    /**
      * @var string $fileAccess Filehandler für den Filezugriff
      */
     private $fileAccess;
@@ -131,6 +126,9 @@ final class Register extends AbstractNormForm
         //--
         require '../../phpuesolution/register/isValid.inc.php';
         //*/
+
+        $this->currentView->setParameter(new GenericParameter("errorMessages", $this->errorMessages));
+
         return (count($this->errorMessages) === 0);
     }
 
@@ -174,7 +172,9 @@ final class Register extends AbstractNormForm
         //--
         require '../../phpuesolution/register/isUniqueEmail.inc.php';
         //*/
-        return (count($this->errorMessages) === 0);
+        /*##
+        return true;
+        */##
     }
 
     /**
