@@ -1,0 +1,2 @@
+{"iduser":1,"last_name":"user1","email":"testuser1@imar.com","password1":"$2y$10$HnuoGwu0u.heReSaV8D\/DOHpAAvZSi40p0DJA1lK6ViToam4M7gwy"}
+{"iduser":2,"last_name":"user2","email":"testuser2@imar.com","password1":"$2y$10$e1Q.Xjxq4QwJAwuxDgi4\/OF6hiDHNj6QywxwNGM56gk1BgAWfkVm."}

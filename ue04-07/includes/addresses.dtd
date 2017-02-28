@@ -1,0 +1,22 @@
+<!ELEMENT addresses (address)*>
+        <!-- "addresses" is the root element containing 0 to n "address" elements -->
+
+        <!ELEMENT address (name, street, zip, city) >
+        <!-- "address" has four child elements: "name", "street", "zipcode" and "city". Exactly one of each -->
+
+        <!ELEMENT name (firstname, lastname)>
+        <!-- The element "name" must contain two elements called "first" and "last" -->
+
+        <!ELEMENT firstname (#PCDATA)>
+        <!-- "first" contains only text -->
+        <!ELEMENT lastname (#PCDATA)>
+        <!-- "last" contains only text -->
+
+        <!ELEMENT street (#PCDATA)>
+        <!-- "street" contains only text -->
+
+        <!ELEMENT zip (#PCDATA)>
+        <!-- "zip" contains only text -->
+
+        <!ELEMENT city (#PCDATA)>
+        <!-- "city" contains only text -->

@@ -1,4 +1,4 @@
-[submodule "imar/normform"]
-	path = imar/normform
+[submodule "vendor/normform"]
+	path = vendor/normform
 	url = git@github.com:Digital-Media/normform.git
 	branch = master
