@@ -9,7 +9,7 @@ require_once("includes/defines.inc.php");
 /**
  * Einbinden des Session-Handlings und der Umleitung auf HTTPS (Port 443)
  */
-require_once("includes/https-redirect.inc.php");
+require_once("../includes/https-redirect.inc.php");
 
 require_once UTILITIES;
 
