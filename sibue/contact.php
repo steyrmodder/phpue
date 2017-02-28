@@ -1,12 +1,12 @@
 <?php
 /**
- * Einbinden der define-Angaben für IMAR
+ * Einbinden der define-Angaben für SIBUE
  */
-require_once '../imar/includes/defines.inc.php';
+require_once 'includes/defines.inc.php';
 /**
  * Einbinden der Klasse TNormform, die die Formularabläufe festlegt. Bindet auch Utilities.class.php ein.
  */
-require_once '../imar/normform/TNormform.class.php';
+require_once TNORMFORM;
 
 /*
  * Das objektorientierte und templatebasierte Registrier-formular setzt die Userregistrierung in IMAR um.

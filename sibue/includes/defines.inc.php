@@ -13,7 +13,7 @@ define("SUBTITLE","Imprint and Contact");
  * Pfade, Directories und Dateien
  * 
  */
-define("NORM_DIR","normform/");
+define("NORM_DIR","/vendor/normform/");
 define("UTILITIES",NORM_DIR . "Utilities.class.php");
 define("TNORMFORM",NORM_DIR . "TNormform.class.php");
 define("CSS_DIR",NORM_DIR . "css");

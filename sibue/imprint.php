@@ -2,11 +2,11 @@
 /**
  * Einbinden der define-Angaben für IMAR
  */
-require_once '../imar/includes/defines.inc.php';
+require_once 'includes/defines.inc.php';
 /**
  * Einbinden der Klasse TNormform, die die Formularabläufe festlegt. Bindet auch Utilities.class.php ein.
  */
-require_once '../imar/normform/TNormform.class.php';
+require_once TNORMFORM;
 
 /*
  * Das objektorientierte und templatebasierte Login-formular setzt das Einloggen in IMAR um.
