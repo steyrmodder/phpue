@@ -34,17 +34,16 @@
             <h2 class="Section-heading">Current Gallery Images</h2>
             <div class="Grid Grid--gutters">
                 {foreach $images as $image}
-                    <div class="Grid-cell GalleryItem">
-                        <div class="GalleryItem-thumb"><img src="{$image['thumbpath']}" alt="{$image['title']}"
-                                                            data-jslghtbx="{$image['imagepath']}"></div>
-                        <div class="GalleryItem-title"><i class="fa fa-pencil"></i>{$image['title']}</div>
-                        <div class="GalleryItem-author"><i class="fa fa-user"></i>{$image['author']}</div>
-                        <div class="GalleryItem-author"><i
-                                    class="fa fa-upload"></i>{if isset($image['uploadedby'])}{$image['uploadedby']}{/if}
-                        </div>
-                        <div class="GalleryItem-timestamp">
-                            <span class="GalleryItem-date"><i class="fa fa-calendar"></i>{$image['date']}</span>
-                            <span class="GalleryItem-time"><i class="fa fa-clock-o"></i>{$image['time']}</span>
+                    <div class="Grid-cell">
+                        <div class="GalleryItem">
+                            <div class="GalleryItem-thumb"><img src="{$image['thumbpath']}" alt="{$image['title']}"
+                                                                data-jslghtbx="{$image['imagepath']}"></div>
+                            <div class="GalleryItem-title"><i class="fa fa-pencil"></i>{$image['title']}</div>
+                            <div class="GalleryItem-author"><i class="fa fa-user"></i>{$image['author']}</div>
+                            <div class="GalleryItem-timestamp">
+                                <span class="GalleryItem-date"><i class="fa fa-calendar"></i>{$image['date']}</span>
+                                <span class="GalleryItem-time"><i class="fa fa-clock-o"></i>{$image['time']}</span>
+                            </div>
                         </div>
                     </div>
                 {/foreach}
