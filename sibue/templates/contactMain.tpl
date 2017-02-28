@@ -1,10 +1,9 @@
-{include file="{$smarty.const.TNTEMPLATE_DIR}header.tpl"}
-{include file="navigation.tpl"}
+{include file="header.tpl"}
 <main class="Site-content">
     <section class="Section">
         <div class="Container">
             <h2 class="Section-heading">Contact</h2>
-            {include file="{$smarty.const.TNTEMPLATE_DIR}error.tpl"}
+            {include file="errorMessages.tpl.tpl"}
             {include file="contactForm.tpl"}
         </div>
     </section>
@@ -33,4 +32,4 @@
         </div>
     </section>
 </main>
-{include file="{$smarty.const.TNTEMPLATE_DIR}footer.tpl"}
+{include file="footer.tpl"}

@@ -38,7 +38,7 @@ define("NORM_DIR", "../vendor/normform/");
 /**
  * @var string UTILITIES Path to the Utilities class.
  */
-define("UTILITIES", "includes/Utilities.class.php");
+define("UTILITIES", "../includes/Utilities.php");
 
 /**
  * @var string NORMFORM Path to the NormForm class.

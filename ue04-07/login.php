@@ -14,7 +14,7 @@ require_once("../includes/https-redirect.inc.php");
 require_once UTILITIES;
 
 /**
- * Einbinden der Klasse TNormform, die die Formularabläufe festlegt. Bindet auch Utilities.class.php ein.
+ * Einbinden der Klasse TNormform, die die Formularabläufe festlegt. Bindet auch Utilities.php ein.
  */
 require_once NORMFORM;
 /**

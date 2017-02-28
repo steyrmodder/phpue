@@ -8,7 +8,7 @@ require_once 'includes/defines.inc.php';
  */
 require_once NORM_DIR . 'session.inc.php';
 /**
- * Einbinden der Klasse TNormform, die die Formularabläufe festlegt. Bindet auch Utilities.class.php ein.
+ * Einbinden der Klasse TNormform, die die Formularabläufe festlegt. Bindet auch Utilities.php ein.
  */
 require_once TNORMFORM;
 /**

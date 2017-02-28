@@ -1,4 +1,4 @@
-{include file="{$smarty.const.TNTEMPLATE_DIR}header.tpl"}
+{include file="header.tpl"}
 {include file="navigation.tpl"}
 <main class="Site-content">
     <section class="Section">
@@ -7,4 +7,4 @@
         </div>
     </section>
 </main>
-{include file="{$smarty.const.TNTEMPLATE_DIR}footer.tpl"}
+{include file="footer.tpl"}

@@ -14,7 +14,7 @@ require_once("../includes/https-redirect.inc.php");
 require_once UTILITIES;
 
 /**
- * Einbinden der Klasse TNormform, die die Formularabläufe festlegt. Bindet auch Utilities.class.php ein.
+ * Einbinden der Klasse TNormform, die die Formularabläufe festlegt. Bindet auch Utilities.php ein.
  */
 require_once NORMFORM;
 /**
@@ -116,7 +116,7 @@ final class Register extends AbstractNormForm
      * Validiert den Benutzerinput nach dem Abschicken des Formulars.
      *
      * Zur Überprüfung, ob ein Formularfeld leer ist, eine Email und ein Passwort einer passenden REGEX entsprechen,
-     * finden sich in @see /phpue/ue04-07/normform/Utilities.class.php
+     * finden sich in @see /phpue/ue04-07/normform/Utilities.php
      *
      * Ob eine Email in /phpue/ue04-07/data/userdata.txt bereits vorhanden ist, wird mit $this->isUniqueEmail geprüft
      *
