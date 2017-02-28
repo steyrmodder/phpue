@@ -1,8 +1,4 @@
 <?php
-/**
- * session.inc.php startet die Session und lenkt auf das https-Protokoll um. Alternativ kann das bereits vom Apacheserver übernommen werden, dann ist dieser Schritt nicht notwendig
- */
-session_start();
 
 // TODO: First, do the HTTP/HTTPS check and redirect as shown in the lecture notes.
 /**
