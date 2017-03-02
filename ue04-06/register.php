@@ -214,6 +214,6 @@ try {
 } catch (FileAccessException $e) {
     echo $e->getMessage();
 } catch (Exception $e) {
-    header("Location: https://localhost/onlineshop/errorpage.html");
+    header("Location: ../includes/errorpage.html");
 }
 

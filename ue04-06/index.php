@@ -282,5 +282,5 @@ try {
 } catch (FileAccessException $e) {
     echo $e->getMessage();
 } catch (Exception $e) {
-    header("Location: https://localhost/imar/errorpage.html");
+    header("Location: ../includes/errorpage.html");
 }
