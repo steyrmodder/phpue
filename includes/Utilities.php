@@ -264,31 +264,4 @@ class Utilities {
         $charReplace = array('ä' => 'ae', "\x61\xcc\x88" => 'ae', 'Ä' => 'Ae', "\x41\xcc\x88" => 'Ae', 'ö' => 'oe', "\x6f\xcc\x88" => 'oe', 'Ö' => 'Oe', "\x4f\xcc\x88" => 'Oe', 'ü' => 'ue', "\x75\xcc\x88" => 'ue', 'Ü' => 'Ue', "\x55\xcc\x88" => 'Ue', 'ß' => 'ss', ' ' => '_');
         return strtr($string, $charReplace);
     }
-
-    /**
-     * Verschlüsselt das Passwort mit dem Algorithmus PASSWORD_BCRYPT, das derzeit Default ist.
-     * Damit das Login auch nach einer Änderung des Default-Algorithmus weiter richtig mit password_verify() zusammenarbeitet, ist der Algorithmus angegeben.
-     * Usage::encryptPWD($string);
-     *
-     * @param string $string unverschlüsseltes Passwort
-     *
-     * @return bool|string Das verschlüsselte Passwort
-     */
-    public static function encryptPWD(string $string)  {
-        return password_hash($string, PASSWORD_BCRYPT);
-    }
-
-    /**
-     * Prüft ein unverschlüsseltes Passwort mit dem Algorithmus PASSWORD_BCRYPT, ob er mit dem gehashten Passwort übereinsteimmt.
-     * Damit das Login auch nach einer Änderung des Default-Algorithmus weiter richtig mit password_hash() zusammenarbeitet, ist der Algorithmus angegeben.
-     * Usage::encryptPWD($string);
-     *
-     * @param string $string unverschlüsseltes Passwort
-     * @param string $hash verschlüsseltes Passwort, Passworthash
-     *
-     * @return bool TRUE, wenn das Passwort dem Hash entspricht. Andernfalls FALSE
-     */
-    public static function proofPWD(string $string, string $hash): bool {
-        return password_verify($string, $hash);
-    }
 }
