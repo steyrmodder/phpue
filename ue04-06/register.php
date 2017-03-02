@@ -50,17 +50,12 @@ final class Register extends AbstractNormForm
      * @var string IDUSER Konstante für Autoincrement-Wert der isuder,die im json-Array in @see /phpue/imar/data/userdata.txt gespeichert wird
      *
      */
-    const IDUSER = "iduser";
+    const USER_ID = "userid";
 
     /**
      * @var string $fileAccess Filehandler für den Filezugriff
      */
     private $fileAccess;
-
-    /**
-     * @var int $autoincrementID speichert, den Autoincrement-Wert, der in @see isUniqueEmail ermittelt wird
-     */
-    private $autoincrementID;
 
     /**
      * IMAR Constructor.
@@ -167,10 +162,11 @@ final class Register extends AbstractNormForm
      *
      * @return bool true, wenn die Email nicht im File vorkommt, ansonsten false.
      */
-    private function isUniqueEmail()
+    private function isUnique(string $data): bool
     {
         //--
-        require '../../phpuesolution/register/isUniqueEmail.inc.php';
+        return require '../../phpuesolution/register/isUnique.inc.php';
+
         //*/
         /*##
         return true;
@@ -185,13 +181,12 @@ final class Register extends AbstractNormForm
      */
     private function addUser()
     {
-        if (!$password = Utilities::encryptPWD($_POST[self::PASSWORD1])) {
-            $this->errorMessages["password"] = "No Password could be generated";
-        }
         //--
-        require '../../phpuesolution/register/addUser.inc.php';
+        return require '../../phpuesolution/register/addUser.inc.php';
         //*/
-        return (count($this->errorMessages) === 0);
+        /*##
+        return true;
+        */##
     }
 }
 
@@ -216,4 +211,3 @@ try {
 } catch (Exception $e) {
     header("Location: ../includes/errorpage.html");
 }
-

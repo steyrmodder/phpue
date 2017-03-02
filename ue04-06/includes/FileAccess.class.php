@@ -46,7 +46,7 @@ class FileAccess
      * @param $filename Das auszulesende File
      * @return array|bool Gibt im Gutfall das Array mit dem Fileinhalt zurück, im Fehlerfall FALSE.
      */
-    public function loadContents($filename)
+    public function loadContents($filename): array
     {
         if (file_exists($filename)) {
             return json_decode(file_get_contents($filename), true) ?? [];
@@ -81,23 +81,17 @@ class FileAccess
      * {"iduser":1,"last_name":"user1","email":"testuser1@imar.com","password1":"$2y$10$HnuoGwu0u.heReSaV8D\/DOHpAAvZSi40p0DJA1lK6ViToam4M7gwy"}
      *
      * @param $filename File, für das eine AutoincrementID erzeugt werden soll.
-     * @param $idname ID-Name, im Beispielsatz: iduser.
+     * @param $idName ID-Name, im Beispielsatz: iduser.
      * @return int die AutoincrementID, die ermittelt wurde.
      */
-    public function autoincrementID($filename, $idname)
+    public function autoincrementID($filename, $idName): int
     {
-        $itemArray = [];
         if (file_exists($filename)) {
-            foreach ($this->loadContentsWithException($filename) as $row) {
-                $item = json_decode($row, true);
-                $itemArray[] = $item;
-            }
-            sort($itemArray);
-            $maxID = end($itemArray);
-            return $maxID = $maxID[$idname] + 1;
-        } else {
-            return 0;
+            $data = $this->loadContents($filename);
+            $highestID = max(array_column($data, $idName)) ?? 0;
+            return ++$highestID;
         }
+        return 0;
     }
 
     /**
