@@ -1,10 +1,42 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Errorpage</title>
-    </head>
-<body>
-<h1> This is our Errorpage </h1>
-<p> This should not happen! We gonna find the programmer, who has to fix this!</p>
+    <meta charset="UTF-8">
+    <title>Error Page</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300,700">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../vendor/normform/css/main.css">
+</head>
+<body class="Site">
+<header class="Site-header">
+    <div class="Header Header--small">
+        <div class="Header-titles">
+            <h1 class="Header-title"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i>Error Page</h1>
+            <p class="Header-subtitle">For HM2 Exercises</p>
+        </div>
+    </div>
+</header><main class="Site-content">
+    <section class="Section">
+        <div class="Container">
+            <h2 class="Section-heading">An Error Has Occurred!</h2>
+            <p>Sorry Our Service is currently not available. Our administrators are already working on a solution.</p>
+            <hr>
+            <p><em>No further information would be shown in a production environment.</em></p>
+            <p><em>To display debugging errors set DEBUG = TRUE in error_handling.php.</em></p>
+        </div>
+    </section>
+</main>
+<footer class="Site-footer">
+    <div class="Footer Footer--small">
+        <p class="Footer-credits">Created and maintained by
+            <a href="mailto:martin.harrer@fh-hagenberg.at">Martin Harrer</a> and
+            <a href="mailto:wolfgang.hochleitner@fh-hagenberg.at">Wolfgang Hochleitner</a>.
+        </p>
+        <p class="Footer-version"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+            <a href="https://github.com/Digital-Media/phpue">Error Page Version 2017</a>
+        </p>
+    </div>
+</footer>
 </body>
 </html>
