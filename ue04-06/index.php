@@ -234,15 +234,14 @@ final class IMAR extends AbstractNormForm
      */
     private function addImage()
     {
-        $jsonArray = [];
-        $content = '';
-        $thumbPath = FileAccess::THUMBNAIL_DIRECTORY . "nothumb.bmp"; // Sollte überschrieben werden, wenn man eine Thumbnail anlegt
-
         $imagePath = $this->generateUniqueImagePath();
         //--
-        require '../../phpuesolution/index/addImage.inc.php';
+        return require '../../phpuesolution/index/addImage.inc.php';
         //*/
-        return (count($this->errorMessages) === 0);
+
+        /*##
+        return true;
+        */##
     }
 
     /**
@@ -255,11 +254,14 @@ final class IMAR extends AbstractNormForm
      */
     private function generateUniqueImagePath()
     {
-        $imagePath = FileAccess::IMAGE_DIRECTORY . "tdot.jpg"; // Dieser Wert wird zurückgegeben, wenn man die Methode nicht implementiert.
+        // Dieser Wert wird zurückgegeben, wenn man die Methode nicht implementiert.
+        $imagePath = FileAccess::IMAGE_DIRECTORY . "your_random_filename_here.jpg";
         //--
-        require '../../phpuesolution/index/generateUniqueImagePath.inc.php';
+        return require '../../phpuesolution/index/generateUniqueImagePath.inc.php';
         //*/
+        /*##
         return $imagePath;
+        */##
     }
 }
 
