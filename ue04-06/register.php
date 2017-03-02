@@ -111,9 +111,9 @@ final class Register extends AbstractNormForm
      * Validiert den Benutzerinput nach dem Abschicken des Formulars.
      *
      * Zur Überprüfung, ob ein Formularfeld leer ist, eine Email und ein Passwort einer passenden REGEX entsprechen,
-     * finden sich in @see /phpue/ue04-07/normform/Utilities.php
+     * finden sich in @see /phpue/ue04-06/normform/Utilities.php
      *
-     * Ob eine Email in /phpue/ue04-07/data/userdata.txt bereits vorhanden ist, wird mit $this->isUniqueEmail geprüft
+     * Ob eine Email in /phpue/ue04-06/data/userdata.txt bereits vorhanden ist, wird mit $this->isUniqueEmail geprüft
      *
      * Fehlermeldungen werden im Array $errMsg[] gesammelt.
      *

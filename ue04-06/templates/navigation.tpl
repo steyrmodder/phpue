@@ -26,13 +26,13 @@
             {
                 switch(demo.value) {
                     case "Normform DEMO":
-                        window.open("/phpue/ue04-07/normform/demo/demoTNormform.php","_blank");
+                        window.open("/phpue/ue04-06/normform/demo/demoTNormform.php","_blank");
                         break;
                     case "AddressBook DEMO":
-                        window.open("/phpue/ue04-07/demo/addressbook/index.php","_blank");
+                        window.open("/phpue/ue04-06/demo/addressbook/index.php","_blank");
                         break;
                     case "SearchSuggest DEMO":
-                        window.open("/phpue/ue04-07/demo/searchsuggest/index.html", "_blank");
+                        window.open("/phpue/ue04-06/demo/searchsuggest/index.html", "_blank");
                         break;
                     default:
                         window.location = "index.php";
