@@ -90,7 +90,7 @@ final class Register extends AbstractNormForm
         $this->smarty->assign("passwordKey1", self::PASSWORD1);
         $this->smarty->assign("passwordKey2", self::PASSWORD2);
         //--
-        require '../../phpuesolution/register/prepareFormFields.inc.php';
+        require '../../phpuesolution/register/show.inc.php';
         //*/
     //}
 

@@ -66,7 +66,7 @@ final class AddressBook extends TNormForm {
         $this->smarty->assign("zipKey", self::ZIP);
         $this->smarty->assign("cityKey", self::CITY);
         /*--
-        require 'solution/addressbook/prepareFormFields.inc.php';
+        require 'solution/addressbook/show.inc.php';
         //*/
         $this->smarty->assign("addresses", $this->getAddresses());
     }

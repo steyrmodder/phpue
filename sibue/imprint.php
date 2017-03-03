@@ -1,12 +1,10 @@
 <?php
 /**
- * Einbinden der define-Angaben für IMAR
- */
+ * Einbinden der define-Angaben für Imprint und Contact
+*/
 require_once 'includes/defines.inc.php';
-/**
- * Einbinden der Klasse TNormform, die die Formularabläufe festlegt. Bindet auch Utilities.php ein.
- */
-require_once NORMFORM;
+require_once("../vendor/normform/vendor/smarty/smarty/libs/Smarty.class.php");
+
 
 /*
  * Das objektorientierte und templatebasierte Impressum setzt eine Seite ohne Formularfelder um.
@@ -15,91 +13,48 @@ require_once NORMFORM;
  * @package phpue
  * @version 2017
  */
-final class Imprint extends AbstractNormForm {
+final class Imprint {
+    /**
+     * @var Smarty $smarty Hold the reference to the Smarty template engine.
+     */
+    protected $smarty;
+
+    /**
+     * @var string $statusMessage An optional status message that can be set in business() when processing data was
+     * successful.
+     */
+    protected $imprint;
+
     /**
      * Imprint Constructor.
      *
      * Ruft den Constructor der Klasse AbstractNormform auf.
      */
-    public function __construct(View $defaultView, $templateDir = "templates", $compileDir = "templates_c") {
-        parent::__construct($defaultView, $templateDir, $compileDir);
+    public function __construct($templateDir = "templates", $compileDir = "templates_c") {
+        $compileDir = "templates_c";
+        $this->smarty = new Smarty();
+        $this->smarty->template_dir = $templateDir;
+        $this->smarty->compile_dir = $compileDir;
+
     }
 
-    /**
-     * Weist die Inhalte der Smarty-Variablen zu. @see templates/loginMain.tpl
-     *
-     * Die Keys für das $_POST-Array werden gesetzt.
-     * Nur die eingegebene emailValue wird dem Benutzer im Fehlerfall wieder angezeigt.
-     *
-     * Abstracte Methode in der Klasse TNormform und muss daher hier implementiert werden
-     */
-    protected function prepareFormFields() {
-        //##
-        $this->imprint = "<p>Hier sollte das Impressum stehen!</p>";
-        //*/
-        /*--
-        require 'solution/imprint/prepareFormFields.inc.php';
-        //*/
-        $this->smarty->assign("imprint", $this->imprint);
-		}
-
-    /**
-     * Zeigt die Seite mittels Smarty Templates an
-     *
-     * Abstracte Methode in der Klasse TNormform und muss daher hier implementiert werden
-     */
-    protected function display() {
-        $this->smarty->display('imprintMain.tpl');
-    }
-
-    /**
-     * Validiert den Benutzerinput nach dem Abschicken des Formulars.
-     * Da es hier kein Eingabeformular gibt, passiert hier nichts.
-     *
-     * Fehlermeldungen werden im Array $errMsg[] gesammelt.
-     *
-     * Abstracte Methode in der Klasse TNormform und muss daher hier implementiert werden
-     *
-     * @return bool true, wenn $errMsg leer ist. Ansonsten false
-     */
-    protected function isValid(): bool {
-        return (count($this->errorMessages) === 0);
-    }
-
-    /**
-     * Verarbeitet die Benutzereingaben, die mit POST geschickt wurden
-     * Wenn alles gut geganden ist, wird eine Statusmeldung geschrieben, ansonsten eine Fehlermeldung.
-     *
-     * Abstracte Methode in der Klasse AbstractNormForm und muss daher hier implementiert werden
-     *
-     * @throws FileAccessException wird von allen $this->fileAccess Methoden geworfen und hier nicht behandelt.
-     *         Die Exception wird daher nochmals weitergereicht (throw) und erst am Ende des Scripts behandelt.
-     */
-    protected function business()
+    public function show()
     {
-        $this->currentView->setParameter(new GenericParameter("imprint", $this->imprint));
+        //TODO Add your own solution here. Keep code that ist already there. Sometimes it will be part of your solution. Sometimes you will have to discard it. Decide before you finish your work
+        /*--
+        require SOLUTION . 'imprint/show.inc.php';
+        //*/
+        //##
+        $this->imprint = "<p> Place the requested Imprint here";
+        $this->smarty->assign('imprint', $this->imprint);
+        $this->smarty->display('imprintMain.tpl');
+        //*/
     }
-
-    /**
-     * Hier werden normalerweise Benutzereingaben verarbeitet. Weil es eine statische Seite ohne Eingabeformular ist, passiert hier nichts
-     *
-     * Abstracte Methode in der Klasse TNormform und muss daher hier implementiert werden
-     */
-    protected function process() {
-        return true;
-    }
-
 }
 /**
  * Instantiieren der Klasse Contact und Aufruf der Methode AbstractNormForm::normForm()
  *
  * Bei PHP-Exception wird vorerst nur auf eine allgemeine Errorpage weitergeleitet
  */
-try {
-    $view = new View(View::TEMPLATE, "imprintMain.tpl", []);
-
-    $imprint = new Imprint($view);
-    $imprint->normForm();
-} catch (Exception $e) {
-    //header("Location: https://localhost/phpue/includes/errorpage.html");
-}
+    $imprint = new Imprint();
+    $imprint->show();

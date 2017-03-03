@@ -61,7 +61,8 @@ final class Contact extends AbstractNormForm {
      * @return bool true, wenn $errorMessages leer ist. Ansonsten false
      */
     protected function isValid(): bool {
-        //--
+        //TODO Add your own solution here. Keep code that ist already there. Sometimes it will be part of your solution. Sometimes you will have to discard it. Decide before you finish your work
+        /*--
         require SOLUTION . 'contact/isValid.inc.php';
         //*/
         $this->currentView->setParameter(new GenericParameter("errorMessages", $this->errorMessages));
@@ -76,8 +77,9 @@ final class Contact extends AbstractNormForm {
      */
     protected function business()
     {
-        //--
-        require SOLUTION . 'contact/business.inc.php';
+        //TODO Add your own solution here. Keep code that ist already there. Sometimes it will be part of your solution. Sometimes you will have to discard it. Decide before you finish your work
+        /*--
+        require SOLUTION . 'contact/show.inc.php';
         //*/
     }
 }
