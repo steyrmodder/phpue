@@ -9,10 +9,10 @@ require_once 'includes/defines.inc.php';
 require_once NORMFORM;
 
 /*
- * Das objektorientierte und templatebasierte Registrier-formular setzt die Userregistrierung in IMAR um.
+ * Das objektorientierte und templatebasierte Contact-formular setzt ein Kontaktformular um.
  * *
  * @author Martin Harrer <martin.harrer@fh-hagenberg.at>
- * @package hm2
+ * @package phpue
  * @version 2017
  */
 final class Contact extends AbstractNormForm {
@@ -32,7 +32,7 @@ final class Contact extends AbstractNormForm {
     /**
      * IMAR Constructor.
      *
-     * Ruft den Constructor der Klasse TNormform auf.
+     * Ruft den Constructor der Klasse AbstractNormform auf.
      */
     public function __construct(View $defaultView, $templateDir = "templates", $compileDir = "templates_c") {
         parent::__construct($defaultView, $templateDir, $compileDir);
@@ -104,7 +104,9 @@ final class Contact extends AbstractNormForm {
         $this->currentView->setParameter(new PostParameter(Contact::REQUEST, true));
         $this->currentView->setParameter(new PostParameter(Contact::EMAIL, true));
         $this->currentView->setParameter(new PostParameter(Contact::PRIORITY, true));
-    }    /**
+    }
+
+    /**
      * Verarbeitet die Benutzereingaben, die mit POST geschickt wurden
      * Wenn alles gut geganden ist, wird eine Statusmeldung geschrieben, ansonsten eine Fehlermeldung.
      *

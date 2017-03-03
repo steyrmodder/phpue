@@ -3,7 +3,7 @@
     <section class="Section">
         <div class="Container">
             <h2 class="Section-heading">Contact</h2>
-            {include file="errorMessages.tpl.tpl"}
+            {include file="errorMessages.tpl"}
             {include file="contactForm.tpl"}
         </div>
     </section>
