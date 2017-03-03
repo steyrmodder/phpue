@@ -166,11 +166,11 @@ final class Register extends AbstractNormForm
     {
         //--
         return require '../../phpuesolution/register/isUnique.inc.php';
-
         //*/
+
         /*##
         return true;
-        */##
+        //*/
     }
 
     /**
@@ -184,9 +184,10 @@ final class Register extends AbstractNormForm
         //--
         return require '../../phpuesolution/register/addUser.inc.php';
         //*/
+
         /*##
         return true;
-        */##
+        //*/
     }
 }
 

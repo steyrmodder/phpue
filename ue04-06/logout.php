@@ -6,10 +6,10 @@
  */
 session_start();
 require_once 'includes/defines.inc.php';
-require_once UTILITIES;
+require_once REDIRECT;
 $_SESSION = array();
 if (isset($_COOKIE[session_name()])) {
 setcookie(session_name(), "", time() - 86400, "/");
 }
 session_destroy();
-Utilities::redirectTo();
+Redirect::redirectTo();

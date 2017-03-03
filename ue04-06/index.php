@@ -13,6 +13,8 @@ require_once("../includes/https-redirect.inc.php");
 
 require_once UTILITIES;
 
+require_once REDIRECT;
+
 /**
  * Einbinden der Klasse TNormform, die die Formularabläufe festlegt. Bindet auch Utilities.php ein.
  */
@@ -241,7 +243,7 @@ final class IMAR extends AbstractNormForm
 
         /*##
         return true;
-        */##
+        //*/
     }
 
     /**
@@ -257,11 +259,10 @@ final class IMAR extends AbstractNormForm
         // Dieser Wert wird zurückgegeben, wenn man die Methode nicht implementiert.
         $imagePath = FileAccess::IMAGE_DIRECTORY . "your_random_filename_here.jpg";
         //--
-        return require '../../phpuesolution/index/generateUniqueImagePath.inc.php';
+        require '../../phpuesolution/index/generateUniqueImagePath.inc.php';
         //*/
-        /*##
+
         return $imagePath;
-        */##
     }
 }
 
@@ -272,6 +273,8 @@ final class IMAR extends AbstractNormForm
  * Bei PHP-Exception wird vorerst nur auf eine allgemeine Errorpage weitergeleitet
  */
 try {
+    Redirect::redirectTo();
+
     $view = new View(View::FORM, "indexMain.tpl", [
         new GenericParameter("imageUpload", IMAR::IMAGE_UPLOAD),
         new GenericParameter("maxFileSizeValue", IMAR::MAX_FILE_SIZE_VALUE),
