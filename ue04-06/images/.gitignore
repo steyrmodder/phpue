@@ -1,0 +1,9 @@
+# We want images to be empty since content files are not meant to be added to version control
+# Yet, Git does not track empty directories, so this file serves the purpose that something is in it
+
+# Exclude all the files in this directory
+*
+
+# But of course, keep .gitignore and the thumbs subdirectory
+!.gitignore
+!thumbs
