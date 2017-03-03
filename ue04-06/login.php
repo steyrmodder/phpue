@@ -1,5 +1,4 @@
 <?php
-
 session_start();
 
 /**
@@ -7,18 +6,20 @@ session_start();
  */
 require_once("includes/defines.inc.php");
 /**
- * Einbinden des Session-Handlings und der Umleitung auf HTTPS (Port 443)
+ * Einbinden der Umleitung auf HTTPS (Port 443)
  */
-require_once("../includes/https-redirect.inc.php");
-
-require_once UTILITIES;
-
 require_once REDIRECT;
+
+/**
+ * Einbinden einer statischen Hilfsklasse mit Methoden zur Email-Überprüfung, Passwort-Überprüfung, ...
+ */
+require_once UTILITIES;
 
 /**
  * Einbinden der Klasse TNormform, die die Formularabläufe festlegt. Bindet auch Utilities.php ein.
  */
 require_once NORMFORM;
+
 /**
  * Einbinden der Datei-Zugriffs-Klasse  FileAccess, die die Dateizugriffe implementiert
  */
@@ -63,42 +64,6 @@ final class Login extends AbstractNormForm
         //*/
     }
 
-    /**
-     * Weist die Inhalte der Smarty-Variablen zu. @see templates/loginMain.tpl
-     *
-     * Die Keys für das $_POST-Array werden gesetzt.
-     * Nur die eingegebene emailValue wird dem Benutzer im Fehlerfall wieder angezeigt.
-     *
-     * Abstracte Methode in der Klasse TNormform und muss daher hier implementiert werden
-     */
-    /*protected function prepareFormFields()
-    {
-        $this->smarty->assign("emailKey", self::EMAIL);
-        $this->smarty->assign("passwordKey", self::PASSWORD);
-        //--
-        require '../../phpuesolution/login/prepareFormFields.inc.php';
-        //*/
-    //}
-
-    /**
-     * Zeigt die Seite mittels Smarty Templates an
-     *
-     * Abstracte Methode in der Klasse TNormform und muss daher hier implementiert werden
-     */
-    /*protected function display()
-    {
-        $this->smarty->display('loginMain.tpl');
-    }*/
-
-    /**
-     * Validiert den Benutzerinput nach dem Abschicken des Formulars.
-     *
-     * Fehlermeldungen werden im Array $errMsg[] gesammelt.
-     *
-     * Abstracte Methode in der Klasse TNormform und muss daher hier implementiert werden
-     *
-     * @return bool true, wenn $errMsg leer ist. Ansonsten false
-     */
     protected function isValid(): bool
     {
         //--
@@ -112,20 +77,6 @@ final class Login extends AbstractNormForm
 
         return (count($this->errorMessages) === 0);
     }
-
-    /**
-     * Verarbeitet die Benutzereingaben, die mit POST geschickt wurden
-     * Wenn alles gut geganden ist, wird eine Statusmeldung geschrieben, ansonsten eine Fehlermeldung.
-     *
-     * Abstracte Methode in der Klasse TNormform und muss daher hier implementiert werden
-     *
-     * @throws FileAccessException wird von allen $this->fileAccess Methoden geworfen und hier nicht behandelt.
-     *         Die Exception wird daher nochmals weitergereicht (throw) und erst am Ende des Scripts behandelt.
-     */
-    /*protected function process()
-    {
-        Utilities::redirectTo();
-    }*/
 
     protected function business()
     {
