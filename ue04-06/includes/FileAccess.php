@@ -1,73 +1,87 @@
 <?php
-/*
- * Einbinden der Klasse für die Filezugriff-Exception
- */
-require_once 'FileAccessException.php';
+
+require_once("FileAccessException.php");
 
 /**
- * Die objektorientierte FileAccess-Klasse implentiert Basisfunktionen für das Lesen und Schreiben von Files.
+ * Implements base functionality for reading data from an file and writing data back to it.
  *
- * Umgesetzt sind alle für die IMAR-Übungen notwendigen Basisfunktionen des Filezugriffs
+ * This class is already fully functional with everything in it to create a two dimensional array for images and user
+ * data from a JSON file as well as write a JSON file with the same kind of data. This class also handles functionality
+ * of uploads. Methods using exception handling are included for demonstration purposes.
  *
- * Teile sind doppelt implementiert. Einmal mit und einmal ohne Exceptions.
- *
+ * @author Wolfgang Hochleitner <wolfgang.hochleitner@fh-hagenberg.at>
  * @author Martin Harrer <martin.harrer@fh-hagenberg.at>
- * @package imar
- * @version 2016
+ * @version 2017
  */
 class FileAccess
 {
+    /**
+     * @var string DATA_DIRECTORY Sets the directory where the meta data (JSON files) for images and users is stored.
+     */
     const DATA_DIRECTORY = "data/";
 
+    /**
+     * @var string IMAGE_DATA_PATH The full path for the images meta data JSON file.
+     */
     const IMAGE_DATA_PATH = self::DATA_DIRECTORY . "imagedata.json";
 
+    /**
+     * @var string USER_DATA_PATH The full path for the user meta data JSON file.
+     */
     const USER_DATA_PATH = self::DATA_DIRECTORY . "userdata.json";
 
     /**
-     * @var string IMAGE_DIR Path where uploaded images are stored.
+     * @var string IMAGE_DIRECTORY Path where uploaded images are stored.
      */
     const IMAGE_DIRECTORY = "images/";
 
     /**
-     * @var string THUMB_DIR Path where generated thumbnails are stored.
+     * @var string THUMBNAIL_DIRECTORY Path where generated thumbnails are stored.
      */
     const THUMBNAIL_DIRECTORY = self::IMAGE_DIRECTORY . "thumbs/";
 
     /**
-     * Erzeugt ein neues FileAcess-Objekt.
+     * Creates a new FileAccess object.
      */
     public function __construct()
     {
+        // Intentionally left empty.
     }
 
     /**
-     * Lädt den Inhalt eines Files in ein Array. Jede Zeile im File ist ein Eintrag im Array.
-     *
-     * @param $filename Das auszulesende File
-     * @return array|bool Gibt im Gutfall das Array mit dem Fileinhalt zurück, im Fehlerfall FALSE.
+     * Loads the contents of a JSON file into an according two-dimensional array. Works with both image meta data and
+     * user meta data. The method uses file_get_contents to read the whole file into a string and the create an array
+     * using json_decode. A file lock has to be obtained since file_get_contents does not implement this by itself.
+     * @param string $filename The file that is to be read.
+     * @return array Returns a two-dimensional array with the information of the JSON file. The array keys are the JSON
+     * keys.
      */
-    public function loadContents($filename): array
+    public function loadContents(string $filename): array
     {
+        $data = [];
         if (file_exists($filename)) {
-            return json_decode(file_get_contents($filename), true) ?? [];
+            $fp = fopen($filename, "r");
+            $lock = flock($fp, LOCK_SH);
+            if ($lock) {
+                $data = json_decode(file_get_contents($filename), true) ?? [];
+            }
+            flock($fp, LOCK_UN);
+            fclose($fp);
         }
-        return [];
+        return $data;
     }
 
     /**
-     * Schreibt eine Datenzeile ans Ende eines Files.
-     *
-     * fopen öffnet ein File ("a" steht für append).
-     * flock setzt eine exclusive Sperre (LOCK_EX) oder hebt sie auf (LOCK_UN).
-     * fclose schließt das File.
-     *
-     * @param $filename File, an dessen Ende eine Zeile angehängt wird
-     * @param $line Zeile, die ans Ende des Files geschrieben wird
-     * @return bool TRUE, wenn das Schreiben erfolgreich ist. Sonst FALSE
+     * Writes a two-dimensional array of data into a JSON file. Works with both image meta data and user meta data. The
+     * method uses file_put_contents to write a string into a file that is being created by json_encode. JSON output is
+     * pretty printed, an exclusive file lock is obtain to avoid problems with concurrent access.
+     * @param string $filename The file to be written.
+     * @param array $data The array of data that is read.
+     * @return bool Returns true if the operation was successful, otherwise false.
      */
-    public function storeContents($filename, $data)
+    public function storeContents(string $filename, array $data): bool
     {
-        $bytes = file_put_contents($filename, json_encode($data, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT));
+        $bytes = file_put_contents($filename, json_encode($data, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT), LOCK_EX);
 
         if ($bytes > 0) {
             return true;
@@ -76,15 +90,13 @@ class FileAccess
     }
 
     /**
-     * Erzeugt eine AutoincrementID für das übergebende File. Voraussetzung ist, dass das Speicherformat JSON ist.
-     * Beispielsatz:
-     * {"iduser":1,"last_name":"user1","email":"testuser1@imar.com","password1":"$2y$10$HnuoGwu0u.heReSaV8D\/DOHpAAvZSi40p0DJA1lK6ViToam4M7gwy"}
-     *
-     * @param $filename File, für das eine AutoincrementID erzeugt werden soll.
-     * @param $idName ID-Name, im Beispielsatz: iduser.
-     * @return int die AutoincrementID, die ermittelt wurde.
+     * Creates an auto-increment ID for a given file. The file is opened and all data stored under the key $idName is
+     * retrieved. This data is then searched for the highest ID value. This value is incremented by one and returned.
+     * @param string $filename The file containing IDs where an auto-increment ID should be generated.
+     * @param string $idName The name of the fields containing the ID values.
+     * @return int Returns an auto-increment ID.
      */
-    public function autoincrementID($filename, $idName): int
+    public function autoincrementID(string $filename, string $idName): int
     {
         if (file_exists($filename)) {
             $data = $this->loadContents($filename);
@@ -95,39 +107,39 @@ class FileAccess
     }
 
     /**
-     * Gibt an, ob ein Upload erfolreich war.
-     *
-     * @param string $name Der Name des Feldes im $_FILES-Array.
-     * @return bool Gibt <pre>true</pre> zurück, wenn der Upload okay war, ansonsten <pre>false</pre>.
+     * Checks if a file upload was successful. In order to be successful, the "error" entry in $_FILES has to equal 0.
+     * @see FileAccess::interpretError() Use this method if uploadOkay returns false, to see which error has occurred.
+     * @param string $name The name of the entry in the $_FILES array.
+     * @return bool Returns true if the upload was successful, otherwise false.
      */
-    public function uploadOkay($name)
+    public function uploadOkay(string $name): bool
     {
-        return ($_FILES[$name]["error"] === 0);
+        return ($_FILES[$name]["error"] === UPLOAD_ERR_OK);
     }
 
     /**
-     * Verschiebt ein hochgeladenes Files vom temporären Upload-Ornder in einen angegebenen Ordner.
-     *
-     * @param $file Name des Upload-Feldes
-     * @param $filePath Pfad an den das hochgeladene File verschoben werden soll
-     * @return bool Gibt im Gutfall TRUE zurück, ansonsten FALSE.
+     * Moves an uploaded file to its final destination in the file system. The method first checks if the file was
+     * uploaded via HTTP POST and then moves it to the specified destination.
+     * @param string $name The name of the entry in the $_FILES array.
+     * @param string $destination The file's destination path.
+     * @return bool Returns true if the operation was successful, otherwise false.
      */
-    public function storeUploadedFile($file, $filePath)
+    public function storeUploadedFile(string $name, string $destination): bool
     {
-        if (is_uploaded_file($_FILES[$file]["tmp_name"])) {
-            return move_uploaded_file($_FILES[$file]["tmp_name"], "$filePath");
+        if (is_uploaded_file($_FILES[$name]["tmp_name"])) {
+            return move_uploaded_file($_FILES[$name]["tmp_name"], "$destination");
         } else {
             return false;
         }
     }
 
     /**
-     * Gibt einen passenden Fehlercode zurück, wenn beim Upload ein Fehler auftritt
-     *
-     * @param $name Name des Upload-Feldes
-     * @return string
+     * Generates meaningful error messages when a file upload error has occurred. Does not return a message if the
+     * upload was successful (UPLOAD_ERR_OK).
+     * @param string $name The name of the entry in the $_FILES array.
+     * @return string The appropriate error message.
      */
-    public function interpretError($name)
+    public function interpretError(string $name): string
     {
         $errorCode = $_FILES[$name]["error"];
         $errorMessage = "";
@@ -156,72 +168,78 @@ class FileAccess
         return $errorMessage;
     }
 
-    /**
-     * Start für Methoden, die Exceptions nutzen
-     */
+
+    // Examples on how to use exceptions in some of the above methods
 
     /**
-     * Diese Klasse lädt den Inhalt eines Files in ein Array und gibt dieses zurück.
-     *
-     * @param string $filename File, in das geschrieben werden soll
-     * @return array enthält den Inhalt des ausgelesenen Files. Jede Zeile im Array entspricht einer Zeile im File
-     *
-     * @throws FileAccessException Wenn das File nicht existiert wird eine Exception geworfen
+     * Loads the contents of a JSON file into an according two-dimensional array. Works with both image meta data and
+     * user meta data. The method uses file_get_contents to read the whole file into a string and the create an array
+     * using json_decode. A file lock has to be obtained since file_get_contents does not implement this by itself.
+     * @param string $filename The file that is to be read.
+     * @return array Returns a two-dimensional array with the information of the JSON file. The array keys are the JSON
+     * keys.
+     * @throws FileAccessException Throws an exception if the file could not be locked or does not exist.
      */
-    public function loadContentsWithException($filename)
+    public function loadContentsWithException(string $filename): array
     {
         if (file_exists($filename)) {
-            return json_decode(file_get_contents($filename), true) ?? [];
+            $fp = fopen($filename, "r");
+            $lock = flock($fp, LOCK_SH);
+            if ($lock) {
+                $data = json_decode(file_get_contents($filename), true) ?? [];
+            } else {
+                $message = "Could not get lock on $filename";
+                $formattedError = $this->debugFileError($message);
+                throw new FileAccessException($formattedError);
+            }
+            flock($fp, LOCK_UN);
+            fclose($fp);
+            return $data;
+        } else {
+            $message = "File $filename is missing.";
+            $formattedError = $this->debugFileError($message);
+            throw new FileAccessException($formattedError);
         }
-        $message = "File $filename is missing";
-        $formatedError = $this->debugFileError($message);
-        throw new FileAccessException($formatedError);
     }
 
     /**
-     * Schreibt eine Datenzeile ans Ende eines Files.
-     *
-     * fopen öffnet ein File ("a" steht für append).
-     * flock setzt eine exclusive Sperre (LOCK_EX) oder hebt sie auf (LOCK_UN).
-     * fclose schließt das File.
-     *
-     * @param $filename File, an dessen Ende eine Zeile angehängt wird
-     * @param $line Zeile, die ans Ende des Files geschrieben wird
-     * @return bool TRUE, wenn das Schreiben erfolgreich ist. Sonst FALSE
-     *
-     * @throws FileAccessException, wenn beim Schreiben ein Fehler auftritt
+     * Writes a two-dimensional array of data into a JSON file. Works with both image meta data and user meta data. The
+     * method uses file_put_contents to write a string into a file that is being created by json_encode. JSON output is
+     * pretty printed, an exclusive file lock is obtain to avoid problems with concurrent access.
+     * @param string $filename The file to be written.
+     * @param array $data The array of data that is read.
+     * @return bool Returns true if the operation was successful, otherwise false.
+     * @throws FileAccessException Throws an exception when writing was not successful.
      */
-    public function storeContentsWithExceptions($filename, $line)
+    public function storeContentsWithExceptions(string $filename, array $data): bool
     {
-        $bytes = file_put_contents($filename, json_encode($data, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT));
+        $bytes = file_put_contents($filename, json_encode($data, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT), LOCK_EX);
 
         if ($bytes > 0) {
-            return;
+            return true;
         }
-        $message = "File $filename is missing";
-        $formatedError = $this->debugFileError($message);
-        throw new FileAccessException($formatedError);
+        $message = "Could not write $filename.";
+        $formattedError = $this->debugFileError($message);
+        throw new FileAccessException($formattedError);
     }
 
     /**
-     * Für die FileAccess-Fehlerausgabe in einer statischen DEBUG Error Page formatieren wir die Fehler Meldung etwas schöner,
-     * vergeben Namen für die Werte und ergänzen sie um den PHP Call Stack
-     *
-     * Leitet auf errorpage.html weiter bei DEBUG = FALSE @see includes/defines.inc.php
-     *
-     * @return string $formatedError Gibt bei DEBUG = TRUE eine formatierte Errorpage mit dem fehlerhaften SQL-Statement, der SQL-Fehlermeldung und dem PHP Call Stack zurück.
+     * Formats error messages for DEBUG error pages in a nicer way. Values receive names and the PHP call stack is
+     * added. This method redirects to errorpage.html if DEBUG = false is set in defines.inc.php.
+     * @param string $message The message to be included in the debug output.
+     * @return string The formatted message. If DEBUG = true is set a formatted error page is returned.
      */
-    public function debugFileError($message)
+    public function debugFileError(string $message): string
     {
-        // PHP Call Stack vom Ausgabepuffer in eine Zwischenvariable schreiben und leeren, sodass nichts mehr direkt in den Browser ausgegeben wird
+        // Write the PHP call stack from the buffer into a temporary variable and clears it so that nothing is shown
         ob_start();
         debug_print_backtrace();
         $out2 = ob_get_contents();
-        // Das Ganze noch etwas lesbarer formatieren
-        $phpcallstack = str_replace('#', '<br>#', $out2);
+        // Format it in a more readable way
+        $phpCallStack = str_replace('#', '<br>#', $out2);
         ob_clean();
-        // Statische DEBUG Error Page erstellen, die statt des Smarty Templates ausgegeben wird
-        $formatedError = <<<ERRORPAGE
+        // Create a static DEBUG error page that is shown instead of a template
+        $formattedError = <<<ERRORPAGE
         <!DOCTYPE html>
             <html lang="en">
                 <head>
@@ -231,32 +249,31 @@ class FileAccess
                 <body>
                     <div>
                         <h2> DEBUG Error Page for $_SERVER[SCRIPT_NAME] </h2>
-                            <p><b> To hide error messages and redirect to errorpage.html set DEBUG = FALSE in normform/define.inc.php </b></p>
-                            <b style='color: #FF0000;'> Please correct the following File Error </b><br>
-                            <br>$message
-                            <br><br><b>PHP Call Stack:</b><br>
-                            $phpcallstack
-                            <br><br><b>For more Information see:</b> 
-                            <a href='http://www.php.net/manual/en/' target='_blank'>PHP Documentation</a>
+                            <p><strong>To hide error messages and redirect to errorpage.html,
+                            set DEBUG = FALSE in define.inc.php</strong></p>
+                            <p><strong style='color: #FF0000;'> Please correct the following File Error:</strong><br>
+                            $message</p>
+                            <p><strong>PHP Call Stack:</strong><br>
+                            $phpCallStack</p>
+                            <p><strong>For more information see:</strong>
+                            <a href='http://www.php.net/manual/en/' target='_blank'>PHP Documentation</a></p>
                     </div>
                 </body>
             </html>
 ERRORPAGE;
 
         if (DEBUG) {
-            // Fehlerbeschreibung an catch-Block weiterreichen.
-            // Wird mit throw im catch-Block nochmals als DatabaseException weitergereicht und dann mit echo ausgegeben
-            return $formatedError;
+            // Return the error message back to the catch block
+            // Can be passed on using throw in the catch block as DatabaseException and printed using echo.
+            return $formattedError;
         } else {
-            // In error_log schreiben, um Fehler nicht im Browser anzuzeigen
-            // Wenn keine Zieldatei und in php.ini bei error_log nichts angegeben wird,
-            // schreibt error_log() bei XAMPP unter Windows nach <xamppdir>/apache/logs/error.log
-            error_log($formatedError, 0);
-            // Umlenken auf eine neutrale Errorseite, die den Benutzer über das Problem informiert
-            // Diesen Zweig kann man testen, indem man die Datenbank nicht startet und DEBUG=false setzt @see includes/defines.inc.php
-            header("Location: https://localhost/onlineshop/errorpage.html");
+            // Writes using error_log so that errors are hidden in the browser
+            // Default output for XAMPP is <xamppdir>/apache/logs/error.log if no target file is specified
+            error_log($formattedError, 0);
+            // Redirects to a neutral error page that informs the user about the problem
+            // Test it by not starting the database and set DEBUG = false
+            header("Location: ../includes/errorpage.html");
             exit;
         }
     }
-
 }

@@ -65,11 +65,6 @@ define("FILEACCESS", "includes/FileAccess.php");
  */
 define("IMAGE_CLASS", "includes/Image.php");
 
-/**
- * @var string XML_ADDRESS_PATH Path where the addressbook XML-file is stored.
- */
-define("XML_ADDRESS_PATH", "data/addresses.xml");
-
 
 // Session fields
 
@@ -84,9 +79,9 @@ define("USERNAME", "username");
 define("IS_LOGGED_IN", "is_logged_in");
 
 /**
- * @var array REDIRECT_PAGES Array with pages for IMAR and OnlineShop that are protected through the login mechanism.
+ * @var array REDIRECT_PAGES Array with pages that are protected through the login mechanism.
  */
-define("REDIRECT_PAGES", ["index.php"]); // phpue
+define("REDIRECT_PAGES", ["index.php"]);
 
 
 // Header forwards
