@@ -11,6 +11,8 @@ require_once("includes/defines.inc.php");
  */
 require_once("../includes/https-redirect.inc.php");
 
+require_once REDIRECT;
+
 require_once UTILITIES;
 
 /**
@@ -139,7 +141,7 @@ final class Register extends AbstractNormForm
     /*protected function process()
     {
         if ($this->addUser()) {
-            Utilities::redirectTo(LOGIN);
+            Utilities::protectPage(LOGIN);
         } else {
             $this->errorMessages['database'] = 'User could not be added. Please contact Support Team!';
         }
@@ -148,9 +150,9 @@ final class Register extends AbstractNormForm
     protected function business()
     {
         if ($this->addUser()) {
-            Utilities::redirectTo(LOGIN);
+            Redirect::redirectTo(LOGIN);
         } else {
-            $this->errorMessages['database'] = 'User could not be added. Please contact Support Team!';
+            $this->errorMessages["database"] = 'User could not be added. Please contact Support Team!';
         }
     }
 
@@ -198,6 +200,8 @@ final class Register extends AbstractNormForm
  * Bei PHP-Exception wird vorerst nur auf eine allgemeine Errorpage weitergeleitet
  */
 try {
+    Redirect::protectPage();
+
     $view = new View(View::FORM, "registerMain.tpl", [
         new PostParameter(Register::USERNAME),
         new PostParameter(Register::EMAIL),

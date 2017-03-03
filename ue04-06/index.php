@@ -6,6 +6,8 @@ session_start();
  */
 require_once("includes/defines.inc.php");
 
+require_once("../includes/https-redirect.inc.php");
+
 /**
  * Einbinden des Session-Handlings und der Umleitung auf HTTPS (Port 443)
  */
@@ -227,7 +229,7 @@ final class IMAR extends AbstractNormForm
  * Bei PHP-Exception wird vorerst nur auf eine allgemeine Errorpage weitergeleitet
  */
 try {
-    Redirect::redirectTo();
+    Redirect::protectPage();
 
     $view = new View(View::FORM, "indexMain.tpl", [
         new GenericParameter("imageUpload", IMAR::IMAGE_UPLOAD),

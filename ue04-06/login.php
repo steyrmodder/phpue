@@ -5,6 +5,9 @@ session_start();
  * Einbinden der define-Angaben für IMAR
  */
 require_once("includes/defines.inc.php");
+
+require_once("../includes/https-redirect.inc.php");
+
 /**
  * Einbinden der Umleitung auf HTTPS (Port 443)
  */
@@ -84,7 +87,7 @@ final class Login extends AbstractNormForm
         require '../../phpuesolution/login/business.inc.php';
         //*/
 
-        Redirect::redirectTo();
+        Redirect::protectPage();
     }
 
     private function authenticateUser()
@@ -108,7 +111,7 @@ final class Login extends AbstractNormForm
  * Umlenken auf index.php falls man bereits eingeloggt ist
  */
 try {
-    Redirect::redirectTo("bla.php");
+    Redirect::protectPage("bla.php");
 
     $view = new View(View::FORM, "loginMain.tpl", [
         new PostParameter(Login::USERNAME),

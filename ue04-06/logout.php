@@ -6,10 +6,13 @@
  */
 session_start();
 require_once 'includes/defines.inc.php';
+require_once("../includes/https-redirect.inc.php");
 require_once REDIRECT;
-$_SESSION = array();
+
+$_SESSION = [];
 if (isset($_COOKIE[session_name()])) {
-setcookie(session_name(), "", time() - 86400, "/");
+    setcookie(session_name(), "", time() - 86400, "/");
 }
 session_destroy();
-Redirect::redirectTo();
+
+Redirect::redirectTo(LOGIN);
