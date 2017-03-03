@@ -13,6 +13,8 @@ require_once("../includes/https-redirect.inc.php");
 
 require_once UTILITIES;
 
+require_once REDIRECT;
+
 /**
  * Einbinden der Klasse TNormform, die die Formularabläufe festlegt. Bindet auch Utilities.php ein.
  */
@@ -39,21 +41,8 @@ final class Login extends AbstractNormForm
      * @var string EMAIL Key für $_POST-Array
      * @var string PASSWORD Key für $_POST-Array
      */
-    const EMAIL = "email";
-    const PASSWORD = "password1";
-
-    /**
-     * Konstanten für das $_SESSION-Array, um Werte, die aus @see /phpue/imar/data/userdata.txt gelesen werden, zu speichern
-     *
-     * @var string IDUSER
-     * @var string USERNAME
-     * @var string LASTNAME
-     */
-    const IDUSER = "iduser";
-    const FIRSTNAME = "first_name";
-    const LASTNAME = "last_name";
-
-
+    const USERNAME = "username";
+    const PASSWORD = "password";
 
     /**
      * @var string $fileAccess Filehandler für den Filezugriff
@@ -118,6 +107,9 @@ final class Login extends AbstractNormForm
         /*##
         $this->authenticateUser();
         //*/
+
+        $this->currentView->setParameter(new GenericParameter("errorMessages", $this->errorMessages));
+
         return (count($this->errorMessages) === 0);
     }
 
@@ -137,25 +129,22 @@ final class Login extends AbstractNormForm
 
     protected function business()
     {
-        Utilities::redirectTo();
+        //--
+        require '../../phpuesolution/login/business.inc.php';
+        //*/
+
+        Redirect::redirectTo();
     }
 
     private function authenticateUser()
     {
-        /*##
-        $_SESSION['iduser'] = 1;
-        $_SESSION[IS_LOGGED_IN] = sha1($_SERVER["REMOTE_ADDR"] . $_SERVER["HTTP_USER_AGENT"] . $_SESSION['iduser']);
-        $_SESSION['first_name'] = 'John';
-        $_SESSION['last_name'] = 'Doe';
-        //*/
         //--
-        require '../../phpuesolution/login/authenticateUser.inc.php';
+        return require '../../phpuesolution/login/authenticateUser.inc.php';
         //*/
-        if (isset($_SESSION[IS_LOGGED_IN])) {
-            return true;
-        } else {
-            return false;
-        }
+
+        /*##
+        return true;
+        //*/
     }
 }
 
@@ -168,8 +157,10 @@ final class Login extends AbstractNormForm
  * Umlenken auf index.php falls man bereits eingeloggt ist
  */
 try {
+    Redirect::redirectTo("bla.php");
+
     $view = new View(View::FORM, "loginMain.tpl", [
-        new PostParameter(Login::EMAIL),
+        new PostParameter(Login::USERNAME),
         new GenericParameter("passwordKey", Login::PASSWORD)
     ]);
 

@@ -41,6 +41,11 @@ define("NORM_DIR", "../vendor/normform/");
 define("UTILITIES", "../includes/Utilities.php");
 
 /**
+ * @var string REDIRECT Path to the Redirect class.
+ */
+define("REDIRECT", "includes/Redirect.php");
+
+/**
  * @var string NORMFORM Path to the NormForm class.
  */
 define("NORMFORM", NORM_DIR . "AbstractNormForm.php");
