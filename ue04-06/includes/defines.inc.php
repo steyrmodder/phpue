@@ -61,9 +61,9 @@ define("CSS_DIR", NORM_DIR . "css");
 define("FILEACCESS", "includes/FileAccess.php");
 
 /**
- * @var string IMAGE_CLASS Path to the Image class.
+ * @var string IMAGE_CLASS Path to the ImageProcessing class.
  */
-define("IMAGE_CLASS", "includes/Image.php");
+define("IMAGE_CLASS", "includes/ImageProcessing.php");
 
 
 // Session fields

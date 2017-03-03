@@ -27,7 +27,7 @@ require_once NORMFORM;
  */
 require_once FILEACCESS;
 /**
- * Einbinden der Imageverarbeitungs-Klasse Image
+ * Einbinden der Imageverarbeitungs-Klasse ImageProcessing
  */
 require_once IMAGE_CLASS;
 
