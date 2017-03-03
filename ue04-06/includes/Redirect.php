@@ -12,12 +12,10 @@ class Redirect
      * Umleitung auf eine Seite, die im gleichen Verzeichnis gespeichert ist
      * Gesteuert wird die Funktion über das vordefinierte Array REDIRECT_PAGES in defines.inc.php von IMAR oder Onlineshop mit Seiten, die durch ein Login geschützt werden sollen
      * Es wird $_SERVER['SCRIPT_NAME'] verwendet, weil es im Gegensatz zu $_SERVER['PHP_SELF'] an die URL angehängte GET-Parameter nicht enthält (Forced Browsing verhindern)
-     * Usage: Utilities::redirectTo($page);
+     * Usage: Utilities::redirectTo();
      *
-     * @var string $page ist optional und gibt die Seite an, auf die umgelenkt werden soll.
-     *                   Für die Standardabläufe für die geschützen Seiten ist $page leer.
      */
-    public static function redirectTo(string $page = null)
+    public static function redirectTo()
     {
         $redirect = false;
         // Falls keine spezielle Seite in $page übergeben wurde, wird das aufrufende Script verwendet
@@ -26,12 +24,12 @@ class Redirect
         }
         // Entscheiden, ob eine Umlenkung notwendig ist
         switch ($page) {
-            case 'logout.php':
+            case LOGOUT:
                 // Nach dem Ausloggen wird die Startseite angezeigt
                 $page = INDEX;
                 $redirect = true;
                 break;
-            case 'login.php':
+            case LOGIN:
                 if (isset($_SESSION[IS_LOGGED_IN]) && strcmp($_SESSION[IS_LOGGED_IN],
                         sha1($_SERVER["REMOTE_ADDR"] . $_SERVER["HTTP_USER_AGENT"])) === 0
                 ) {
@@ -73,15 +71,10 @@ class Redirect
                 $redirect = false;
         }
         if ($redirect) {
-            if (isset($_SERVER["HTTPS"]) && strcmp($_SERVER["HTTPS"], "on") === 0) {
-                $schema = "https";
-            } else {
-                $schema = "http";
-            }
             $host = $_SERVER['SERVER_NAME'];
             $port = $_SERVER['SERVER_PORT'];
             $uri = trim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
-            $location = "Location: $schema://$host:$port/$uri/$page";
+            $location = "Location: $host:$port/$uri/$page";
             // Umlenkung wird hier schon auf https durchgeführt, damit es nicht zu einer zweiten Umlenkung in session.inc.php kommt
             header("$location");
             exit;
