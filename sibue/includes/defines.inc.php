@@ -49,3 +49,8 @@ define("NORMFORM", NORM_DIR . "AbstractNormForm.php");
  */
 define("CSS_DIR", NORM_DIR . "css");
 
+/**
+ * @var string SOLUTION Path to the Solution (not visible for students)
+ */
+define ("SOLUTION", "c:/Users/p20137/Documents/GitHub/phpuesolution/");
+

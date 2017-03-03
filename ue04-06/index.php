@@ -1,19 +1,20 @@
 <?php
-
 session_start();
 
 /**
  * Einbinden der define-Angaben für IMAR
  */
 require_once("includes/defines.inc.php");
+
 /**
  * Einbinden des Session-Handlings und der Umleitung auf HTTPS (Port 443)
  */
-require_once("../includes/https-redirect.inc.php");
-
-require_once UTILITIES;
-
 require_once REDIRECT;
+
+/**
+ * Einbinden einer statischen Hilfsklasse mit Methoden zur Email-Überprüfung, Passwort-Überprüfung, ...
+ */
+require_once UTILITIES;
 
 /**
  * Einbinden der Klasse TNormform, die die Formularabläufe festlegt. Bindet auch Utilities.php ein.
@@ -91,35 +92,6 @@ final class IMAR extends AbstractNormForm
     }
 
     /**
-     * Weist die Inhalte der Smarty-Variablen zu. @see templates/indexMain.tpl
-     *
-     * Gibt die Namen der Eingabefelder <input type='text' name='' ... > usw. und damit die Keynamen des Array $_POST vor.
-     * Image Author, Image Title und die Checkbox Watermark werden im Fehlerfall mit den vom Benutzer eingegebenen Werten wieder befüllt.
-     *
-     * Das Array images wird mit allen Einträgen des Files data/imagedata.txt befüllt. @see getImages()
-     * Das geschieht in diesem Beispiel in prepareFormFields(), weil die Bilder bei ersten Aufruf gleichzeitig mit
-     * dem Formular angezeigt werden. Neu hochgeladene Bilder werden im Gutfall unter dem Formular angezeigt -
-     * zusammen mit den bereits früher hochgeladenen.
-     * Möchte man das Ergebnis getrennt vom Formular anzeigen, müsste man @see process() mit header() verlassen und auf eine Resultpage verzweigen,
-     * auf der das Ergebnis angezeigt wird. Dann wird der Aufruf von @see show() nicht mehr erreicht in @see TNormform::normForm()
-     *
-     * Abstracte Methode in der Klasse TNormform und muss daher hier implementiert werden
-     */
-    /*protected function prepareFormFields()
-    {
-        $this->smarty->assign("imagenameKey", self::IMAGE_UPLOAD);
-        $this->smarty->assign("maxfilesizeKey", self::MAX_FILE_SIZE);
-        $this->smarty->assign("maxFileSizeValue", self::MAX_FILE_SIZE_VALUE);
-        $this->smarty->assign("imageauthorKey", self::IMAGE_AUTHOR);
-        $this->smarty->assign("imagetitleKey", self::IMAGE_TITLE);
-        $this->smarty->assign("watermarkKey", self::WATERMARK);
-        //--
-        require '../../phpuesolution/index/prepareFormFields.inc.php';
-        //*/
-    //$this->smarty->assign("images", $this->getImages());
-    //}*/
-
-    /**
      * Zeigt die Seite mittels Smarty Templates an
      *
      * Abstracte Methode in der Klasse TNormform und muss daher hier implementiert werden
@@ -153,24 +125,6 @@ final class IMAR extends AbstractNormForm
 
         return (count($this->errorMessages) === 0);
     }
-
-    /**
-     * Verarbeitet die Benutzereingaben, die mit POST geschickt wurden
-     * Wenn alles gut geganden ist, wird eine Statusmeldung geschrieben, ansonsten eine Fehlermeldung.
-     *
-     * Abstracte Methode in der Klasse TNormform und muss daher hier implementiert werden
-     *
-     * @throws FileAccessException wird von allen $this->fileAccess Methoden geworfen und hier nicht behandelt.
-     *         Die Exception wird daher nochmals weitergereicht (throw) und erst am Ende des Scripts behandelt.
-     */
-    /*protected function process()
-    {
-        if ($this->addImage()) {
-            $this->statusMessage = "Your file has been uploaded successfully";
-        } else {
-            $this->errMsg ['addImage'] = "Error adding image. Please try again";
-        }
-    }*/
 
     protected function business()
     {

@@ -35,12 +35,12 @@ final class Imprint extends AbstractNormForm {
      */
     protected function prepareFormFields() {
         //##
-        $imprint = "<p>Hier sollte das Impressum stehen!</p>";
+        $this->imprint = "<p>Hier sollte das Impressum stehen!</p>";
         //*/
         /*--
         require 'solution/imprint/prepareFormFields.inc.php';
         //*/
-        $this->smarty->assign("imprint", $imprint);
+        $this->smarty->assign("imprint", $this->imprint);
 		}
 
     /**
@@ -63,14 +63,14 @@ final class Imprint extends AbstractNormForm {
      * @return bool true, wenn $errMsg leer ist. Ansonsten false
      */
     protected function isValid(): bool {
-        return (count($this->errMsg) === 0);
+        return (count($this->errorMessages) === 0);
     }
 
     /**
      * Verarbeitet die Benutzereingaben, die mit POST geschickt wurden
      * Wenn alles gut geganden ist, wird eine Statusmeldung geschrieben, ansonsten eine Fehlermeldung.
      *
-     * Abstracte Methode in der Klasse TNormform und muss daher hier implementiert werden
+     * Abstracte Methode in der Klasse AbstractNormForm und muss daher hier implementiert werden
      *
      * @throws FileAccessException wird von allen $this->fileAccess Methoden geworfen und hier nicht behandelt.
      *         Die Exception wird daher nochmals weitergereicht (throw) und erst am Ende des Scripts behandelt.
