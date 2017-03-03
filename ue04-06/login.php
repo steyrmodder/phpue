@@ -53,7 +53,7 @@ final class Login extends AbstractNormForm
     /**
      * IMAR Constructor.
      *
-     * Ruft den Constructor der Klasse TNormform auf.
+     * Ruft den Constructor der Klasse AbstractNormForm auf.
      * Erzeugt den Filehandler für den Filesystemzugriff
      */
     public function __construct(View $defaultView, $templateDir = "templates", $compileDir = "templates_c")
@@ -100,7 +100,7 @@ final class Login extends AbstractNormForm
 }
 
 /**
- * Instantiieren der Klasse Login und Aufruf der Methode TNormform::normForm()
+ * Instantiieren der Klasse Login und Aufruf der Methode AbstractNormForm::normForm()
  *
  * FileAccess-Exceptions werden erst hier abgefangen und eine formatierte DEBUG-Seite mit den Fehlermeldungen mit echo ausgegeben @see FileAcess::debugFileError()
  * Bei PHP-Exception wird vorerst nur auf eine allgemeine Errorpage weitergeleitet
