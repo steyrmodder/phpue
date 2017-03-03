@@ -51,4 +51,4 @@
         </div>
     </section>
 </main>
-{include file="footer.tpl"}
+{include file="footer.tpl" lightbox=true}

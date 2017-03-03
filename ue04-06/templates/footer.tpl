@@ -9,10 +9,12 @@
         </p>
     </div>
 </footer>
-<script src="{$smarty.const.NORM_DIR}js/lightbox.min.js" type="text/javascript"></script>
+{if isset($lightbox) && $lightbox === true}
+<script src="../vendor/jsOnlyLightbox/js/lightbox.min.js"></script>
 <script>
     var lightbox = new Lightbox();
     lightbox.load();
 </script>
+{/if}
 </body>
 </html>
