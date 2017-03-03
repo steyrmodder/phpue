@@ -56,14 +56,15 @@ final class Contact extends AbstractNormForm {
      *
      * Fehlermeldungen werden im Array $errMsg[] gesammelt.
      *
-     * Abstracte Methode in der Klasse TNormform und muss daher hier implementiert werden
+     * Abstracte Methode in der Klasse AbstractNormForm und muss daher hier implementiert werden
      *
-     * @return bool true, wenn $errMsg leer ist. Ansonsten false
+     * @return bool true, wenn $errorMessages leer ist. Ansonsten false
      */
     protected function isValid(): bool {
         //--
         require SOLUTION . 'contact/isValid.inc.php';
         //*/
+        $this->currentView->setParameter(new GenericParameter("errorMessages", $this->errorMessages));
         return (count($this->errorMessages) === 0);
     }
 
@@ -71,10 +72,7 @@ final class Contact extends AbstractNormForm {
      * Verarbeitet die Benutzereingaben, die mit POST geschickt wurden
      * Wenn alles gut geganden ist, wird eine Statusmeldung geschrieben, ansonsten eine Fehlermeldung.
      *
-     * Abstracte Methode in der Klasse TNormform und muss daher hier implementiert werden
-     *
-     * @throws FileAccessException wird von allen $this->fileAccess Methoden geworfen und hier nicht behandelt.
-     *         Die Exception wird daher nochmals weitergereicht (throw) und erst am Ende des Scripts behandelt.
+     * Abstracte Methode in der Klasse AbstractNormForm und muss daher hier implementiert werden
      */
     protected function business()
     {
