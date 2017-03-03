@@ -2,7 +2,7 @@
 /*
  * Einbinden der Klasse für die Filezugriff-Exception
  */
-require_once 'FileAccessException.class.php';
+require_once 'FileAccessException.php';
 
 /**
  * Die objektorientierte FileAccess-Klasse implentiert Basisfunktionen für das Lesen und Schreiben von Files.

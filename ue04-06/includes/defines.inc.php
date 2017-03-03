@@ -58,12 +58,12 @@ define("CSS_DIR", NORM_DIR . "css");
 /**
  * @var string FILEACCESS Path to the FileAccess class.
  */
-define("FILEACCESS", "includes/FileAccess.class.php");
+define("FILEACCESS", "includes/FileAccess.php");
 
 /**
  * @var string IMAGE_CLASS Path to the Image class.
  */
-define("IMAGE_CLASS", "includes/Image.class.php");
+define("IMAGE_CLASS", "includes/Image.php");
 
 /**
  * @var string XML_ADDRESS_PATH Path where the addressbook XML-file is stored.

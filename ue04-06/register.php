@@ -175,7 +175,7 @@ final class Register extends AbstractNormForm
 
     /**
      * Fügt die übergebenen Daten als neuen Datensatz im JSON-Format in der Datenbank ein.
-     * @see includes/FileAccess.class.php
+     * @see includes/FileAccess.php
      *
      * @return bool true, wenn beim Schreiben keine Fehler auftreten, ansonsten false
      */
