@@ -2,3 +2,7 @@
 	path = vendor/normform
 	url = git@github.com:Digital-Media/normform.git
 	branch = master
+[submodule "vendor/jsOnlyLightbox"]
+	path = vendor/jsOnlyLightbox
+	url = git@github.com:felixhagspiel/jsOnlyLightbox.git
+	branch = master
