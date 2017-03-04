@@ -1,13 +1,21 @@
 <?php
 /**
- * logout.php zerstört die Session
+ * Destroys a session and performs a logout for the current user.
  *
- * In diesem File muss für die UE nichts geändert werden
+ * The session is first continued then the superglobal S_SESSION is emptied. The session cookie is then invalidated and
+ * the call to session_destroy() is issued. After that the system redirects to the LOGIN page.
+ *
+ * @author Wolfgang Hochleitner <wolfgang.hochleitner@fh-hagenberg.at>
+ * @author Martin Harrer <martin.harrer@fh-hagenberg.at>
+ * @version 2017
  */
+
 session_start();
-require_once 'includes/defines.inc.php';
-require_once("../includes/https-redirect.inc.php");
-require_once REDIRECT;
+
+require_once("includes/defines.inc.php");
+
+require_once HTTPS_REDIRECT;
+require_once LOGIN_SYSTEM;
 
 $_SESSION = [];
 if (isset($_COOKIE[session_name()])) {
@@ -15,4 +23,4 @@ if (isset($_COOKIE[session_name()])) {
 }
 session_destroy();
 
-Redirect::redirectTo(LOGIN);
+LoginSystem::redirectTo(LOGIN);

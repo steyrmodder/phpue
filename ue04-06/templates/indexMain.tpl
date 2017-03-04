@@ -36,13 +36,14 @@
                 {foreach $images as $image}
                     <div class="Grid-cell">
                         <div class="GalleryItem">
-                            <div class="GalleryItem-thumb"><img src="{$image['thumbpath']}" alt="{$image['title']}"
-                                                                data-jslghtbx="{$image['imagepath']}"></div>
-                            <div class="GalleryItem-title"><i class="fa fa-pencil"></i>{$image['title']}</div>
-                            <div class="GalleryItem-author"><i class="fa fa-user"></i>{$image['author']}</div>
+                            <div class="GalleryItem-thumb">
+                                <img src="{$image["thumbpath"]}" alt="{$image["title"]}"
+                                     data-jslghtbx="{$image["imagepath"]}"></div>
+                            <div class="GalleryItem-title"><i class="fa fa-pencil"></i>{$image["title"]}</div>
+                            <div class="GalleryItem-author"><i class="fa fa-user"></i>{$image["author"]}</div>
                             <div class="GalleryItem-timestamp">
-                                <span class="GalleryItem-date"><i class="fa fa-calendar"></i>{$image['date']}</span>
-                                <span class="GalleryItem-time"><i class="fa fa-clock-o"></i>{$image['time']}</span>
+                                <span class="GalleryItem-date"><i class="fa fa-calendar"></i>{$image["date"]}</span>
+                                <span class="GalleryItem-time"><i class="fa fa-clock-o"></i>{$image["time"]}</span>
                             </div>
                         </div>
                     </div>

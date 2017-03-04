@@ -36,19 +36,9 @@ define("ICON", "<i class=\"fa fa-picture-o\"></i>");
 define("NORM_DIR", "../vendor/normform/");
 
 /**
- * @var string UTILITIES Path to the Utilities class.
+ * @var string NORMFORM Path to the abstract NormForm base class.
  */
-define("UTILITIES", "../includes/Utilities.php");
-
-/**
- * @var string REDIRECT Path to the Redirect class.
- */
-define("REDIRECT", "includes/Redirect.php");
-
-/**
- * @var string NORMFORM Path to the NormForm class.
- */
-define("NORMFORM", NORM_DIR . "AbstractNormForm.php");
+define("NORM_FORM", NORM_DIR . "AbstractNormForm.php");
 
 /**
  * @var string CSS_DIR Path to the CSS files provided by NormForm.
@@ -56,14 +46,29 @@ define("NORMFORM", NORM_DIR . "AbstractNormForm.php");
 define("CSS_DIR", NORM_DIR . "css");
 
 /**
- * @var string FILEACCESS Path to the FileAccess class.
+ * @var string UTILITIES Path to the Utilities class.
  */
-define("FILEACCESS", "includes/FileAccess.php");
+define("UTILITIES", "../includes/Utilities.php");
 
 /**
- * @var string IMAGE_CLASS Path to the ImageProcessing class.
+ * @var string HTTPS_REDIRECT Path to the HTTPS redirect include.
  */
-define("IMAGE_CLASS", "includes/ImageProcessing.php");
+define("HTTPS_REDIRECT", "../includes/https-redirect.inc.php");
+
+/**
+ * @var string LOGIN_SYSTEM Path to the LoginSystem class.
+ */
+define("LOGIN_SYSTEM", "includes/LoginSystem.php");
+
+/**
+ * @var string FILE_ACCESS Path to the FileAccess class.
+ */
+define("FILE_ACCESS", "includes/FileAccess.php");
+
+/**
+ * @var string IMAGE_PROCESSING Path to the ImageProcessing class.
+ */
+define("IMAGE_PROCESSING", "includes/ImageProcessing.php");
 
 
 // Session fields
@@ -79,9 +84,9 @@ define("USERNAME", "username");
 define("IS_LOGGED_IN", "is_logged_in");
 
 /**
- * @var array REDIRECT_PAGES Array with pages that are protected through the login mechanism.
+ * @var array PROTECTED_PAGES Array with pages that are protected through the login mechanism.
  */
-define("REDIRECT_PAGES", ["index.php"]);
+define("PROTECTED_PAGES", ["index.php"]);
 
 
 // Header forwards

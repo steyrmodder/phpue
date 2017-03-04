@@ -14,7 +14,7 @@ require_once UTILITIES;
 /**
  * Einbinden der Klasse TNormform, die die Formularabläufe festlegt. Bindet auch Utilities.php ein.
  */
-require_once NORMFORM;
+require_once NORM_FORM;
 
 /*
  * Das objektorientierte und templatebasierte Contact-formular setzt ein Kontaktformular um.

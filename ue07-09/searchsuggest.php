@@ -14,7 +14,7 @@ require_once TNORMFORM;
 /**
  * Einbinden der Datei-Zugriffs-Klasse  FileAccess, die die Dateizugriffe implementiert
  */
-require_once FILEACCESS;
+require_once FILE_ACCESS;
 
 /*
  * Das objektorientierte und templatebasierte Suchformular setzt eine Suche in Adressen um.

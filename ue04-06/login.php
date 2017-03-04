@@ -1,72 +1,68 @@
 <?php
 session_start();
 
-/**
- * Einbinden der define-Angaben für IMAR
- */
 require_once("includes/defines.inc.php");
 
-require_once("../includes/https-redirect.inc.php");
-
-/**
- * Einbinden der Umleitung auf HTTPS (Port 443)
- */
-require_once REDIRECT;
-
-/**
- * Einbinden einer statischen Hilfsklasse mit Methoden zur Email-Überprüfung, Passwort-Überprüfung, ...
- */
+require_once HTTPS_REDIRECT;
+require_once LOGIN_SYSTEM;
 require_once UTILITIES;
+require_once NORM_FORM;
+require_once FILE_ACCESS;
 
 /**
- * Einbinden der Klasse TNormform, die die Formularabläufe festlegt. Bindet auch Utilities.php ein.
- */
-require_once NORMFORM;
-
-/**
- * Einbinden der Datei-Zugriffs-Klasse  FileAccess, die die Dateizugriffe implementiert
- */
-require_once FILEACCESS;
-
-/*
- * Das objektorientierte und templatebasierte Login-formular setzt das Einloggen in IMAR um.
- * *
- * @author Martin Harrer <martin.harrer@fh-hagenberg.at>
+ * The login page of the IMAR image archive.
+ *
+ * This class enables users to log in to the system with a provided user name and password. Both items are match with
+ * stored credentials. If they match, a login hash is stored in the session that acts as a token for a successful login.
+ * Other pages can then use LoginSystem::protectPage() to check for this token before the site is initialized. If no
+ * hash is present the login system redirects and prevents accessing the page.
+ *
  * @author Wolfgang Hochleitner <wolfgang.hochleitner@fh-hagenberg.at>
- * @package hm2
+ * @author Martin Harrer <martin.harrer@fh-hagenberg.at>
  * @version 2017
  */
-
 final class Login extends AbstractNormForm
 {
     /**
-     * Konstanten für ein HTML Attribute z.B:: <input name='pname' id='pname' ... >, <label for='pname' ... >, Keys für $_POST[self::PNAME]..
-     *
-     * @var string EMAIL Key für $_POST-Array
-     * @var string PASSWORD Key für $_POST-Array
+     * @var string USERNAME Form field constant that defines how the form field for holding the username is called
+     * (id/name).
      */
     const USERNAME = "username";
+
+    /**
+     * @var string PASSWORD Form field constant that defines how the form field for holding the password is called
+     * (id/name).
+     */
     const PASSWORD = "password";
 
     /**
-     * @var string $fileAccess Filehandler für den Filezugriff
+     * @var FileAccess $fileAccess The object handling all file access operations.
      */
     private $fileAccess;
 
     /**
-     * IMAR Constructor.
-     *
-     * Ruft den Constructor der Klasse AbstractNormForm auf.
-     * Erzeugt den Filehandler für den Filesystemzugriff
+     * Creates a new Login object based on AbstractNormForm. Takes a View object that holds the information about which
+     * template will be shown and which parameters (e.g. for form fields) are passed on to the template.
+     * The constructor needs initialize the object for file handling.
+     * @param View $defaultView The default View object with information on what will be displayed.
+     * @param string $templateDir The Smarty template directory.
+     * @param string $compileDir The Smarty compiled template directory.
      */
     public function __construct(View $defaultView, $templateDir = "templates", $compileDir = "templates_c")
     {
         parent::__construct($defaultView, $templateDir, $compileDir);
+
         //--
         require '../../phpuesolution/login/construct.inc.php';
         //*/
     }
 
+    /**
+     * Validates user input after submitting login credentials. The function first has to check if both fields were
+     * filled out and then checks the result of authenticateUser() to see if the credentials match others that are
+     * already stored in the system.
+     * @return bool Returns true if no errors occurred and therefore no error messages were set, otherwise false.
+     */
     protected function isValid(): bool
     {
         //--
@@ -81,16 +77,26 @@ final class Login extends AbstractNormForm
         return (count($this->errorMessages) === 0);
     }
 
+    /**
+     * This method is only called when the form input was validated successfully. It generates a login hash and adds it
+     * to session and also stores the username in the session for further use (e.g. in the template). It then forwards
+     * to the INDEX page.
+     */
     protected function business()
     {
         //--
         require '../../phpuesolution/login/business.inc.php';
         //*/
 
-        Redirect::protectPage();
+        LoginSystem::redirectTo(INDEX);
     }
 
-    private function authenticateUser()
+    /**
+     * Authenticates a user by matching the entered username and password with the stored records. If the username is
+     * present and the entered password matches the stored password, a valid login is assumed.
+     * @return bool Returns true if the combination of username and password is valid, otherwise false.
+     */
+    private function authenticateUser(): bool
     {
         //--
         return require '../../phpuesolution/login/authenticateUser.inc.php';
@@ -102,26 +108,17 @@ final class Login extends AbstractNormForm
     }
 }
 
-/**
- * Instantiieren der Klasse Login und Aufruf der Methode AbstractNormForm::normForm()
- *
- * FileAccess-Exceptions werden erst hier abgefangen und eine formatierte DEBUG-Seite mit den Fehlermeldungen mit echo ausgegeben @see FileAcess::debugFileError()
- * Bei PHP-Exception wird vorerst nur auf eine allgemeine Errorpage weitergeleitet
- *
- * Umlenken auf index.php falls man bereits eingeloggt ist
- */
-try {
-    Redirect::protectPage("bla.php");
+// --- This is the main call of the norm form process
 
-    $view = new View(View::FORM, "loginMain.tpl", [
-        new PostParameter(Login::USERNAME),
-        new GenericParameter("passwordKey", Login::PASSWORD)
-    ]);
+// Use this method call to enable login protection for this page (redirects to INDEX when logged in)
+//LoginSystem::protectPage();
 
-    $login = new Login($view);
-    $login->normForm();
-} catch (FileAccessException $e) {
-    echo $e->getMessage();
-} catch (Exception $e) {
-    header("Location: ../includes/errorpage.html");
-}
+// Defines a new view that specifies the template and the parameters that are passed to the template
+$view = new View(View::FORM, "loginMain.tpl", [
+    new PostParameter(Login::USERNAME),
+    new GenericParameter("passwordKey", Login::PASSWORD)
+]);
+
+// Creates a new Login object and triggers the NormForm process
+$login = new Login($view);
+$login->normForm();

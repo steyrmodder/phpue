@@ -17,7 +17,7 @@ require_once TNORMFORM;
 /**
  * Einbinden der Datei-Zugriffs-Klasse  FileAccess, die die Dateizugriffe implementiert
  */
-require_once FILEACCESS;
+require_once FILE_ACCESS;
 
 /*
  * Das objektorientierte und templatebasierte Addressbook-formular setzt die Eingabe von Adressen in IMAR um.

@@ -1,122 +1,84 @@
 <?php
-
 session_start();
 
-/**
- * Einbinden der define-Angaben für IMAR
- */
 require_once("includes/defines.inc.php");
-/**
- * Einbinden des Session-Handlings und der Umleitung auf HTTPS (Port 443)
- */
-require_once("../includes/https-redirect.inc.php");
 
-require_once REDIRECT;
-
+require_once HTTPS_REDIRECT;
+require_once LOGIN_SYSTEM;
 require_once UTILITIES;
+require_once NORM_FORM;
+require_once FILE_ACCESS;
 
 /**
- * Einbinden der Klasse TNormform, die die Formularabläufe festlegt. Bindet auch Utilities.php ein.
- */
-require_once NORMFORM;
-/**
- * Einbinden der Datei-Zugriffs-Klasse  FileAccess, die die Dateizugriffe implementiert
- */
-require_once FILEACCESS;
-
-/*
- * Das objektorientierte und templatebasierte Registrier-formular setzt die Userregistrierung in IMAR um.
- * *
- * @author Martin Harrer <martin.harrer@fh-hagenberg.at>
+ * The registration page of the IMAR image archive.
+ *
+ * This class enables users to create a new account for the IMAR system. By choosing a user name, providing an e-mail
+ * address and a password (as well as a repetition of the latter) a new user is created. Before adding the user to the
+ * list of existing accounts the system checks if user name and e-mail address are unique and if (simple) password
+ * criteria are met.
+ *
  * @author Wolfgang Hochleitner <wolfgang.hochleitner@fh-hagenberg.at>
- * @package hm2
+ * @author Martin Harrer <martin.harrer@fh-hagenberg.at>
  * @version 2017
  */
-
 final class Register extends AbstractNormForm
 {
     /**
-     * Konstanten für ein HTML Attribute z.B:: <input name='pname' id='pname' ... >, <label for='pname' ... >, Keys für $_POST[self::PNAME]..
-     *
-     * @var string USERNAME Key für $_POST-Array und json-Array
-     * @var string EMAIL Key für $_POST-Array und json-Array
-     * @var string PASSWORD1 Key für $_POST-Array und json-Array
-     * @var string PASSWORD2 Key für $_POST-Array und json-Array
+     * @var string USERNAME Form field constant that defines how the form field for holding the username is called
+     * (id/name).
      */
     const USERNAME = "username";
+
+    /**
+     * @var string EMAIL Form field constant that defines how the form field for holding the e-mail address is called
+     * (id/name).
+     */
     const EMAIL = "email";
+
+    /**
+     * @var string PASSWORD1 Form field constant that defines how the form field for holding the password is called
+     * (id/name).
+     */
     const PASSWORD1 = "password1";
+
+    /**
+     * @var string PASSWORD2 Form field constant that defines how the form field for holding the password repetition is
+     * called (id/name).
+     */
     const PASSWORD2 = "password2";
 
     /**
-     * @var string IDUSER Konstante für Autoincrement-Wert der isuder,die im json-Array in @see /phpue/imar/data/userdata.txt gespeichert wird
-     *
+     * @var string USER_ID Constant used to specify the name of the auto-increment key.
      */
     const USER_ID = "userid";
 
     /**
-     * @var string $fileAccess Filehandler für den Filezugriff
+     * @var FileAccess $fileAccess The object handling all file access operations.
      */
     private $fileAccess;
 
     /**
-     * IMAR Constructor.
-     *
-     * Ruft den Constructor der Klasse TNormform auf.
-     * Erzeugt den Filehandler für den Filesystemzugriff
-     * initialisiert $this->autoincrementID mit dem Startwert 1
+     * Creates a new Register object based on AbstractNormForm. Takes a View object that holds the information about
+     * which template will be shown and which parameters (e.g. for form fields) are passed on to the template.
+     * The constructor needs to initialize the object for file handling.
+     * @param View $defaultView The default View object with information on what will be displayed.
+     * @param string $templateDir The Smarty template directory.
+     * @param string $compileDir The Smarty compiled template directory.
      */
     public function __construct(View $defaultView, $templateDir = "templates", $compileDir = "templates_c")
     {
         parent::__construct($defaultView, $templateDir, $compileDir);
+
         //--
         require '../../phpuesolution/register/construct.inc.php';
         //*/
     }
 
     /**
-     * Weist die Inhalte der Smarty-Variablen zu. @see templates/registerMain.tpl
-     *
-     * Keys für $_POST-Array werden zugewiesen.
-     * Die Werte, die der Benutzer eingibt werden im Fehlerfall zurückgegeben
-     * Passwörter werden nicht zurückgegeben.
-     *
-     * Abstracte Methode in der Klasse TNormform und muss daher hier implementiert werden
-     */
-    /*protected function prepareFormFields()
-    {
-        $this->smarty->assign("usernameKey", self::USERNAME);
-        $this->smarty->assign("emailKey", self::EMAIL);
-        $this->smarty->assign("passwordKey1", self::PASSWORD1);
-        $this->smarty->assign("passwordKey2", self::PASSWORD2);
-        //--
-        require '../../phpuesolution/register/show.inc.php';
-        //*/
-    //}
-
-    /**
-     * Zeigt die Seite mittels Smarty Templates an
-     *
-     * Abstracte Methode in der Klasse TNormform und muss daher hier implementiert werden
-     */
-    /*protected function display()
-    {
-        $this->smarty->display('registerMain.tpl');
-    }*/
-
-    /**
-     * Validiert den Benutzerinput nach dem Abschicken des Formulars.
-     *
-     * Zur Überprüfung, ob ein Formularfeld leer ist, eine Email und ein Passwort einer passenden REGEX entsprechen,
-     * finden sich in @see /phpue/ue04-06/normform/Utilities.php
-     *
-     * Ob eine Email in /phpue/ue04-06/data/userdata.txt bereits vorhanden ist, wird mit $this->isUniqueEmail geprüft
-     *
-     * Fehlermeldungen werden im Array $errMsg[] gesammelt.
-     *
-     * Abstracte Methode in der Klasse TNormform und muss daher hier implementiert werden
-     *
-     * @return bool true, wenn $errMsg leer ist. Ansonsten false
+     * Validates user input after submitting registration information. The function first has to check if all fields
+     * were filled out and then checks for uniqueness of username and e-mail address. The latter also has to be a valid
+     * address. Passwords need to correspond to certain criteria and also match.
+     * @return bool Returns true if no errors occurred and therefore no error messages were set, otherwise false.
      */
     protected function isValid(): bool
     {
@@ -130,41 +92,26 @@ final class Register extends AbstractNormForm
     }
 
     /**
-     * Verarbeitet die Benutzereingaben, die mit POST geschickt wurden
-     * Wenn alles gut geganden ist, wird eine Statusmeldung geschrieben, ansonsten eine Fehlermeldung.
-     *
-     * Abstracte Methode in der Klasse TNormform und muss daher hier implementiert werden
-     *
-     * @throws FileAccessException wird von allen $this->fileAccess Methoden geworfen und hier nicht behandelt.
-     *         Die Exception wird daher nochmals weitergereicht (throw) und erst am Ende des Scripts behandelt.
+     * This method is only called when the form input was validated successfully. It adds the newly entered user to the
+     * list of existing users and then forwards to the LOGIN page.
      */
-    /*protected function process()
-    {
-        if ($this->addUser()) {
-            Utilities::protectPage(LOGIN);
-        } else {
-            $this->errorMessages['database'] = 'User could not be added. Please contact Support Team!';
-        }
-    }*/
-
     protected function business()
     {
         if ($this->addUser()) {
-            Redirect::redirectTo(LOGIN);
+            LoginSystem::redirectTo(LOGIN);
         } else {
-            $this->errorMessages["database"] = 'User could not be added. Please contact Support Team!';
+            $this->errorMessages["addingUser"] = "The user could not be added.";
         }
     }
 
     /**
-     * Prüft, ob eine in $_POST übergebene Email bereits im File /phpue/imar/data/userdata.txt vorhanden ist.
-     * Beim Durchlaufen des eingelesenen Arrays wird auch gleich der Autoincrement-Wert bestimmt, @see FileAcess.class.php .
-     * Dieser wird in die Objektvariable $this->autoincrementID geschrieben.
-     * Dazu wird das Array nach der userid sortiert und dann der höchste Wert, um 1 erhöht.
-     *
-     * @return bool true, wenn die Email nicht im File vorkommt, ansonsten false.
+     * Checks for uniqueness of a certain value in the $_POST array. This method is used to check if the user name or
+     * e-mail address are unique or already existing. Therefore the existing users are loaded and the array is searched
+     * for the supplied value.
+     * @param string $name The name of the entry in the $_POST array.
+     * @return bool Returns true if no match is found, otherwise false.
      */
-    private function isUnique(string $data): bool
+    private function isUnique(string $name): bool
     {
         //--
         return require '../../phpuesolution/register/isUnique.inc.php';
@@ -176,12 +123,13 @@ final class Register extends AbstractNormForm
     }
 
     /**
-     * Fügt die übergebenen Daten als neuen Datensatz im JSON-Format in der Datenbank ein.
-     * @see includes/FileAccess.php
-     *
-     * @return bool true, wenn beim Schreiben keine Fehler auftreten, ansonsten false
+     * Adds a new user to the list of existing users. An entry for the two-dimensional user array is created and values
+     * for user name, e-mail-address and password are taken from the values in $_POST. Additionally an auto-increment ID
+     * is generated and added as well in order to assign a unique user id. After the entry is created, the updated
+     * two-dimensional array is stored again in the JSON file.
+     * @return bool Returns true if the operation was successful, otherwise false.
      */
-    private function addUser()
+    private function addUser(): bool
     {
         //--
         return require '../../phpuesolution/register/addUser.inc.php';
@@ -193,26 +141,19 @@ final class Register extends AbstractNormForm
     }
 }
 
-/**
- * Instantiieren der Klasse Register und Aufruf der Methode TNormform::normForm()
- *
- * FileAccess-Exceptions werden erst hier abgefangen und eine formatierte DEBUG-Seite mit den Fehlermeldungen mit echo ausgegeben @see FileAcess::debugFileError()
- * Bei PHP-Exception wird vorerst nur auf eine allgemeine Errorpage weitergeleitet
- */
-try {
-    Redirect::protectPage();
+// --- This is the main call of the norm form process
 
-    $view = new View(View::FORM, "registerMain.tpl", [
-        new PostParameter(Register::USERNAME),
-        new PostParameter(Register::EMAIL),
-        new GenericParameter("passwordKey1", Register::PASSWORD1),
-        new GenericParameter("passwordKey2", Register::PASSWORD2)
-    ]);
+// Use this method call to enable login protection for this page (redirects to INDEX when logged in)
+//LoginSystem::protectPage();
 
-    $register = new Register($view);
-    $register->normForm();
-} catch (FileAccessException $e) {
-    echo $e->getMessage();
-} catch (Exception $e) {
-    header("Location: ../includes/errorpage.html");
-}
+// Defines a new view that specifies the template and the parameters that are passed to the template
+$view = new View(View::FORM, "registerMain.tpl", [
+    new PostParameter(Register::USERNAME),
+    new PostParameter(Register::EMAIL),
+    new GenericParameter("passwordKey1", Register::PASSWORD1),
+    new GenericParameter("passwordKey2", Register::PASSWORD2)
+]);
+
+// Creates a new Register object and triggers the NormForm process
+$register = new Register($view);
+$register->normForm();
