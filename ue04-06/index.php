@@ -70,7 +70,7 @@ final class IMAR extends AbstractNormForm
 
         // TODO: Do the necessary initializations in the constructor.
 
-        //--
+        /*--
         require '../../phpuesolution/index/construct.inc.php';
         //*/
 
@@ -90,7 +90,7 @@ final class IMAR extends AbstractNormForm
 
         // TODO: The code for correct form validation goes here. Check for empty fields and correct image upload.
 
-        //--
+        /*--
         require '../../phpuesolution/index/isValid.inc.php';
         //*/
 
@@ -139,9 +139,11 @@ final class IMAR extends AbstractNormForm
         // TODO: Return the two-dimensional image array here. Later on (UE5) return only images for the logged in user.
 
         $imageArray = [];
-        //--
+
+        /*--
         require '../../phpuesolution/index/getImages.inc.php';
         //*/
+
         return $imageArray;
     }
 
@@ -165,11 +167,11 @@ final class IMAR extends AbstractNormForm
 
         // TODO: Later on (UE6) also generate a thumbnail of the uploaded image.
 
-        //--
+        /*--
         return require '../../phpuesolution/index/addImage.inc.php';
         //*/
 
-        /*##
+        //##
         return true;
         //*/
     }
@@ -185,7 +187,7 @@ final class IMAR extends AbstractNormForm
 
         // TODO: Generate a new, random file name for the uploaded image and return the full path.
 
-        //--
+        /*--
         require '../../phpuesolution/index/generateUniqueImagePath.inc.php';
         //*/
 
