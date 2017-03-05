@@ -27,7 +27,7 @@ class ImageProcessing
     /**
      * @var string FONT_FILENAME The currently used standard font.
      */
-    const FONT_FILENAME = "Open Sans 600.ttf";
+    const FONT_FILENAME = "SourceSansPro-Bold.ttf";
 
     /**
      * Creates a new ImageProcessing instance.
@@ -55,19 +55,22 @@ class ImageProcessing
      * Creates a new thumbnail from an uploaded image. If the format is supported by GD library, a small version is
      * created. If not, a default thumbnail with standard text.
      * @param string $imagePath The full path to the original image.
-     * @param string $thumbPath The full path to where the thumbnail should be generated.
+     * @param string $thumbPath The full path to where the thumbnail should be generated. Passed as reference in case
+     * the path needs to be updated within the method (e.g. for the non-supported-image type thumbnail).
      * @param string $fontDir The directory containing the fonts.
      * @param string $fontFilename The font file name to be used.
      * @param int $thumbSize The (square) size of the thumbnail.
      */
     public function addThumbnail(
         string $imagePath,
-        string $thumbPath,
+        string &$thumbPath,
         string $fontDir,
         string $fontFilename,
         int $thumbSize
     ) {
-        //--
+        // TODO: Generate a square thumbnail of the new image or a replacement if the file is not supported by GD
+
+        /*--
         require '../../phpuesolution/index/addThumbnail.inc.php';
         //*/
     }
@@ -80,7 +83,9 @@ class ImageProcessing
      */
     public function saveImage($image, int $exifType, string $destinationPath)
     {
-        //--
+        // TODO: Check the supplied EXIF type and call the appropriate GD function to save the image in this format.
+
+        /*--
         require '../../phpuesolution/index/saveImage.inc.php';
         //*/
     }

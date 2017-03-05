@@ -8,7 +8,7 @@
             <form action="{$smarty.server.SCRIPT_NAME}" method="post" enctype="multipart/form-data">
                 <div class="Grid Grid--gutters">
                     <div class="InputCombo Grid-full">
-                        <label for="{$username->getName()}" class="InputCombo-label">Username*</label>
+                        <label for="{$username->getName()}" class="InputCombo-label">User Name*</label>
                         <input type="text" id="{$username->getName()}" name="{$username->getName()}"
                                value="{$username->getValue()}" class="InputCombo-field">
                     </div>

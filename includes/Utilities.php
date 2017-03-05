@@ -1,187 +1,166 @@
 <?php
 
-class Utilities {
+/**
+ * Offers static helper methods that for often used tasks.
+ *
+ * This class offers methods for sanitizing form input, checks for valid e-mail addresses, phone numbers and other kinds
+ * of data.
+ *
+ * @author Wolfgang Hochleitner <wolfgang.hochleitner@fh-hagenberg.at>
+ * @author Martin Harrer <martin.harrer@fh-hagenberg.at>
+ * @version 2017
+ */
+class Utilities
+{
     /**
-     * Diese Klasse bietet nur statische (static) Hilfsfunktionen, die von überall (public) aufgerufen werden können
-     * Usage: Utilities::method($param, ...);
-     *
-     * @author Martin Harrer <martin.harrer@fh-hagenberg.at>
-     * @author Wolfgang Hochleitner <wolfgang.hochleitner@fh-hagenberg.at>
-     * @package hm2, dba
-     * @version 2017
+     * Filters unwanted HTML tags from an input string and returns the filtered (a.k.a. sanitized) string.
+     * @param string $input The input string containing possible unwanted HTML tags.
+     * @return string The sanitized string that can be safely used.
      */
-
-    /**
-     * Diese Methode filtert ungewünschte HTML-Tags aus einem String und gibt den gefilterten Text zurück.
-     * Usage: Utilities::sanitizeFilter()
-     *
-     * @see TNormform::autofillFormField()
-     *
-     * @param string $str Der Eingabestring mit möglichen, zu filternden HTML-Inhalten.
-     *
-     * @return string Der gefilterte String, der gefahrlos weiterverwendet werden kann.
-     */
-    public static function sanitizeFilter(string $str): string {
-        return htmlspecialchars($str, ENT_QUOTES | ENT_HTML5);
+    public static function sanitizeFilter(string $input): string
+    {
+        return htmlspecialchars($input, ENT_QUOTES | ENT_HTML5);
     }
 
     /**
-     * Validiert einen String, ob er dem gegebenen Email-Pattern entspricht
-     * Mehr Information gibt es auf http://www.regular-expressions.info/email.html
-     * Ähnliches kann mit filter_var($email, FILTER_VALIDATE_EMAIL) erreicht werden
-     * Testen kann man Reguläre Ausdrücke (engl. regular expressions kurz Regex) auf @link https://regex101.com/ speziell für php @link http://www.phpliveregex.com/
-     * Usage: Utilities::isEmail($string);
-     *
-     * @param string $email
-     *
-     * @return bool TRUE falls $email dem email-Pattern entspricht. FALSE falls es keine Entsprechung gibt
+     * Checks if a given string is a valid e-mail address according to the employed pattern.
+     * @see http://www.regular-expressions.info/email.html More Information about e-mail validation using regex.
+     * @param string $string The input string that is to be checked.
+     * @return bool Returns true if the string is a valid e-mail address, otherwise false.
      */
-    public static function isEmail(string $string): bool {
+    public static function isEmail(string $string): bool
+    {
         // $email_pattern = "/^[\w.-]+@[\w.-]+\.[A-Za-z]{2,6}$/"; // easy pattern
         $email_pattern = "/^[a-zA-Z0-9._-]+@[a-zA-Z0-9-]+\.[a-zA-Z.]{2,5}$/"; // more complicate pattern
         if (preg_match($email_pattern, $string)) {
             return true;
-        }
-        else {
+        } else {
             return false;
         }
     }
 
     /**
-     * Prüft, ob ein Eingabestring einer Telefonnummer entspricht
-     * Beispiel für Telefonnummer, die dem Pattern entspricht: +43 732 1234-1234
-     * Usage: Utilities::isPhone($string);
-     *
-     * $phone_pattern enthält einen möglichen regulären Ausdruck. Alternativen gibt es im Web viele zu finden.
-     * Wenn jemand einen besseren Vorschlag hat, verwende ich ihn gerne hier.
-     * Telefonnummern prüfen ist eine schwierige Sache, vor allem, wenn man internationale Standards einhalten will
-     * und trotzdem länderspezifische Eigenheiten berücksichtigen will.
-     * Es gibt von Google eine eigene Library: @link https://github.com/googlei18n/libphonenumber/blob/master/README.md
-     * Testen kann man Reguläre Ausdrücke (engl. regular expressions kurz Regex) auf @link https://regex101.com/ speziell für php @link http://www.phpliveregex.com/
-     *
-     * @param string $string String, der eine Telefonnummer enthalten soll
-     *
-     * @return bool true falls der String dem gegebenen Pattern entspricht. Ansonsten false
+     * Checks if a given string is a valid phone number. Du to the vast number of phone number formats, not everything
+     * is covered by this regular expression. Strings such as +43 732 1234-1234 should work though.
+     * @see https://github.com/googlei18n/libphonenumber Project for validating phone numbers.
+     * @param string $string The input string that is to be checked.
+     * @return bool Returns true if the string is a valid phone number, otherwise false.
      */
-    public static function isPhone(string $string): bool {
+    public static function isPhone(string $string): bool
+    {
         $phone_pattern = "/^(?!(?:\d*-){5,})(?!(?:\d* ){5,})\+?[\d- ]+$/";
         if (preg_match($phone_pattern, $string)) {
             return true;
-        }
-        else {
+        } else {
             return false;
         }
     }
 
     /**
-     * Prüft ob eine übergebener String einen Preis beinhaltet.
-     * Keine Nullen am Anfang, einen Beistrich als Kommastelle, 2 Nachkommastellen
-     * Für das Speichern in einer Datenbank ist der Beistrich durch einen Punkt zu ersetzen.
-     * Datenbanken speichern im Format, das im angloamerikanischen Sprachraum gültig ist. Dort ist der Punkt das Trennzeichen für die Nachkommastellen.
-     *
-     * @param string $string Der String, der geprüft wird, ob er ein gültiger Preis ist
-     * @return bool TRUE, wenn der Preis ein gültiges Format hat, ansonsten FALSE
+     * Checks if a given string is a valid price. A price is a number with no leading zeroes, a comma for separating
+     * the two decimal places. Other formats (as used by most databases) will use the period for separating decimal
+     * points.
+     * @param string $string The input string that is to be checked.
+     * @return bool Returns true if the string is a valid price, otherwise false.
      */
-    public static function isPrice(string $string): bool {
+    public static function isPrice(string $string): bool
+    {
         $price_pattern = "/(^[1-9])([0-9]*)(,[[:digit:]]{2})/";
         if (preg_match($price_pattern, $string)) {
             return true;
-        }
-        else {
+        } else {
             return false;
         }
     }
 
     /**
-     * Prüft einen String, ob er eine positive Ganzzahl ungleich 0 enthält
-     * Kann auch mit filter_var($string, FILTER_VALIDATE_INT, array("options" => array("min_range" => 0, "max_range" =>  100)))
-     * durchgeführt werden, das zusätzlich eine Bereichseinschränkung zulässt und alle Integer abdeckt
-     * Usage: Utilities::isInt($string);
-     *
-     * @param $string
-     * @return bool
+     * Checks if a string contains a positive integer that does not equal 0.
+     * @see filter_var The PHP function filter_var using the FILTER_VALIDATE_INT filter can achieve the same.
+     * @param string $string The input string that is to be checked.
+     * @return bool Returns true if the string is a valid integer, otherwise false.
      */
-    public static function isInt(string $string): bool {
+    public static function isInt(string $string): bool
+    {
         $int_pattern = "/(^[1-9]\d*$|0)/";
         if (!preg_match($int_pattern, $string)) {
             return false;
-        }
-        else {
+        } else {
             return true;
         }
     }
 
     /**
-     * Führt ein Withelisting für die angegebenen Zeichen durch und prüft auf Mindest- und Maximallänge
-     * Blank ist ausgeschlossen. Es wird also erzwunden, dass nur ein Suchbegriff eingegeben werden kann.
-     * Das macht Sinn, weil LIKE im DAB-Übungsbeispiel eingesetzt wird und keine Volltextsuche.
-     * Übungsbeispiel für LIKE!!! In der Praxis würde man wohl auf Lucene oder ElasticSearch setzen oder die eigene Seite von Google durchsuchen lassen
-     *
-     * @param string $string Zu prüfender String
-     * @param int $min Minimale Länge des Strings. Default = 0
-     * @param int $max Maximale Länge des Strings. Default = 50
-     * @return bool
+     * Performs a white listing of the supplied characters and checks for minimum and maximum length. White spaces are
+     * excluded, therefore only one search term can be entered. This is tailored for DAB, where LIKE is employed instead
+     * of a full text search. Production environment will more likely use ElasticSearch or Google crawler.
+     * @param string $string The input string that is to be checked.
+     * @param int $min The string's minimum length. Default value is 0.
+     * @param int $max The string's maximum length. Default value is 50.
+     * @return bool Returns true if the string is a single word, otherwise false.
      */
-    public static function isSingleWord(string $string, int $min = 0, int $max = 50): bool {
-        $string_pattern = '/^[a-zäöüA-ZÄÖÜ-]{' . $min . ',' . $max . '}$/i';
+    public static function isSingleWord(string $string, int $min = 0, int $max = 50): bool
+    {
+        $string_pattern = "/^[a-zäöüA-ZÄÖÜ-]{" . $min . "," . $max . "}$/i";
         if (preg_match($string_pattern, $string)) {
             return true;
-        }
-        else {
+        } else {
             return false;
         }
     }
 
     /**
-     * Überprüft ob ein String eine Mindestlänge hat, und begrenzt die Gesamtlänge
-     * Es werden nur die Zeichen, die im Regex-Pattern definiert sind zugelassen
-     * Usage: Utilities::isPassword($string);
-     *
-     * @param string $string Übergebener Passwortstring
-     *
-     * @return bool TRUE wenn der String dem Pattern entspricht, FALSE, wenn das nicht der Fall ist.
+     * Checks if a given string is a valid password. Only certain characters are allowed, a minimum and maximum length
+     * is enforced.
+     * @param string $string The input string that is to be checked.
+     * @param int $min The passwords's minimum length.
+     * @param int $max The passwords's maximum length.
+     * @return bool Returns true if the string is a valid password, otherwise false.
      */
-    public static function isPassword(string $string, int $min, int $max): bool {
-        // return true if regular expression is matched
-        // Check password and match against the confirmed password:
-        $regex = '/^[a-zA-Z0-9_]{' . $min . ',' . $max . '}$/';
+    public static function isPassword(string $string, int $min, int $max): bool
+    {
+        $regex = "/^[a-zA-Z0-9_]{" . $min . "," . $max . "}$/";
         if (preg_match($regex, $string)) {
             return true;
-        }
-        else {
+        } else {
             return false;
         }
     }
 
     /**
-     * Überprüft, ob ein String leer ist, nachdem führende und nachfolgende Leerzeichen/Whitespaces entfernt wurden
-     * Usage: Utilities::isEmptyString($string);
-     *
-     * @param string $string Beliebiger String
-     *
-     * @return bool TRUE, falls der String nach Entfernung von Leerzeichen/Whitespaces nichts mehr enthält. Ansonsten FALSE
+     * Checks if a given string is empty after leading and trailing whitespaces were trimmed.
+     * @param string $string The input string that is to be checked.
+     * @return bool Returns true if the string is empty, otherwise false.
      */
-    public static function isEmptyString(string $string): bool {
-        if (strlen(trim($string)) === 0) {
-            return true;
-        }
-        else {
-            return false;
-        }
+    public static function isEmptyString(string $string): bool
+    {
+        return (strlen(trim($string)) === 0);
     }
 
-    // TODO Brauchen wir diese Funktion? Zeichensätze richtig stellen und Entities reichen auch!?
-
     /**
-     * Entfernt Umlaute aus einem Text
-     * Usage: Utilities::replaceUmlauts($string);
-     *
-     * @param string $string Beliebieger Text
-     * @return string Übergebener Text ohne Umlaute
+     * Quick and dirty method for replacing the most common umlauts in a string with regular ASCII characters.
+     * Useful when dealing with file names that are provided by the file system. Windows actually delivers e.g. an "ä",
+     * whereas MacOS does a diaeresis of a and two dots, which is seen as e.g. \x61\xcc\x88
+     * @param string $string The input string where replacements should be performed.
+     * @return string A string without umlauts.
      */
-    public static function replaceUmlauts(string $string): string {
-        // Windows actually delivers e.g. an "ä", whereas MacOS does a diaeresis of a and two dots, which is seen as e.g. \x61\xcc\x88
-        $charReplace = array('ä' => 'ae', "\x61\xcc\x88" => 'ae', 'Ä' => 'Ae', "\x41\xcc\x88" => 'Ae', 'ö' => 'oe', "\x6f\xcc\x88" => 'oe', 'Ö' => 'Oe', "\x4f\xcc\x88" => 'Oe', 'ü' => 'ue', "\x75\xcc\x88" => 'ue', 'Ü' => 'Ue', "\x55\xcc\x88" => 'Ue', 'ß' => 'ss', ' ' => '_');
+    public static function replaceUmlauts(string $string): string
+    {
+        $charReplace = [
+            "ä" => "ae",
+            "\x61\xcc\x88" => "ae",
+            "Ä" => "Ae",
+            "\x41\xcc\x88" => "Ae",
+            "ö" => "oe",
+            "\x6f\xcc\x88" => "oe",
+            "Ö" => "Oe",
+            "\x4f\xcc\x88" => "Oe",
+            "ü" => "ue",
+            "\x75\xcc\x88" => "ue",
+            "Ü" => "Ue",
+            "\x55\xcc\x88" => "Ue",
+            "ß" => "ss",
+            " " => "_"
+        ];
         return strtr($string, $charReplace);
     }
 }
