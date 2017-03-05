@@ -68,6 +68,8 @@ class ImageProcessing
         string $fontFilename,
         int $thumbSize
     ) {
+        // TODO: Generate a square thumbnail of the new image or a replacement if the file is not supported by GD
+
         //--
         require '../../phpuesolution/index/addThumbnail.inc.php';
         //*/
@@ -81,6 +83,8 @@ class ImageProcessing
      */
     public function saveImage($image, int $exifType, string $destinationPath)
     {
+        // TODO: Check the supplied EXIF type and call the appropriate GD function to save the image in this format.
+
         //--
         require '../../phpuesolution/index/saveImage.inc.php';
         //*/

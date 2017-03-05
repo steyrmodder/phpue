@@ -68,6 +68,8 @@ final class IMAR extends AbstractNormForm
     {
         parent::__construct($defaultView, $templateDir, $compileDir);
 
+        // TODO: Do the necessary initializations in the constructor.
+
         //--
         require '../../phpuesolution/index/construct.inc.php';
         //*/
@@ -85,6 +87,9 @@ final class IMAR extends AbstractNormForm
      */
     protected function isValid(): bool
     {
+
+        // TODO: The code for correct form validation goes here. Check for empty fields and correct image upload.
+
         //--
         require '../../phpuesolution/index/isValid.inc.php';
         //*/
@@ -131,6 +136,8 @@ final class IMAR extends AbstractNormForm
      */
     private function getImages(): array
     {
+        // TODO: Return the two-dimensional image array here. Later on (UE5) return only images for the logged in user.
+
         $imageArray = [];
         //--
         require '../../phpuesolution/index/getImages.inc.php';
@@ -154,6 +161,10 @@ final class IMAR extends AbstractNormForm
         // ImageProcessing::addThumbnail() is not implemented yet
         $thumbPath = FileAccess::IMAGE_DIRECTORY . "default/nothumb.png";
 
+        // TODO: Move the uploaded image to its destination, add it to the two-dimensional array and store it.
+
+        // TODO: Later on (UE6) also generate a thumbnail of the uploaded image.
+
         //--
         return require '../../phpuesolution/index/addImage.inc.php';
         //*/
@@ -171,6 +182,8 @@ final class IMAR extends AbstractNormForm
     {
         // This is just a default value so that something is returned if the method is not yet implemented.
         $imagePath = FileAccess::IMAGE_DIRECTORY . "your_random_filename_here.jpg";
+
+        // TODO: Generate a new, random file name for the uploaded image and return the full path.
 
         //--
         require '../../phpuesolution/index/generateUniqueImagePath.inc.php';

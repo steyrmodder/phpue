@@ -52,6 +52,8 @@ final class Login extends AbstractNormForm
     {
         parent::__construct($defaultView, $templateDir, $compileDir);
 
+        // TODO: Do the necessary initializations in the constructor.
+
         //--
         require '../../phpuesolution/login/construct.inc.php';
         //*/
@@ -68,9 +70,8 @@ final class Login extends AbstractNormForm
         //--
         require '../../phpuesolution/login/isValid.inc.php';
         //*/
-        /*##
-        $this->authenticateUser();
-        //*/
+
+        // TODO: The code for correct form validation goes here. Check for empty fields and correct authentication.
 
         $this->currentView->setParameter(new GenericParameter("errorMessages", $this->errorMessages));
 
@@ -84,6 +85,8 @@ final class Login extends AbstractNormForm
      */
     protected function business()
     {
+        // TODO: Save the login confirmation and other important data in the session.
+
         //--
         require '../../phpuesolution/login/business.inc.php';
         //*/
@@ -98,6 +101,8 @@ final class Login extends AbstractNormForm
      */
     private function authenticateUser(): bool
     {
+        // TODO: Check if the provided user name and password combination is correct.
+
         //--
         return require '../../phpuesolution/login/authenticateUser.inc.php';
         //*/

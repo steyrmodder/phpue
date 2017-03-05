@@ -69,6 +69,8 @@ final class Register extends AbstractNormForm
     {
         parent::__construct($defaultView, $templateDir, $compileDir);
 
+        // TODO: Do the necessary initializations in the constructor.
+
         //--
         require '../../phpuesolution/register/construct.inc.php';
         //*/
@@ -82,6 +84,8 @@ final class Register extends AbstractNormForm
      */
     protected function isValid(): bool
     {
+        // TODO: The code for correct form validation goes here. Check for empty fields correct e-mail and passwords.
+
         //--
         require '../../phpuesolution/register/isValid.inc.php';
         //*/
@@ -113,6 +117,8 @@ final class Register extends AbstractNormForm
      */
     private function isUnique(string $name): bool
     {
+        // TODO: Check if the provided user name or password is unique (meaning not already in the data).
+
         //--
         return require '../../phpuesolution/register/isUnique.inc.php';
         //*/
@@ -131,6 +137,8 @@ final class Register extends AbstractNormForm
      */
     private function addUser(): bool
     {
+        // TODO: Add the user (ID, user name, e-mail, password) to the two-dimensional array and store it.
+
         //--
         return require '../../phpuesolution/register/addUser.inc.php';
         //*/
