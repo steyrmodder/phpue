@@ -25,7 +25,7 @@ define("SUBTITLE", "The HM2 Image Archive");
 /**
  * @var string ICON The site's FontAwesome icon.
  */
-define("ICON", "<i class=\"fa fa-picture-o\"></i>");
+define("ICON", "<i class=\"fa fa-picture-o\" aria-hidden=\"true\"></i>");
 
 
 // Path and file definitions
