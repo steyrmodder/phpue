@@ -9,10 +9,5 @@
         </p>
     </div>
 </footer>
-<script src="{$smarty.const.NORM_DIR}js/lightbox.min.js" type="text/javascript"></script>
-<script>
-    var lightbox = new Lightbox();
-    lightbox.load();
-</script>
 </body>
 </html>

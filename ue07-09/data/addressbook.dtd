@@ -1,0 +1,27 @@
+<!ELEMENT addressbook (entry)*>
+        <!-- addresses is the root element containing 0 to n entry elements -->
+
+        <!ELEMENT entry (name, address)>
+        <!-- An entry consists of a name and an address -->
+
+        <!ELEMENT name EMPTY>
+        <!-- The name itself is empty -->
+
+        <!ATTLIST name
+                last CDATA #REQUIRED
+                first CDATA #REQUIRED
+                >
+        <!-- But has two attributes holding the information -->
+
+
+        <!ELEMENT address (street, zip, city)>
+        <!-- The address consists of street, zip code and city name -->
+
+        <!ELEMENT street (#PCDATA)>
+        <!-- street contains only text -->
+
+        <!ELEMENT zip (#PCDATA)>
+        <!-- zip contains only text -->
+
+        <!ELEMENT city (#PCDATA)>
+        <!-- city contains only text -->
