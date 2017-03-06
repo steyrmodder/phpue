@@ -8,8 +8,9 @@ if (isset($_GET["search"]) && $_GET["search"] !== "") {
     $fileAccess = new FileAccess();
     $addresses = $fileAccess->loadContents(FileAccess::ADDRESS_DATA_PATH);
 
-    // In case your UE8 didn't work, remove the line above and use this dummy array below
-    /*$addresses = [
+    // In case your UE7 didn't work, remove the line above and use this dummy array below
+    /*
+    $addresses = [
         0 => [
             "lastName" => "Bertelsmann",
             "firstName" => "Betty",
@@ -31,7 +32,8 @@ if (isset($_GET["search"]) && $_GET["search"] !== "") {
             "zip" => 6666,
             "city" => "Mordsberg"
         ]
-    ];*/
+    ];
+    //*/
 
     $filteredAddresses = array_filter($addresses, function ($person) {
         if (mb_stripos($person["lastName"] . " " . $person["firstName"], $_GET["search"], 0, "UTF-8") !== false ||
