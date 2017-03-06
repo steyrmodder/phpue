@@ -10,7 +10,7 @@ This code has been developed with the [XAMPP](https://www.apachefriends.org/) pa
 
 *You will need at least PHP 7.0 to run these examples since they make use of features such as type hinting or the null-coalescing operator.*
 
-The following standards and conventions were used in the development of these examples:
+The following standards, conventions and technologies were used in the development of these examples:
 
 * [PHP 7.0](http://php.net/manual/en/migration70.new-features.php)
 * [HTML 5.1](https://www.w3.org/TR/html51/)
@@ -18,6 +18,9 @@ The following standards and conventions were used in the development of these ex
 * [PSR-1: Basic Coding Standard](http://www.php-fig.org/psr/psr-1/)
 * [PSR-2: Coding Style Guide](http://www.php-fig.org/psr/psr-2/)
 * [PSR Naming Conventions](http://www.php-fig.org/bylaws/psr-naming-conventions/)
+* [NormForm](https://github.com/Digital-Media/normform/)
+* [jsOnlyLightbox](https://github.com/felixhagspiel/jsOnlyLightbox)
+* [jQuery](https://jquery.com/)
 
 ## Structure of this Repository
 
