@@ -1,28 +1,57 @@
 <?php
-$addresses = array(0 => array('firstname' => 'Betty', 'lastname' => 'Bertelsmann', 'street' => 'Bergstraße 11', 'zip' => 1111, 'city' => 'Beimberg'), 1 => array('firstname' => 'Harry', 'lastname' => 'Hollunder', 'street' => 'Hauptplatz 33', 'zip' => 3333, 'city' => 'Hinternberg'), 2 => array('firstname' => 'Max', 'lastname' => 'Mustermann', 'street' => 'Moostraße 66', 'zip' => 6666, 'city' => 'Mordsberg'));
+
+require_once("includes/defines.inc.php");
+
+require_once FILE_ACCESS;
 
 if (isset($_GET["search"]) && $_GET["search"] !== "") {
+    $fileAccess = new FileAccess();
+    $addresses = $fileAccess->loadContents(FileAccess::ADDRESS_DATA_PATH);
 
-    $filteredAddresses = array_filter($addresses, "matchesPerson");
+    // In case your UE8 didn't work, remove the line above and use this dummy array below
+    /*$addresses = [
+        0 => [
+            "lastName" => "Bertelsmann",
+            "firstName" => "Betty",
+            "street" => "Bergstraße 11",
+            "zip" => 1111,
+            "city" => "Beimberg"
+        ],
+        1 => [
+            "lastName" => "Hollunder",
+            "firstName" => "Harry",
+            "street" => "Hauptplatz 33",
+            "zip" => 3333,
+            "city" => "Hinternberg"
+        ],
+        2 => [
+            "lastName" => "Mustermann",
+            "firstName" => "Max",
+            "street" => "Moostraße 66",
+            "zip" => 6666,
+            "city" => "Mordsberg"
+        ]
+    ];*/
+
+    $filteredAddresses = array_filter($addresses, function ($person) {
+        if (mb_stripos($person["lastName"] . " " . $person["firstName"], $_GET["search"], 0, "UTF-8") !== false ||
+            mb_stripos($person["firstName"] . " " . $person["lastName"], $_GET["search"], 0, "UTF-8") !== false
+        ) {
+            return true;
+        }
+        return false;
+    });
+
     sort($filteredAddresses);
 
     $jsonArray = [];
     foreach ($filteredAddresses as $entry) {
-        $jsonArray[] = ["firstname" => $entry['firstname'], "lastname" => $entry['lastname'], "fullname" => $entry['firstname'] . " " . $entry['lastname']];
+        $jsonArray[] = [
+            "lastName" => $entry["lastName"],
+            "firstName" => $entry["firstName"],
+            "fullName" => $entry["lastName"] . " " . $entry["firstName"]
+        ];
     }
 
     echo json_encode($jsonArray);
-}
-
-/**
- * Callback-Funktion für array_filter, die Überprüft, ob ein Wort (aus $_GET["term"]) in Vor- und Nachname der Person
- * enthalten ist
- * @param array $person Die zu überprüfende Person.
- * @return bool Gibt true zurück, falls der String enthalten ist, ansonsten false.
- */
-function matchesPerson($person) {
-    if (mb_stripos($person['firstname'] . " " . $person['lastname'], $_GET["search"], 0, "UTF-8") !== false || mb_stripos($person['lastname'] . " " . $person['firstname'], $_GET["search"], 0, "UTF-8") !== false) {
-        return true;
-    }
-    return false;
 }

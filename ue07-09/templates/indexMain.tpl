@@ -37,6 +37,18 @@
                     </div>
                 </div>
             </form>
+            <form action="{$smarty.server.SCRIPT_NAME}" method="get" autocomplete="off">
+                <div class="Grid Grid--gutters u-spaceTM Suggestions-reference">
+                    <div class="InputCombo Grid-full">
+                        <label for="{$searchKey}" class="InputCombo-label">Search</label>
+                        <input type="search" id="{$searchKey}" name="{$searchKey}" class="InputCombo-field">
+                        <button type="submit" class="InputCombo-button">Search</button>
+                    </div>
+                    <div class="Grid-full">
+                        <div class="Suggestions"></div>
+                    </div>
+                </div>
+            </form>
         </div>
     </section>
     <section class="Section">

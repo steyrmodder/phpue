@@ -38,16 +38,22 @@ final class AddressBook extends AbstractNormForm
     const STREET = "street";
 
     /**
-     * @var string ZIP Form field constant that defines how the form field for holding the last zip code is called
+     * @var string ZIP Form field constant that defines how the form field for holding the zip code is called
      * (id/name).
      */
     const ZIP = "zip";
 
     /**
-     * @var string CITY Form field constant that defines how the form field for holding the last city name is called
+     * @var string CITY Form field constant that defines how the form field for holding the city name is called
      * (id/name).
      */
     const CITY = "city";
+
+    /**
+     * @var string SEARCH Form field constant that defines how the form field for holding the search term is called
+     * (id/name).
+     */
+    const SEARCH = "search";
 
     /**
      * @var FileAccess $fileAccess The object handling all file access operations.
@@ -123,13 +129,18 @@ final class AddressBook extends AbstractNormForm
      */
     private function getAddresses(): array
     {
-        // TODO: Return the two-dimensional address array here. Later on (UE9) return only entries matching the search.
+        $addressArray = $this->fileAccess->loadContents(FileAccess::ADDRESS_DATA_PATH);
 
-        $addressArray = [];
-
-        //--
-        require '../../phpuesolution/addressbook/getAddresses.inc.php';
-        //*/
+        if (isset($_GET[self::SEARCH]) && $_GET[self::SEARCH] !== "") {
+            $addressArray = array_filter($addressArray, function ($person) {
+                if (mb_stripos($person["lastName"] . " " . $person["firstName"], $_GET["search"], 0, "UTF-8") !== false ||
+                    mb_stripos($person["firstName"] . " " . $person["lastName"], $_GET["search"], 0, "UTF-8") !== false
+                ) {
+                    return true;
+                }
+                return false;
+            });
+        }
 
         return $addressArray;
     }
@@ -162,7 +173,8 @@ $view = new View(View::FORM, "indexMain.tpl", [
     new PostParameter(AddressBook::FIRST_NAME),
     new PostParameter(AddressBook::STREET),
     new PostParameter(AddressBook::ZIP),
-    new PostParameter(AddressBook::CITY)
+    new PostParameter(AddressBook::CITY),
+    new GenericParameter("searchKey", AddressBook::SEARCH)
 ]);
 
 // Creates a new AdressBook object and triggers the NormForm process

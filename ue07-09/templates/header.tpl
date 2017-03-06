@@ -7,6 +7,9 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300,700">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="{$smarty.const.CSS_DIR}/main.css">
+    <script src="../vendor/components/jquery/jquery.min.js"></script>
+    <script src="js/addressbook.js"></script>
+    <script src="js/searchsuggest.js"></script>
 </head>
 <body class="Site">
 <header class="Site-header">
