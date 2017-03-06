@@ -1,41 +1,34 @@
-# phpue
-Vorlagen und Beispiele für die HM2-Übungen 01, 02 und 03. Die Übungen 04 bis 09 werden durch das Projekt IMAR abgedeckt.
+# phpue for Hypermedia 2 and Web Technologies
 
-Templates und CSS werden vollständig zur Verfügung gestellt, weil dies in anderen Vorlesungs- und Übungsblöcken
-vermittelt wird. Dadurch soll es möglich sein, sich auf den eigentlichen Lerninhalt PHP, javascript und jQuery zu konzentrieren.
+This is the template repository for PHP and jQuery classes in Hypermedia 2 ([Media Technology and Design](https://www.fh-ooe.at/en/hagenberg-campus/studiengaenge/bachelor/media-technology-and-design/)) and Web Technologies ([Secure Information Systems](https://www.fh-ooe.at/en/hagenberg-campus/studiengaenge/bachelor/secure-information-systems/)).
 
-Besuchen sie uns unter https://www.fh-ooe.at/en/hagenberg-campus/studiengaenge/bachelor/media-technology-and-design/
+Use these files as a start for the various exercises. HTML templates, CSS and PHP structures are already provided to help students focus purely on the exercise tasks.
 
-Verwendete Technologien und Vorraussetzungen
+## Technologies and Requirements
 
-Für das Übungsscenario wurde mit [XAMPP](https://www.apachefriends.org/de/index.html) entwickelt. Der OnlineShop lässt sich aber auch unter anderen Umgebungen
-installieren.
+This code has been developed with the [XAMPP](https://www.apachefriends.org/) package in mind. Other development environments (MAMP, Vagrant images, Docker containers, etc.) will most likely as well but haven't been tested.
 
-* [HTML5](https://www.w3.org/TR/html5/)
-* [CSS3](https://www.w3.org/Style/CSS/specs)
-* [gescriptetes und objektorientiertes PHP](http://php.net/)
-* [PHP-FIG Namenskonventionen](http://www.php-fig.org/bylaws/psr-naming-conventions/)
+*You will need at least PHP 7.0 to run these examples since they make use of features such as type hinting or the null-coalescing operator.*
 
+The following standards and conventions were used in the development of these examples:
 
-# basics
+* [PHP 7.0](http://php.net/manual/en/migration70.new-features.php)
+* [HTML 5.1](https://www.w3.org/TR/html51/)
+* [CSS3](https://www.w3.org/Style/CSS/)
+* [PSR-1: Basic Coding Standard](http://www.php-fig.org/psr/psr-1/)
+* [PSR-2: Coding Style Guide](http://www.php-fig.org/psr/psr-2/)
+* [PSR Naming Conventions](http://www.php-fig.org/bylaws/psr-naming-conventions/)
 
-index.php, result.php, error_handling.php und errorpage.html bilden ein grobes Grundgerüst, um erste Abläufe mit HTML-Formularen und eine einfache Fehlerbehandlung zu demonstrieren.
-testdoublequotes.php demonstriert den Unterschied zwischen einfachen und doppelten Hochkommata im Zusammenspiel mit PHP-Variablen.
+## Structure of this Repository
 
-# css
-enthält das CSS-Stylesheet für die HM2-Übungen 01 bis 03
-
-# images
-enthält ein Image für die Vorlage ue01_letter zu HM2-Übung 01.
-
-# ue01_date
-demonstriert die Verwendung von Regulären Ausdrücken, Stringverarbeitung und HTML-Formularen
-
-# ue01_letter
-demonstriert die Verwendung von Regulären Ausdrücken, Stringverarbeitung, HTML-Formularen und eines Backlinks.
-
-# ue02,ue03
-enthalten eine gescriptete Variante des Normformablaufes. Dieser gibt ein einfaches Grundgerüst vor, wie die Verarbeitung von Daten durch ein HTML-Formular abläuft.
-# imar
-enthält Übungen für das Online Image Archive. 
-Hier ist auch das Repository normform zu finden und darunter ein Ordner demo, in dem fertige Beispiele liegen, um die Formularabläufe im Web zu verstehen
+Folder | Description
+--- | ---
+``/examples`` | Small example projects that are shown during classes to introduce certain aspects of PHP or jQuery. These can be used as references for exercises.
+``/includes`` | PHP classes and files that are (re)-used throughout the different exercises. These contain general functionality that is not tied to a specific exercise.
+``/sibue`` | Exercises for the Web-Technologies class in Secure Information Systems.
+``/ue01`` | Exercise 1 for Hypermedia in Media Technology and Design. A money counter that uses regular expressions to find sums of money in some arbitrary text.
+``/ue02`` | Exercise 2 for Hypermedia in Media Technology and Design. This a web for for ordering books, based on the procedural norm_form.
+``/ue03`` | Exercise 3 for Hypermedia in Media Technology and Design. A number guessing game that employs sessions, based on the procedural norm_form.
+``/ue04-06`` | Exercise 4, 5 and 6 for Hypermedia in Media Technology and Design. IMAR - The HM2 Image Archive, that uses file uploads, file writing, image processing and a login mechanism.
+``/ue07-09`` | Exercise 7, 8 and 9 for Hypermedia in Media Technology and Design. An address book application that writes and reads XML, and uses jQuery for front end tasks and AJAX calls.
+``/vendor`` | Third party libraries installed with composer or added as Git submodules: [jQuery](http://jquery.com/), [jsOnlyLightbox](https://github.com/felixhagspiel/jsOnlyLightbox) and [NormForm](https://github.com/Digital-Media/normform).
