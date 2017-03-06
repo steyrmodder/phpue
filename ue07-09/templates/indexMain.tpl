@@ -40,7 +40,7 @@
             <form action="{$smarty.server.SCRIPT_NAME}" method="get" autocomplete="off">
                 <div class="Grid Grid--gutters u-spaceTM Suggestions-reference">
                     <div class="InputCombo Grid-full">
-                        <label for="{$searchKey}" class="InputCombo-label">Search</label>
+                        <label for="{$searchKey}" class="InputCombo-label">Search for a Person</label>
                         <input type="search" id="{$searchKey}" name="{$searchKey}" class="InputCombo-field">
                         <button type="submit" class="InputCombo-button">Search</button>
                     </div>
@@ -60,15 +60,15 @@
                         <div class="AddressEntry">
                             <div class="AddressEntry-name">
                                 <i class="fa fa-user" aria-hidden="true"></i>
-                                <span class="AddressEntry-firstName">{$entry["lastName"]}</span> <span
-                                        class="AddressEntry-lastName">{$entry["firstName"]}</span>
+                                <span class="AddressEntry-firstName">{$entry["lastName"]}</span>
+                                <span class="AddressEntry-lastName">{$entry["firstName"]}</span>
                             </div>
                             <div class="AddressEntry-address">
                                 <i class="fa fa-street-view" aria-hidden="true"></i>
                                 <span class="AddressEntry-street">{$entry["street"]}</span><br>
                                 <i class="fa fa-map-marker" aria-hidden="true"></i>
-                                <span class="AddressEntry-zip">{$entry["zip"]}</span> <span
-                                        class="AddressEntry-city">{$entry["city"]}</span>
+                                <span class="AddressEntry-zip">{$entry["zip"]}</span>
+                                <span class="AddressEntry-city">{$entry["city"]}</span>
                             </div>
                         </div>
                     </div>
