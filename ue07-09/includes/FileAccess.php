@@ -41,7 +41,7 @@ class FileAccess
 
         // TODO: Load the contents of the XML file and create the two-dimensional array.
 
-        //--
+        /*--
         require '../../phpuesolution/addressbook/loadContents.inc.php';
         //*/
 
@@ -61,11 +61,11 @@ class FileAccess
 
         // TODO: Write the two-dimensional array into an XML file that corresponds to addressbook.dtd.
 
-        //--
+        /*--
         return require '../../phpuesolution/addressbook/storeContents.inc.php';
         //*/
 
-        /*##
+        //##
         return true;
         /**/
     }

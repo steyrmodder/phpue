@@ -72,11 +72,7 @@ final class AddressBook extends AbstractNormForm
     {
         parent::__construct($defaultView, $templateDir, $compileDir);
 
-        // TODO: Do the necessary initializations in the constructor.
-
-        //--
-        require '../../phpuesolution/addressbook/construct.inc.php';
-        //*/
+        $this->fileAccess = new FileAccess();
 
         $this->currentView->setParameter(new GenericParameter("addresses", $this->getAddresses()));
     }
@@ -91,7 +87,7 @@ final class AddressBook extends AbstractNormForm
     {
         // TODO: The code for correct form validation goes here. Check for empty fields.
 
-        //--
+        /*--
         require '../../phpuesolution/addressbook/isValid.inc.php';
         //*/
 
@@ -155,11 +151,11 @@ final class AddressBook extends AbstractNormForm
     {
         // TODO: Add a new address entry to the two-dimensional array, sort and store it.
 
-        //--
+        /*--
         return require '../../phpuesolution/addressbook/addAddress.inc.php';
         //*/
 
-        /*##
+        //##
         return true;
         //*/
     }
