@@ -4,10 +4,10 @@ header, section, footer, aside, nav, article {
 }
 
 h1 { 
-  font-style:"oblique";
+  font-style: oblique;
 }
 h1,h2, h3, h4, h5, h6 { 
-  color:FF99FF;
+  color:#FF99FF;
   font-type:Arial, sans-serif; 
 }
 
