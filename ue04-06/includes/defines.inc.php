@@ -36,7 +36,7 @@ define("ICON", "<i class=\"fa fa-picture-o\" aria-hidden=\"true\"></i>");
 define("NORM_DIR", "../vendor/normform/");
 
 /**
- * @var string NORMFORM Path to the abstract NormForm base class.
+ * @var string NORM_FORM Path to the abstract NormForm base class.
  */
 define("NORM_FORM", NORM_DIR . "AbstractNormForm.php");
 
