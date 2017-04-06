@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Implements base functionality for reading data from an file and writing data back to it.
+ * Implements base functionality for reading data from a file and writing data back to it.
  *
  * This class reads and writes the address data from and to an XML file. Both methods need to be implemented.
  *

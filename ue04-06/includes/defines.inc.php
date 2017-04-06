@@ -83,13 +83,13 @@ define("USERNAME", "username");
  */
 define("IS_LOGGED_IN", "is_logged_in");
 
+
+// Protected pages and header forwards
+
 /**
  * @var array PROTECTED_PAGES Array with pages that are protected through the login mechanism.
  */
 define("PROTECTED_PAGES", ["index.php"]);
-
-
-// Header forwards
 
 /**
  * @var string INDEX Forward to the index page.

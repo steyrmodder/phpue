@@ -3,7 +3,7 @@
 require_once("FileAccessException.php");
 
 /**
- * Implements base functionality for reading data from an file and writing data back to it.
+ * Implements base functionality for reading data from a file and writing data back to it.
  *
  * This class is already fully functional with everything in it to create a two dimensional array for images and user
  * data from a JSON file as well as write a JSON file with the same kind of data. This class also handles functionality
