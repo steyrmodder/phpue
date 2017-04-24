@@ -1,166 +1,187 @@
 <?php
 
-require_once("Person.php");
+/**
+ * Writes the contents of an array to an XML file and reads it back.
+ *
+ * This file calls functions to write an XML file based on the contents of an array and also implements the reverse
+ * process of creating an array out of this XML file.
+ * @author Wolfgang Hochleitner <wolfgang.hochleitner@fh-hagenberg.at>
+ * @author Martin Harrer <martin.harrer@fh-hagenberg.at>
+ * @version 2017
+ */
 
-// Die XML Datei in die geschrieben und aus der gelesen wird
-define("FILENAME", "addressbook.xml");
-
-
-// Die Adressbuchdaten - Pro Person ein Objekt...
-$person1 = new Addressbook\Person("male", "Huber", "Bernd", "bhuber@diefirma.at");
-$person2 = new Addressbook\Person("female", "Mayr", "Hedwig", "hmayr@diefirma.at");
-$person3 = new Addressbook\Person("male", "Mustermann", "Max", "max@mustermann.at");
-
-// ... zusammengefügt in ein Array mit Personen aus dem die XML-Datei erzeugt wird
-$sourceAddressbook = [$person1, $person2, $person3];
-
-// Und ein neues globales Adressbuch, für den umgekehrten Vorgang (aus XML lesen, Array mit Objekten erzeugen)
-$targetAddressbook = null;
+/**
+ * This function from the PHP Standard Library (SPL) is an autoloader. It loads classes from a given namespace. It
+ * expects those classes to be in the according subdirectories according to the PSR-4 recommendation. This is the
+ * simplest possible autoloader, for a more robust example see
+ * https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-4-autoloader-examples.md.
+ * For this to work make sure that "." is in your php.ini's include path, e.g. include_path = ".;C:\xampp\php\PEAR".
+ */
+spl_autoload_register(function ($class) {
+    require_once $class . ".php";
+});
 
 
 //-----------------------------------------------------------------------------
-// XML schreiben
+// Defines
 //-----------------------------------------------------------------------------
 
 /**
- * Das Array mit Person-Objekten $addressBook wird in eine XML Datei geschrieben.
- * Das Schema der Datei ist in addressbook.dtd festgelegt.
+ * @var string FILENAME The XML file that's being written and read from.
  */
-function writeToXMLFile() {
-    global $sourceAddressbook;
+define("FILENAME", "addressbook.xml");
 
-    // Erstelle ein XMLWriter-Objekt
+
+//-----------------------------------------------------------------------------
+// Global variables
+//-----------------------------------------------------------------------------
+
+// The address book data is being created. One object per person...
+$person1 = new SimpleAddressBook\Person("male", "Huber", "Bernd", "bhuber@diefirma.at");
+$person2 = new SimpleAddressBook\Person("female", "Mayr", "Hedwig", "hmayr@diefirma.at");
+$person3 = new SimpleAddressBook\Person("male", "Mustermann", "Max", "max@mustermann.at");
+
+// ... merged into an array with persons used to create the source address book.
+$sourceAddressBook = [$person1, $person2, $person3];
+
+// This is address book will be used for the reverse process (read from XML, create array)
+$targetAddressBook = null;
+
+
+//-----------------------------------------------------------------------------
+// Write XML
+//-----------------------------------------------------------------------------
+
+/**
+ * The array with Person objects in $sourceAddressbook will be written to an XML file. The structure is defined in
+ * addressbook.dtd.
+ */
+function writeToXMLFile()
+{
+    global $sourceAddressBook;
+
+    // Create a new XMLWriter object
     $writer = new XMLWriter();
 
-    // Teile dem XMLWriter mit, wo er das XML-Dokument hinschreiben soll (hier: in eine Datei)
+    // Tell the writer where the XML document should be written to (here it's a file)
     $writer->openUri(FILENAME);
 
-    // Der XMLWriter soll beim Schreiben die Elemente einrücken und in neue Zeilen schreiben
+    // The XMLWriter should indent elements and place them in new lines
     $writer->setIndent(true);
 
-    // Starte das Dokument mit der XML-Deklaration mit Version und Zeichensatz
+    // Start a new document with an XML declaration and the character set
     $writer->startDocument("1.0", "UTF-8");
-    // Schreibe die DTD, auf der das Dokument aufbaut
+    // Write the DTD that the document is based upon
     $writer->writeDtd("contacts", null, "addressbook.dtd");
 
-    // Starte das root-Element <contacts>
+    // Start the root element <contacts>
     $writer->startElement("contacts");
-    // Laufe nun über das Array mit allen Einträgen durch...
-    foreach ($sourceAddressbook as $person) {
-        // Öffne das <person>-Element
+    // Iterate over the array with the Person entries
+    foreach ($sourceAddressBook as $person) {
+        // Open the <person> element
         $writer->startElement("person");
-        // Erstelle ein neues Attribut namens "gender" und schreibe die Eigenschaft aus dem Objekt hinein
+        // Create a new attribute called "gender" and store the content from the object in it
         $writer->writeAttribute("gender", $person->gender);
-        // Öffne das Element <name>
+        // Open the <name> element
         $writer->startElement("name");
-        // Erstelle das Element <last> und schreibe den Familiennamen hinein
-        $writer->writeElement("last", $person->lastname);
-        // Erstelle das Element <first> und schreibe den Vornamen hinein
-        $writer->writeElement("first", $person->firstname);
-        // Schließe das Element <name> wieder
+        // Create the element <last> and insert the last name
+        $writer->writeElement("last", $person->lastName);
+        // Create the element <first> and insert the first name
+        $writer->writeElement("first", $person->firstName);
+        // Close the <name> element
         $writer->endElement();
-        // Erstelle das Element <email> und schreibe die Email-Adresse hinein
+        // Create the <email> element and use the e-mail address as content
         $writer->writeElement("email", $person->email);
-        // Schließe das Element <person> wieder
+        // Close the <person> element
         $writer->endElement();
     }
-    // Nachdem alle <person>-Elemente erzeugt wurden, schließe das <contacts>-Element wieder
+    // After all <person> elements were created close the <contacts> element
     $writer->endElement();
 
-    // Schließe das Dokument
+    // Close the document
     $writer->endDocument();
 
-    // Leere den vom XMLWriter angelegten Zwischenspeicher und erzwinge Schreiben in die Datei
+    // Flush the cache that was created by XMLWriter and output it into the file
     $writer->flush();
 }
 
 //-----------------------------------------------------------------------------
-// XML lesen
+// Read XML
 //-----------------------------------------------------------------------------
 
 /**
- * Die Datei addressbook.xml wird ausgelesen und ein neues Array "$targetAddressbook" wird angelegt.
+ * Reads from addressbook.xml and creates the array in $targetAddressBook with the parsed content.
  */
-function readFromXMLFile() {
-    global $targetAddressbook;
+function readFromXMLFile()
+{
+    global $targetAddressBook;
 
-    // Ein neues XMLReader Objekt wird angelegt
+    // Create a new XMLReader object
     $reader = new XMLReader();
 
-    // Die XML-Datei zum Auslesen wird geöffnet
+    // Open the XML file for reading
     $reader->open(FILENAME, "UTF-8");
 
-    // Zwei Hilfsvariablen zur Speicherung einer Person und des aktuell offenen Elements werden angelegt
+    // An auxilliary variable for storing a single person
     $person = null;
-    $openElement = null;
 
-    // Die Methode read() springt so lange von einem Knoten zum nächsten, bis das Ende der Datei erreicht ist
-    // In jedem Durchlauf der Schleife wird somit ein Knoten abgehandelt. Knoten können öffnende Elemente, Text,
-    // schließende Elemente, Leer- und Steuerzeichen, DOCTYPEs etc. sein.
+    /**
+     * read() will continue jumping from one node to the next until the end of the file is reach. Every cycle therefore
+     * processes one node. Nodes can be opening elements, text, closing elements, spacing characters, DOCTYPES, etc.
+     */
     while ($reader->read()) {
         switch ($reader->nodeType) {
-            // Wenn es sich beim aktuellen Knoten um ein Element handelt...
+            // If the current node is an opening element...
             case XMLReader::ELEMENT:
                 switch ($reader->name) {
-                    // ... und dieses Element <contacts> ist...
+                    // ... and this element is <contacts>...
                     case "contacts":
-                        // ... lege das Array erstmalig an (passiert garantiert nur 1x, da nur 1 <contacts>-Element
-                        $targetAddressbook = [];
+                        // ... initialize the array. This will happen only once since there's only 1 <contacts> element.
+                        $targetAddressBook = [];
                         break;
-                    // ... wenn das Element <person> ist...
+                    // If the element is <person>...
                     case "person":
-                        // Erzeuge ein neues Objekt für diese Person und frage gleich das Attribut "gender" ab und setze es
-                        $person = new Addressbook\Person();
+                        // ... create a new object for this person and query the attribute gender and store it
+                        $person = new SimpleAddressBook\Person();
                         $person->gender = $reader->getAttribute("gender");
                         break;
-                    // .. wenn das Element <last>, <first> oder <email> ist...
+                    // If it's either <last>, <first> or <email> read the content and store it in the object
                     case "last":
+                        $person->lastName = $reader->readString();
+                        break;
                     case "first":
+                        $person->firstName = $reader->readString();
+                        break;
                     case "email":
-                        // ... merke einfach nur in einer Variable, dass dieses Element gerade geöffnet wurde
-                        $openElement = $reader->name;
+                        $person->email = $reader->readString();
                         break;
                 }
                 break;
-            // Wenn es sich beim aktuellen Knoten um Text handelt...
-            case XMLReader::TEXT:
-                // ... schau nach, welches Element gerade vorhin geöffnet wurde (Text steht ja immer nach einem öffnenden Element)...
-                switch ($openElement) {
-                    case "last":
-                        // ... und setze Nachname ...
-                        $person->lastname = $reader->value;
-                        break;
-                    case "first":
-                        // ... Vorname ...
-                        $person->firstname = $reader->value;
-                        break;
-                    case "email":
-                        // ... und E-Mail-Adresse ...
-                        $person->email = $reader->value;
-                        break;
-                }
-                break;
-            // Wenn es sich beim aktuellen Knoten um ein schließendes Element handelt...
+            // If the current node is a closing element...
             case XMLReader::END_ELEMENT:
-                $openElement = null;
-                // ... und dieses Element </person> ist...
-                if (strcmp($reader->name, "person") === 0) {
-                    // ... dann ist das Person-Objekt fertig und kann ins Array $targetAdressbook gehängt werden
-                    $targetAddressbook[] = $person;
+                // ... and it's </person>...
+                if ($reader->name === "person") {
+                    // ... write our finished person object to the array in $targetAddressbook
+                    $targetAddressBook[] = $person;
                 }
                 break;
         }
     }
-    // Wenn read() nicht mehr liefert und somit die while-Schleife verlassen wird, schließe die vom Reader geöffnete XML-Datei
+    // Once read() is finished and the loop is left, close the open XML file
     $reader->close();
 }
 
 
 //-----------------------------------------------------------------------------
-// HTML Datei ausgeben
+// Print the address book
 //-----------------------------------------------------------------------------
 
-function printAddressBook($book) {
+/**
+ * Outputs a very simple version of the address book for display purposes.
+ * @param array $book The address book array used for display.
+ */
+function printAddressBook(array $book)
+{
     ?>
     <!DOCTYPE html>
     <html lang="en">
@@ -174,9 +195,9 @@ function printAddressBook($book) {
         <h1>Address Book</h1>
         <?php foreach ($book as $person) { ?>
             <section>
-                <h2><?= $person->lastname ?> <?= $person->firstname ?></h2>
+                <h2><?= $person->lastName ?> <?= $person->firstName ?></h2>
                 <p><strong>Gender:</strong> <?= $person->gender ?></p>
-                <p><strong>Email:</strong> <a href="<?= $person->email ?>"><?= $person->email ?></a></p>
+                <p><strong>E-mail:</strong> <a href="<?= $person->email ?>"><?= $person->email ?></a></p>
             </section>
         <?php } ?>
     </main>
@@ -186,12 +207,12 @@ function printAddressBook($book) {
 }
 
 //-----------------------------------------------------------------------------
-// Funktionen aufrufen
+// Main call for functions
 //-----------------------------------------------------------------------------
 
-// Schreibe globales Array $sourceAddressbook in die XML-Datei
+// Write the global array $sourceAddressBook to the XML file
 writeToXMLFile();
-// Lies XML-Datei wieder retour in die Variable $targetAddressbook
+// Read the XML file back into the variable $targetAddressBook
 readFromXMLFile();
-// Stelle den Inhalt von $targetAddressbook in HTML dar
-printAddressBook($targetAddressbook);
+// Display the contents of $targetAddressBook in HTML
+printAddressBook($targetAddressBook);
