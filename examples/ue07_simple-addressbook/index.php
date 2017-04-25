@@ -18,6 +18,7 @@
  * For this to work make sure that "." is in your php.ini's include path, e.g. include_path = ".;C:\xampp\php\PEAR".
  */
 spl_autoload_register(function ($class) {
+    $class = str_replace("\\", DIRECTORY_SEPARATOR, $class);
     require_once $class . ".php";
 });
 
